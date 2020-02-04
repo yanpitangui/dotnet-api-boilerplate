@@ -1,11 +1,10 @@
-﻿using Boilerplate.Domain.Entities;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boilerplate.Domain.Repositories
+namespace Boilerplate.Domain.Interfaces
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<TEntity> : IDisposable where TEntity : class
     {
         IQueryable<TEntity> GetAll();
 

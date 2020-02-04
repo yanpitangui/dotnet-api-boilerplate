@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Boilerplate.Domain.Repositories.Implementations
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : Entity
     {
         protected DbContext dbContext;
 

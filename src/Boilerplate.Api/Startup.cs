@@ -23,33 +23,23 @@ namespace Boilerplate.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.Configure<GzipCompressionProviderOptions>(
-            options =>
-            {
-                options.Level = System.IO.Compression.CompressionLevel.Optimal;
-            });
+            // GZip compression
+            services.AddCompression();
 
-            services.AddResponseCompression(options =>
-            {
-                options.Providers.Add<GzipCompressionProvider>();
-                options.EnableForHttps = true;
-            });
-
+            // WebApi Configuration
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
 
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
+            // AutoMapper settings
+            services.AddAutoMapperSetup();
 
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
-
+            // HttpContext for log enrichment 
             services.AddHttpContextAccessor();
-            SwaggerExtension.AddApiDoc(services);
+
+            // Swagger settings
+            services.AddApiDoc();
 
         }
 
@@ -60,6 +50,7 @@ namespace Boilerplate.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
             //added request logging
             app.UseCustomSerilogRequestLogging();
 
