@@ -8,4 +8,8 @@
     <Folder Include="Context\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Boilerplate.Domain.Core\Boilerplate.Domain.Core.csproj" />
+  </ItemGroup>
+
 </Project>

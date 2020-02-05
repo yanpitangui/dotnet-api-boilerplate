@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Boilerplate.Api.MappingProfiles
+namespace Boilerplate.Application.MappingProfiles
 {
     public class MappingProfile : Profile
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Boilerplate.Api.MappingProfiles;
+using Boilerplate.Application.MappingProfiles;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

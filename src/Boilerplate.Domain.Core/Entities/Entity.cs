@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Boilerplate.Domain.Entities
+namespace Boilerplate.Domain.Core.Entities
 {
     public abstract class Entity
     {
@@ -36,7 +36,7 @@ namespace Boilerplate.Domain.Entities
 
         public override int GetHashCode()
         {
-            return (GetType().GetHashCode() * 907) + Id.GetHashCode();
+            return GetType().GetHashCode() * 907 + Id.GetHashCode();
         }
 
     }

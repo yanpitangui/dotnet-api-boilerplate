@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boilerplate.Domain.Interfaces
+namespace Boilerplate.Domain.Core.Interfaces
 {
-    public interface IGenericRepository<TEntity> : IDisposable where TEntity : class
+    public interface IRepository<TEntity> : IDisposable where TEntity : class
     {
         IQueryable<TEntity> GetAll();
 
