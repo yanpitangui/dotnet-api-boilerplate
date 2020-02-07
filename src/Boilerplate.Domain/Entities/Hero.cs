@@ -1,11 +1,14 @@
 ﻿using Boilerplate.Domain.Core.Entities;
 using Boilerplate.Domain.Entities.Enums;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Boilerplate.Domain.Entities
 {
     public class Hero : Entity
     {
+        [Required]
         public string Name { get; set; }
         public string Nickname { get; set; }
 
@@ -13,7 +16,11 @@ namespace Boilerplate.Domain.Entities
 
         public List<Individuality> Individualities { get; }
 
+        [Required]
         public HeroType HeroType { get; set; }
+
+        public Team Team { get; set; }
+        public Guid TeamId { get; set; }
 
     }
 }

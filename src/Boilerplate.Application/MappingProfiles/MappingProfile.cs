@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Boilerplate.Application.DTOs;
+using Boilerplate.Domain.Entities;
 
 namespace Boilerplate.Application.MappingProfiles
 {
@@ -6,7 +8,11 @@ namespace Boilerplate.Application.MappingProfiles
     {
         public MappingProfile()
         {
-            //CreateMap<>();
+            /// Get Hero Map
+            CreateMap<Hero, GetHeroDTO>();
+            CreateMap<Individuality, GetHeroIndividualityDTO>();
+            CreateMap<Team, GetHeroTeamDTO>();
+            ///
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Boilerplate.Api.Extensions
 {
     public static class DatabaseExtension
     {
-        public static IServiceCollection AddHeroDbContext(this IServiceCollection services)
+        public static IServiceCollection AddApplicationDbContext(this IServiceCollection services)
         {
 
             services.AddDbContextPool<HeroDbContext>(o =>

@@ -1,4 +1,8 @@
 using Boilerplate.Api.Extensions;
+using Boilerplate.Application.Interfaces;
+using Boilerplate.Application.Services;
+using Boilerplate.Domain.Repositories;
+using Boilerplate.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,8 +23,12 @@ namespace Boilerplate.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public static void ConfigureServices(IServiceCollection services)
         {
+            //Extension method for less clutter in startup
+            services.AddApplicationDbContext();
 
-            services.AddHeroDbContext();
+            //DI Services and Repos
+            services.AddScoped<IHeroRepository, HeroRepository>();
+            services.AddScoped<IHeroAppService, HeroAppService>();
 
             // GZip compression
             services.AddCompression();
