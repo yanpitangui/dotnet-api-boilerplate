@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CA2007: Considere chamar ConfigureAwait na tarefa esperada
+dotnet_diagnostic.CA2007.severity = none
+
+# CA1822: Marcar membros como estáticos
+dotnet_diagnostic.CA1822.severity = none

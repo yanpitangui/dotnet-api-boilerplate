@@ -11,7 +11,7 @@ namespace Boilerplate.Domain.Entities
 
         public int Age { get; set; }
 
-        public IList<Individuality> Individualities { get; set; }
+        public List<Individuality> Individualities { get; }
 
         public HeroType HeroType { get; set; }
 

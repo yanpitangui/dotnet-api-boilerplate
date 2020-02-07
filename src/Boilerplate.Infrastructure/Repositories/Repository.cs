@@ -1,5 +1,6 @@
 ﻿using Boilerplate.Domain.Core.Entities;
 using Boilerplate.Domain.Core.Interfaces;
+using Boilerplate.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -9,12 +10,13 @@ namespace Boilerplate.Infrastructure.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
-        protected DbContext Db;
-        protected readonly DbSet<TEntity> DbSet;
+        protected HeroDbContext Db { get; }
 
-        public Repository(DbContext dbContext)
+        protected DbSet<TEntity> DbSet { get; }
+
+        public Repository(HeroDbContext dbContext)
         {
-            Db = dbContext;
+            Db = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             DbSet = Db.Set<TEntity>();
         }
 
@@ -56,8 +58,17 @@ namespace Boilerplate.Infrastructure.Repositories
 
         public void Dispose()
         {
-            Db.Dispose();
+            Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Db.Dispose();
+            }
         }
     }
 }

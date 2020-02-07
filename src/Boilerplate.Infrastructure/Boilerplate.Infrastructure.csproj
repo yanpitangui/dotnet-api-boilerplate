@@ -5,15 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Context\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Boilerplate.Domain.Core\Boilerplate.Domain.Core.csproj" />
+    <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
   </ItemGroup>
 
 </Project>

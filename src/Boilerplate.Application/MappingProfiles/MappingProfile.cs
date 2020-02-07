@@ -6,7 +6,7 @@ namespace Boilerplate.Application.MappingProfiles
     {
         public MappingProfile()
         {
-            CreateMap<>();
+            //CreateMap<>();
         }
     }
 }
