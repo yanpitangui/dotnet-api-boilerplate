@@ -12,8 +12,7 @@ namespace Boilerplate.Application.DTOs
 
         public int Age { get; set; }
 
-        public List<GetHeroIndividualityDTO> Individualities { get; }
-
+        public string Individuality { get; set; }
         public HeroType HeroType { get; set; }
 
         public GetHeroTeamDTO Team { get; set; }
@@ -27,16 +26,5 @@ namespace Boilerplate.Application.DTOs
         public string Name { get; set; }
 
         public Guid TeamLeaderId { get; set; }
-    }
-
-    public class GetHeroIndividualityDTO
-    {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public IndividualityType Type { get; set; }
     }
 }

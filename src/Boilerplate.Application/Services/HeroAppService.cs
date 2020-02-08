@@ -37,13 +37,16 @@ namespace Boilerplate.Application.Services
             await _heroRepository.Create(_mapper.Map<Hero>(hero));
         }
 
-        public Task Update(TEntity entity);
+        public async Task Update(GetHeroDTO hero)
+        {
+            await _heroRepository.Update(_mapper.Map<Hero>(hero));
+        }
 
-        public Task<bool> Delete(Guid id);
-
-        public Task<int> SaveChangesAsync();
-
-
+        public async Task<bool> Delete(Guid id)
+        {
+            return await _heroRepository.Delete(id);
+        }
+        
         public void Dispose()
         {
             Dispose(true);

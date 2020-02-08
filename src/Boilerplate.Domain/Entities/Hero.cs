@@ -12,10 +12,9 @@ namespace Boilerplate.Domain.Entities
         public string Name { get; set; }
         public string Nickname { get; set; }
 
+        public string Individuality { get; set; }
+
         public int Age { get; set; }
-
-        public List<Individuality> Individualities { get; }
-
         [Required]
         public HeroType HeroType { get; set; }
 
