@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Boilerplate.Application.DTOs;
+using Boilerplate.Application.Extensions;
+using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
 using Boilerplate.Domain.Entities;
 using Boilerplate.Domain.Repositories;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Boilerplate.Application.Services
@@ -23,8 +26,16 @@ namespace Boilerplate.Application.Services
             _heroRepository = heroRepository;
         }
 
-        public async Task<List<GetHeroDTO>> GetAll() {
-            return await _mapper.ProjectTo<GetHeroDTO>(_heroRepository.GetAll()).ToListAsync();
+        public async Task<List<GetHeroDTO>> GetAll(GetHeroesFilter filter) {
+
+            var heroes = _heroRepository
+                .GetAll()
+                .WhereIf(!string.IsNullOrEmpty(filter?.Name), x => x.Name.StartsWith(filter.Name, StringComparison.InvariantCultureIgnoreCase))
+                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => x.Name.StartsWith(filter.Nickname, StringComparison.InvariantCultureIgnoreCase))
+                .WhereIf(filter?.Age != null, x => x.Age == filter.Age)
+                .WhereIf(filter?.HeroType != null, x => x.HeroType == filter.HeroType)
+                .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => x.Name.StartsWith(filter.Name, StringComparison.InvariantCultureIgnoreCase));
+            return await _mapper.ProjectTo<GetHeroDTO>(heroes).ToListAsync();
         }
 
         public async Task<GetHeroDTO> GetById(Guid id)
@@ -60,5 +71,6 @@ namespace Boilerplate.Application.Services
                 _heroRepository.Dispose();
             }
         }
+
     }
 }

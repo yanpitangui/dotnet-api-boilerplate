@@ -1,5 +1,4 @@
 ﻿using Boilerplate.Domain.Entities;
-using Boilerplate.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace Boilerplate.Infrastructure.Context
@@ -16,8 +15,6 @@ namespace Boilerplate.Infrastructure.Context
             {
                 throw new System.ArgumentNullException(nameof(modelBuilder));
             }
-
-            modelBuilder.ApplyConfiguration(new HeroMap());
 
             base.OnModelCreating(modelBuilder);
         }

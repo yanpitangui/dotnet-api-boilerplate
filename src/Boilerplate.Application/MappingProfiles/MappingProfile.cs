@@ -9,9 +9,8 @@ namespace Boilerplate.Application.MappingProfiles
         public MappingProfile()
         {
             /// Get Hero Map
-            CreateMap<Hero, GetHeroDTO>();
-            CreateMap<Individuality, GetHeroIndividualityDTO>();
-            CreateMap<Team, GetHeroTeamDTO>();
+            CreateMap<Hero, GetHeroDTO>().ReverseMap();
+            CreateMap<Team, GetHeroTeamDTO>().ReverseMap();
             ///
         }
     }

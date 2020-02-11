@@ -1,4 +1,5 @@
 ﻿using Boilerplate.Application.DTOs;
+using Boilerplate.Application.Filters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace Boilerplate.Application.Interfaces
 {
     public interface IHeroAppService : IDisposable
     {
-        public Task<List<GetHeroDTO>> GetAll();
+        public Task<List<GetHeroDTO>> GetAll(GetHeroesFilter filter);
 
         public Task<GetHeroDTO> GetById(Guid id);
 

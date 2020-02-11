@@ -1,4 +1,5 @@
 ﻿using Boilerplate.Application.DTOs;
+using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Boilerplate.Api.Controllers
 {
-    [Route("api/[controller]")]
+
     [ApiController]
+    [Route("api/[controller]")]
     public class HeroController : ControllerBase
     {
         private readonly ILogger<HeroController> _logger;
@@ -22,17 +24,21 @@ namespace Boilerplate.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetHeroDTO>>> GetHeroes()
+        public async Task<ActionResult<List<GetHeroDTO>>> GetHeroes([FromQuery] GetHeroesFilter filter)
         {
-            return await _heroAppService.GetAll();
+            return Ok(await _heroAppService.GetAll(filter));
         }
 
 
         [HttpGet]
-        [Route("/{id}")]
+        [Route("{id}")]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(GetHeroDTO), 200)]
         public async Task<ActionResult<GetHeroDTO>> GetHeroById(Guid id)
         {
-            return await _heroAppService.GetById(id);
+            var hero = await _heroAppService.GetById(id);
+            if (hero == null) return NotFound();
+            else return Ok(hero);
         }
 
         [HttpPost]
@@ -40,7 +46,7 @@ namespace Boilerplate.Api.Controllers
         {
 
             await _heroAppService.Create(dto);
-            return CreatedAtAction("api/hero/", dto);
+            return Ok(dto);
 
         }
 
@@ -49,18 +55,18 @@ namespace Boilerplate.Api.Controllers
         {
 
             await _heroAppService.Update(dto);
-            return CreatedAtAction("api/hero/", dto);
+            return Ok(dto);
 
         }
 
         [HttpDelete]
-        [Route("/id")]
+        [Route("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
 
             var deleted = await _heroAppService.Delete(id);
             if (deleted) return Ok();
-            else return BadRequest(new { message = $"Could not delete Hero with Id = {id}"});
+            else return BadRequest(new { message = $"Could not delete Hero with Id = {id}" });
 
         }
     }

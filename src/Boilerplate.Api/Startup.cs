@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 
 namespace Boilerplate.Api
 {
@@ -30,13 +31,11 @@ namespace Boilerplate.Api
             services.AddScoped<IHeroRepository, HeroRepository>();
             services.AddScoped<IHeroAppService, HeroAppService>();
 
-            // GZip compression
-            services.AddCompression();
-
             // WebApi Configuration
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
             });
 
             // AutoMapper settings
@@ -47,6 +46,8 @@ namespace Boilerplate.Api
 
             // Swagger settings
             services.AddApiDoc();
+            // GZip compression
+            services.AddCompression();
 
         }
 
@@ -57,25 +58,23 @@ namespace Boilerplate.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            //added request logging
             app.UseCustomSerilogRequestLogging();
-
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseAuthorization();
+            app.UseApiDoc();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseApiDoc();
+            //added request logging
 
-            app.UseResponseCompression();   
 
+            app.UseHttpsRedirection();
+
+
+            app.UseResponseCompression();
 
         }
     }
