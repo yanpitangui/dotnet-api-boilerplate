@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Boilerplate.Application.DTOs;
+using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.Extensions;
 using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
@@ -8,8 +8,6 @@ using Boilerplate.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Boilerplate.Application.Services
@@ -26,38 +24,44 @@ namespace Boilerplate.Application.Services
             _heroRepository = heroRepository;
         }
 
-        public async Task<List<GetHeroDTO>> GetAll(GetHeroesFilter filter) {
+        #region Hero Methods
+        public async Task<List<GetHeroDTO>> GetAllHeroes(GetHeroesFilter filter) {
 
             var heroes = _heroRepository
                 .GetAll()
                 .WhereIf(!string.IsNullOrEmpty(filter?.Name), x => x.Name.StartsWith(filter.Name, StringComparison.InvariantCultureIgnoreCase))
-                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => x.Name.StartsWith(filter.Nickname, StringComparison.InvariantCultureIgnoreCase))
+                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => x.Nickname.StartsWith(filter.Nickname, StringComparison.InvariantCultureIgnoreCase))
                 .WhereIf(filter?.Age != null, x => x.Age == filter.Age)
                 .WhereIf(filter?.HeroType != null, x => x.HeroType == filter.HeroType)
+                .WhereIf(!string.IsNullOrEmpty(filter?.Team), x => (x.Team == filter.Team))
                 .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => x.Name.StartsWith(filter.Name, StringComparison.InvariantCultureIgnoreCase));
-            return await _mapper.ProjectTo<GetHeroDTO>(heroes).ToListAsync();
+            return await _mapper.ProjectTo<GetHeroDTO>(heroes)
+                .ToListAsync();
         }
 
-        public async Task<GetHeroDTO> GetById(Guid id)
+        public async Task<GetHeroDTO> GetHeroById(Guid id)
         {
             return _mapper.Map<GetHeroDTO>(await _heroRepository.GetById(id));
         }
 
-        public async Task Create(GetHeroDTO hero) //TODO: create another DTO
+        public async Task<GetHeroDTO> CreateHero(InsertHeroDTO hero)
         {
-            await _heroRepository.Create(_mapper.Map<Hero>(hero));
+            var created = await _heroRepository.Create(_mapper.Map<Hero>(hero));
+            return _mapper.Map<GetHeroDTO>(created);
         }
 
-        public async Task Update(GetHeroDTO hero)
+        public async Task<GetHeroDTO> UpdateHero(UpdateHeroDTO hero)
         {
-            await _heroRepository.Update(_mapper.Map<Hero>(hero));
+            var updated = await _heroRepository.Update(_mapper.Map<Hero>(hero));
+            return _mapper.Map<GetHeroDTO>(updated);
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> DeleteHero(Guid id)
         {
             return await _heroRepository.Delete(id);
         }
-        
+        #endregion
+
         public void Dispose()
         {
             Dispose(true);

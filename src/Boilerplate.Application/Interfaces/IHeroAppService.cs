@@ -1,4 +1,4 @@
-﻿using Boilerplate.Application.DTOs;
+﻿using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.Filters;
 using System;
 using System.Collections.Generic;
@@ -8,15 +8,17 @@ namespace Boilerplate.Application.Interfaces
 {
     public interface IHeroAppService : IDisposable
     {
-        public Task<List<GetHeroDTO>> GetAll(GetHeroesFilter filter);
+        #region Hero Methods
+        public Task<List<GetHeroDTO>> GetAllHeroes(GetHeroesFilter filter);
 
-        public Task<GetHeroDTO> GetById(Guid id);
+        public Task<GetHeroDTO> GetHeroById(Guid id);
 
-        public Task Create(GetHeroDTO hero);
+        public Task<GetHeroDTO> CreateHero(InsertHeroDTO hero);
 
-        public Task Update(GetHeroDTO hero);
+        public Task<GetHeroDTO> UpdateHero(UpdateHeroDTO hero);
 
-        public Task<bool> Delete(Guid id);
+        public Task<bool> DeleteHero(Guid id);
 
+        #endregion
     }
 }

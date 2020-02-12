@@ -10,9 +10,9 @@ namespace Boilerplate.Domain.Core.Interfaces
 
         Task<TEntity> GetById(Guid id);
 
-        Task Create(TEntity entity);
+        Task<TEntity> Create(TEntity entity);
 
-        Task Update(TEntity entity);
+        Task<TEntity> Update(TEntity entity);
 
         Task<bool> Delete(Guid id);
 

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace Boilerplate.Domain.Core.Entities
 {
     public abstract class Entity
     {
+        [Key]
         public Guid Id { get; protected set; }
 
         public override bool Equals(object obj)

@@ -32,16 +32,18 @@ namespace Boilerplate.Infrastructure.Repositories
                         .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public virtual async Task Create(TEntity entity)
+        public virtual async Task<TEntity> Create(TEntity entity)
         {
             await DbSet.AddAsync(entity);
             await SaveChangesAsync();
+            return entity;
         }
 
-        public virtual async Task Update(TEntity entity)
+        public virtual async Task<TEntity> Update(TEntity entity)
         {
             DbSet.Update(entity);
             await SaveChangesAsync();
+            return entity;
         }
 
         public virtual async Task<bool> Delete(Guid id)
