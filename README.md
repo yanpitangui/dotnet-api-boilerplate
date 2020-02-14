@@ -1,5 +1,5 @@
 # netcore-boilerplate-api
-A .net core 3.1 WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
+A `.Net Core 3.1` WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
 
 
 ![Build and Test](https://github.com/yanpitangui/netcore-boilerplate-api/workflows/Build%20and%20Test/badge.svg)
@@ -28,9 +28,11 @@ and technologies for a restful API in .net core, making your work easier.
 
 # TODO
 - Adjust dockerfile for correct container use
+- Implement integration and unit tests
+- Create an MSSQL DBcontext example
 
 # If you like it, give it a Star
-If this template was useful for you, please give it a Star! :star:
+If this template was useful for you, or if you learned something, please give it a Star! :star:
 
 # About
 This boilerplate/template was developed by Yan Pitangui under [MIT license](LICENSE).
