@@ -3,6 +3,7 @@ A .net core 3.1 WebApi boilerplate / template project. Repositories, Swagger, Ma
 
 
 ![Build and Test](https://github.com/yanpitangui/netcore-boilerplate-api/workflows/Build%20and%20Test/badge.svg)
+[![License](https://img.shields.io/github/license/yanpitangui/netcore-boilerplate-api.svg)](LICENSE)
 
 The goal of this project is to be a kickstart to your .Netcore WebApi, implementing the most common used patterns
 and technologies for a restful API in .net core, making your work easier.
@@ -32,4 +33,4 @@ and technologies for a restful API in .net core, making your work easier.
 If this template was useful for you, please give it a Star! :star:
 
 # About
-This boilerplate/template was developed by Yan Pitangui.
+This boilerplate/template was developed by Yan Pitangui under [MIT license](LICENSE).
