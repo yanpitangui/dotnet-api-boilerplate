@@ -46,19 +46,22 @@ namespace Boilerplate.Application.Services
 
         public async Task<GetHeroDTO> CreateHero(InsertHeroDTO hero)
         {
-            var created = await _heroRepository.Create(_mapper.Map<Hero>(hero));
+            var created = _heroRepository.Create(_mapper.Map<Hero>(hero));
+            await _heroRepository.SaveChangesAsync();
             return _mapper.Map<GetHeroDTO>(created);
         }
 
         public async Task<GetHeroDTO> UpdateHero(UpdateHeroDTO hero)
         {
-            var updated = await _heroRepository.Update(_mapper.Map<Hero>(hero));
+            var updated = _heroRepository.Update(_mapper.Map<Hero>(hero));
+            await _heroRepository.SaveChangesAsync();
             return _mapper.Map<GetHeroDTO>(updated);
         }
 
         public async Task<bool> DeleteHero(Guid id)
         {
-            return await _heroRepository.Delete(id);
+           await _heroRepository.Delete(id);
+           return await _heroRepository.SaveChangesAsync() > 0;
         }
         #endregion
 

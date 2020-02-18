@@ -32,27 +32,22 @@ namespace Boilerplate.Infrastructure.Repositories
                         .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public virtual async Task<TEntity> Create(TEntity entity)
+        public virtual TEntity Create(TEntity entity)
         {
-            await DbSet.AddAsync(entity);
-            await SaveChangesAsync();
+            DbSet.Add(entity);
             return entity;
         }
 
-        public virtual async Task<TEntity> Update(TEntity entity)
+        public virtual TEntity Update(TEntity entity)
         {
             DbSet.Update(entity);
-            await SaveChangesAsync();
             return entity;
         }
 
-        public virtual async Task<bool> Delete(Guid id)
+        public virtual async Task Delete(Guid id)
         {
             var entity = await GetById(id);
-            if (entity == null) return false;
-            DbSet.Remove(entity);
-            await SaveChangesAsync();
-            return true;
+            if (entity != null) DbSet.Remove(entity);
 
         }
 
