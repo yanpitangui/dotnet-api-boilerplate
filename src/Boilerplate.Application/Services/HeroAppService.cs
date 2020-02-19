@@ -29,12 +29,12 @@ namespace Boilerplate.Application.Services
 
             var heroes = _heroRepository
                 .GetAll()
-                .WhereIf(!string.IsNullOrEmpty(filter?.Name), x => x.Name.StartsWith(filter.Name, StringComparison.InvariantCultureIgnoreCase))
-                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => x.Nickname.StartsWith(filter.Nickname, StringComparison.InvariantCultureIgnoreCase))
+                .WhereIf(!string.IsNullOrEmpty(filter?.Name), x => x.Name.Contains(filter.Name, StringComparison.InvariantCultureIgnoreCase))
+                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => x.Nickname.Contains(filter.Nickname, StringComparison.InvariantCultureIgnoreCase))
                 .WhereIf(filter?.Age != null, x => x.Age == filter.Age)
                 .WhereIf(filter?.HeroType != null, x => x.HeroType == filter.HeroType)
                 .WhereIf(!string.IsNullOrEmpty(filter?.Team), x => (x.Team == filter.Team))
-                .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => x.Name.StartsWith(filter.Name, StringComparison.InvariantCultureIgnoreCase));
+                .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => x.Name.Contains(filter.Name, StringComparison.InvariantCultureIgnoreCase));
             return await _mapper.ProjectTo<GetHeroDTO>(heroes)
                 .ToListAsync();
         }

@@ -2,6 +2,9 @@ using Boilerplate.Domain.Entities;
 using Boilerplate.Infrastructure.Context;
 using Boilerplate.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -10,21 +13,114 @@ namespace Boilerplate.Api.UnitTests
 {
     public class HeroRepositoryTests
     {
-        public HeroDbContext HeroContext { get; set; }
+        private HeroDbContext CreateDbContext(string name)
+        {
+            var options = new DbContextOptionsBuilder<HeroDbContext>()
+            .UseInMemoryDatabase(name)
+            .Options;
+            return new HeroDbContext(options);
+        }
+
+        [Theory]
+        [InlineData("4e1a20db-0533-4838-bd97-87d2afc89832")]
+        [InlineData("ff57101b-d9c6-4b8a-959e-2d64c7ae8967")]
+        [InlineData("2c0176d6-47d6-4ce1-b5e8-bed9a52b9e64")]
+        [InlineData("bf15a502-37db-4d4c-ba4c-e231fb5487e6")]
+        [InlineData("e141a755-98d4-44d3-a84f-528e6e75f543")]
+        public async Task GetById_existing_heroes(Guid id)
+        {
+            // Arrange
+
+            using (var context = CreateDbContext("GetById_existing_heroes"))
+            {
+                context.Set<Hero>().Add(new Hero { Id = id });
+                await context.SaveChangesAsync();
+            }
+            Hero hero = null;
+
+            // Act
+            using (var context = CreateDbContext("GetById_existing_heroes"))
+            {
+                var repository = new HeroRepository(context);
+                hero = await repository.GetById(id);
+            }
+            // Assert
+            Assert.NotNull(hero);
+            Assert.Equal(id, hero.Id);
+        }
+
+        [Theory]
+        [InlineData("4e1a20db-0533-4838-bd97-87d2afc89832")]
+        [InlineData("ff57101b-d9c6-4b8a-959e-2d64c7ae8967")]
+        [InlineData("2c0176d6-47d6-4ce1-b5e8-bed9a52b9e64")]
+        [InlineData("bf15a502-37db-4d4c-ba4c-e231fb5487e6")]
+        [InlineData("e141a755-98d4-44d3-a84f-528e6e75f543")]
+        public async Task GetById_inexistent_heroes(Guid id)
+        {
+            // Arrange
+            using (var context = CreateDbContext("GetById_inexisting_heroes"))
+            {
+                context.Set<Hero>().Add(new Hero { Id = id });
+                await context.SaveChangesAsync();
+            }
+            Hero hero = null;
+
+            // Act
+            using (var context = CreateDbContext("GetById_inexisting_heroes"))
+            {
+                var repository = new HeroRepository(context);
+                hero = await repository.GetById(new Guid());
+            }
+            // Assert
+            Assert.Null(hero);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(5)]
+        public async Task GetAll_heroes(int count)
+        {
+            // Arrange
+            using (var context = CreateDbContext($"GetAll_with_heroes_{count}"))
+            {
+                for (var i = 0; i < count; i++)
+                {
+                    context.Set<Hero>().Add(new Hero());
+                }
+                await context.SaveChangesAsync();
+            }
+            List<Hero> heroes = null;
+            // Act
+            using (var context = CreateDbContext($"GetAll_with_heroes_{count}"))
+            {
+                var repository = new HeroRepository(context);
+                heroes = await repository.GetAll().ToListAsync();
+            }
+            // Assert
+            Assert.NotNull(heroes);
+            Assert.Equal(count, heroes.Count());
+        }
 
         [Fact]
         public async Task Create_Hero()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<HeroDbContext>()
-                .UseInMemoryDatabase("Create_Hero")
-                .Options;
             int result;
 
 
             // Act
-            var hero = new Hero();
-            using (var context = new HeroDbContext(options))
+            var hero = new Hero()
+            {
+                Age = 10,
+                Name = "Izuku Midoriya",
+                Nickname = "Deku",
+                Individuality = "All for one",
+                Team = "Team Midoriya",
+                HeroType = Domain.Entities.Enums.HeroType.Student
+            };
+
+            using (var context = CreateDbContext("Create_Hero"))
             {
                 var repository = new HeroRepository(context);
                 repository.Create(hero);
@@ -35,10 +131,99 @@ namespace Boilerplate.Api.UnitTests
             // Assert
             Assert.Equal(1, result);
             // Simulate access from another context to verifiy that correct data was saved to database
-            using (var context = new HeroDbContext(options))
+            using (var context = CreateDbContext("Create_Hero"))
             {
                 Assert.Equal(1, await context.Heroes.CountAsync());
                 Assert.Equal(hero, await context.Heroes.FirstAsync());
+            }
+        }
+
+        [Fact]
+        public async Task Update_Hero()
+        {
+            // Arrange
+            int result;
+            Guid? id;
+            using (var context = CreateDbContext("Update_Hero"))
+            {
+                var createdHero = new Hero()
+                {
+                    Age = 10,
+                    Name = "Izuku Midoriya",
+                    Nickname = "Deku",
+                    Individuality = "All for one",
+                    Team = "Team Midoriya",
+                    HeroType = Domain.Entities.Enums.HeroType.Student
+                };
+                context.Set<Hero>().Add(createdHero);
+                context.Set<Hero>().Add(new Hero() { Name = "Another Hero", HeroType = Domain.Entities.Enums.HeroType.Vigilante, Age = 17 });
+                await context.SaveChangesAsync();
+                id = createdHero.Id; //receive autogenerated guid to get the entity later
+            }
+
+            // Act
+
+            Hero updateHero;
+            using (var context = CreateDbContext("Update_Hero"))
+            {
+                updateHero = await context.Set<Hero>().FirstOrDefaultAsync(x => x.Id == id);
+                updateHero.Age = 15;
+                updateHero.Individuality = "Blackwhip";
+                updateHero.Team = null;
+                var repository = new HeroRepository(context);
+                repository.Update(updateHero);
+                result = await repository.SaveChangesAsync();
+            }
+
+
+            // Assert
+            Assert.Equal(1, result);
+            // Simulate access from another context to verifiy that correct data was saved to database
+            using (var context = CreateDbContext("Update_Hero"))
+            {
+                Assert.Equal(updateHero, await context.Heroes.FirstAsync(x => x.Id == updateHero.Id));
+            }
+        }
+
+        [Fact]
+        public async Task Delete_Hero()
+        {
+            // Arrange
+            int result;
+            Guid? id;
+            using (var context = CreateDbContext("Delete_Hero"))
+            {
+                var createdHero = new Hero()
+                {
+                    Age = 10,
+                    Name = "Izuku Midoriya",
+                    Nickname = "Deku",
+                    Individuality = "All for one",
+                    Team = "Team Midoriya",
+                    HeroType = Domain.Entities.Enums.HeroType.Student
+                };
+                context.Set<Hero>().Add(createdHero);
+                context.Set<Hero>().Add(new Hero() { Name = "Another Hero", HeroType = Domain.Entities.Enums.HeroType.Vigilante, Age = 17 });
+                await context.SaveChangesAsync();
+                id = createdHero.Id; //receive autogenerated guid to get the entity later
+            }
+
+            // Act
+            using (var context = CreateDbContext("Delete_Hero"))
+            {
+                var repository = new HeroRepository(context);
+                await repository.Delete(id.Value);
+                result = await repository.SaveChangesAsync();
+            }
+
+
+            // Assert
+            Assert.Equal(1, result);
+            // Simulate access from another context to verifiy that correct data was saved to database
+            using (var context = CreateDbContext("Delete_Hero"))
+            {
+                Assert.Null(await context.Set<Hero>().FirstOrDefaultAsync(x=> x.Id == id));
+                Assert.Single(await context.Set<Hero>().ToListAsync());
             }
         }
     }

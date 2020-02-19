@@ -6,7 +6,7 @@ namespace Boilerplate.Domain.Core.Entities
     public abstract class Entity
     {
         [Key]
-        public Guid Id { get; protected set; }
+        public Guid Id { get; set; }
 
         public override bool Equals(object obj)
         {
