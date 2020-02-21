@@ -1,6 +1,7 @@
 using Boilerplate.Domain.Entities;
 using Boilerplate.Infrastructure.Context;
 using Boilerplate.Infrastructure.Repositories;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -45,8 +46,8 @@ namespace Boilerplate.Api.UnitTests
                 hero = await repository.GetById(id);
             }
             // Assert
-            Assert.NotNull(hero);
-            Assert.Equal(id, hero.Id);
+            hero.Should().NotBeNull();
+            hero.Id.Should().Be(id);
         }
 
         [Theory]
@@ -72,7 +73,7 @@ namespace Boilerplate.Api.UnitTests
                 hero = await repository.GetById(new Guid());
             }
             // Assert
-            Assert.Null(hero);
+            hero.Should().BeNull();
         }
 
         [Theory]
@@ -98,8 +99,8 @@ namespace Boilerplate.Api.UnitTests
                 heroes = await repository.GetAll().ToListAsync();
             }
             // Assert
-            Assert.NotNull(heroes);
-            Assert.Equal(count, heroes.Count());
+            heroes.Should().NotBeNull();
+            heroes.Count().Should().Be(count);
         }
 
         [Fact]
@@ -129,12 +130,13 @@ namespace Boilerplate.Api.UnitTests
 
 
             // Assert
-            Assert.Equal(1, result);
+            result.Should().BeGreaterThan(0);
+            result.Should().Be(1);
             // Simulate access from another context to verifiy that correct data was saved to database
             using (var context = CreateDbContext("Create_Hero"))
             {
-                Assert.Equal(1, await context.Heroes.CountAsync());
-                Assert.Equal(hero, await context.Heroes.FirstAsync());
+                (await context.Heroes.CountAsync()).Should().Be(1);
+                (await context.Heroes.FirstAsync()).Should().Be(hero);
             }
         }
 
@@ -177,11 +179,12 @@ namespace Boilerplate.Api.UnitTests
 
 
             // Assert
-            Assert.Equal(1, result);
+            result.Should().BeGreaterThan(0);
+            result.Should().Be(1);
             // Simulate access from another context to verifiy that correct data was saved to database
             using (var context = CreateDbContext("Update_Hero"))
             {
-                Assert.Equal(updateHero, await context.Heroes.FirstAsync(x => x.Id == updateHero.Id));
+                (await context.Heroes.FirstAsync(x => x.Id == updateHero.Id)).Should().Be(updateHero);
             }
         }
 
@@ -218,12 +221,13 @@ namespace Boilerplate.Api.UnitTests
 
 
             // Assert
-            Assert.Equal(1, result);
+            result.Should().BeGreaterThan(0);
+            result.Should().Be(1);
             // Simulate access from another context to verifiy that correct data was saved to database
             using (var context = CreateDbContext("Delete_Hero"))
             {
-                Assert.Null(await context.Set<Hero>().FirstOrDefaultAsync(x=> x.Id == id));
-                Assert.Single(await context.Set<Hero>().ToListAsync());
+                (await context.Set<Hero>().FirstOrDefaultAsync(x => x.Id == id)).Should().BeNull();
+                (await context.Set<Hero>().ToListAsync()).Should().NotBeEmpty();
             }
         }
     }
