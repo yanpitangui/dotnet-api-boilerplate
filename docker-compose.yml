@@ -1,0 +1,24 @@
+# docker-compose up -d
+# docker-compose down
+
+version: "3.6"
+networks:
+  localdev:
+    name: localdev
+
+services:
+  db-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: mssql
+    networks:
+      - localdev
+  boilerplate-api:
+    build:
+      context: .
+      dockerfile: src/Boilerplate.Api/Dockerfile
+    image: boilerplate-api:local
+    container_name: boilerplate-api
+    depends_on:
+      - db-server
+    networks:
+      - localdev

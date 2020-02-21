@@ -60,8 +60,6 @@ namespace Boilerplate.Api
             }
             app.UseCustomSerilogRequestLogging();
             app.UseRouting();
-            app.UseAuthorization();
-            app.UseAuthorization();
             app.UseApiDoc();
             app.UseEndpoints(endpoints =>
             {

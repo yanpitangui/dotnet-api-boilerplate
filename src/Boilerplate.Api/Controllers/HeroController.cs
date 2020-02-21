@@ -21,6 +21,12 @@ namespace Boilerplate.Api.Controllers
             _heroAppService = heroAppService;
         }
 
+
+        /// <summary>
+        /// Returns all heroes in the database
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<List<GetHeroDTO>>> GetHeroes([FromQuery] GetHeroesFilter filter)
         {
@@ -28,6 +34,12 @@ namespace Boilerplate.Api.Controllers
         }
 
 
+
+        /// <summary>
+        /// Get one hero by id from the database
+        /// </summary>
+        /// <param name="id">The hero's ID</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(404)]
@@ -39,6 +51,11 @@ namespace Boilerplate.Api.Controllers
             else return Ok(hero);
         }
 
+        /// <summary>
+        /// Insert one hero in the database
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<GetHeroDTO>> Create([FromBody] InsertHeroDTO dto)
         {
@@ -46,6 +63,11 @@ namespace Boilerplate.Api.Controllers
 
         }
 
+        /// <summary>
+        /// Update a hero from the database
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<ActionResult<GetHeroDTO>> Update([FromBody] UpdateHeroDTO dto)
         {
@@ -54,14 +76,22 @@ namespace Boilerplate.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Delete a hero from the database
+        /// </summary>
+        /// <param name="id">The hero's ID</param>
+        /// <returns></returns>
         [HttpDelete]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         [Route("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
 
             var deleted = await _heroAppService.DeleteHero(id);
-            if (deleted) return Ok();
-            else return BadRequest(new { message = $"Could not delete Hero with Id = {id}" });
+            if (deleted) return NoContent();
+            else return NotFound();
 
         }
     }

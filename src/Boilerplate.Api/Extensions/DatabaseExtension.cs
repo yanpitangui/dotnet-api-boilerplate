@@ -11,6 +11,7 @@ namespace Boilerplate.Api.Extensions
 
             services.AddDbContextPool<HeroDbContext>(o =>
             {
+                //o.UseSqlServer("");
                 o.UseInMemoryDatabase(databaseName: "heroesdb");
             });
 
