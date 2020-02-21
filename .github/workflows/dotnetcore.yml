@@ -17,6 +17,6 @@ jobs:
       with:
         dotnet-version: 3.1.100
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build WebApiBoilerplate.sln --configuration Release
     - name: Test with dotnet
-      run: dotnet test --configuration Release
+      run: dotnet test WebApiBoilerplate.sln --configuration Release
