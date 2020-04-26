@@ -40,6 +40,28 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 - Integration tests
 - Container support with [docker](src/Boilerplate.Api/dockerfile) and [docker-compose](docker-compose.yml)
 
+
+# Project Structure
+1. Services
+	- This folder stores your apis and any project that sends data to your users.
+	1. Boilerplate.Api
+		- This is the main api project. Here are all the controllers and initialization for the api that will be used.
+	2. docker-compose
+		- This project exists to allow you to run docker-compose with Visual Studio. It contains a reference to the docker-compose file and will build all the projects dependencies and run it.
+2. Application
+	-  This folder stores all data transformations between your api and your domain layer. It also contains your business logic.
+3. Domain
+	- This folder contains your business models, enums and common interfaces.
+	1. Boilerplate.Domain.Core
+		- Contains the base entity for all other domain entities, as well as the interface for the repository implementation.
+	1. Boilerplate.Domain
+		- Contains business models and enums.
+4. Infra
+	- This folder contains all data access repositories, database contexts, anything that reaches for outside data.
+	1. Boilerplate.Infrastructure
+		- This project contains the dbcontext, an generic implementation of repository pattern and a Hero(domain class) repository.
+
+
 # Adopting to your project
 1. Remove/Rename all hero related stuff to your needs.
 2. Rename solution, projects, namespaces, and ruleset to your use.
