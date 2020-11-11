@@ -19,7 +19,7 @@ and technologies for a restful API in .net core, making your work easier.
 3. Visit http://localhost:5000/api-docs or https://localhost:5001/api-docs to access the application's swagger.
 
 ## Docker
-1. Run ``docker-compuse up -d`` in the root directory, or, in visual studio, set the docker-compose project as startup and run. This should start the application, DB. ~~and Redis cache (optional)~~
+1. Run ``docker-compose up -d`` in the root directory, or, in visual studio, set the docker-compose project as startup and run. This should start the application, DB. ~~and Redis cache (optional)~~
 2. Visit http://localhost:5000/api-docs or https://localhost:5001/api-docs to access the application's swagger.
 
 ## Running tests
