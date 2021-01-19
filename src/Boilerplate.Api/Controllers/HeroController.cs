@@ -54,26 +54,34 @@ namespace Boilerplate.Api.Controllers
         /// <summary>
         /// Insert one hero in the database
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="dto">The hero information</param>
         /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<GetHeroDTO>> Create([FromBody] InsertHeroDTO dto)
         {
-            return Ok(await _heroAppService.CreateHero(dto));
+            var newHero = await _heroAppService.CreateHero(dto);
+            return CreatedAtAction("GetHeroById", new { id = newHero.Id }, newHero);
 
         }
 
         /// <summary>
         /// Update a hero from the database
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="id">The hero's ID</param>
+        /// <param name="dto">The update object</param>
         /// <returns></returns>
-        [HttpPut]
-        public async Task<ActionResult<GetHeroDTO>> Update([FromBody] UpdateHeroDTO dto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<GetHeroDTO>> Update(Guid id, [FromBody] UpdateHeroDTO dto)
         {
 
-            return Ok(await _heroAppService.UpdateHero(dto));
+            var updatedHero = await _heroAppService.UpdateHero(id, dto);
 
+            if (updatedHero == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
 
 

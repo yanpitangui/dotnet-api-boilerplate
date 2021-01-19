@@ -15,7 +15,7 @@ namespace Boilerplate.Domain.Entities
         public int? Age { get; set; }
 
         [Required]
-        public HeroType HeroType { get; set; }
+        public HeroType? HeroType { get; set; }
 
         public string Team { get; set; }
     }
