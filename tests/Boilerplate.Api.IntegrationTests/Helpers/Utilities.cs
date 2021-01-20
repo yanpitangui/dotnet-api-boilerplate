@@ -41,7 +41,7 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.RemoveAll(typeof(DbContext));
+                    services.RemoveAll(typeof(HeroDbContext));
                     services.AddDbContext<HeroDbContext>(options =>
                     {
                         options.UseInMemoryDatabase("TestDb");
