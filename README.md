@@ -69,9 +69,7 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 3. Give this repo a star!
 
 # TODO
-- Finish implementation of integration tests
-- Create an MSSQL DBcontext example
-- Implement redis cache
+- Convert project to .NET 5.0+
 
 # If you like it, give it a Star
 If this template was useful for you, or if you learned something, please give it a Star! :star:

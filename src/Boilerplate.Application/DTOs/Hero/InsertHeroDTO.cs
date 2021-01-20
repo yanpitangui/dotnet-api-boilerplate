@@ -11,8 +11,10 @@ namespace Boilerplate.Application.DTOs.Hero
         public string Nickname { get; set; }
         public int? Age { get; set; }
         public string Individuality { get; set; }
+
         [Required(ErrorMessage = "É necessário informar o tipo do herói")]
-        public HeroType HeroType { get; set; }
+        public HeroType? HeroType { get; set; }
+
         public string Team { get; set; }
     }
 }

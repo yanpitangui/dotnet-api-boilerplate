@@ -15,7 +15,7 @@ namespace Boilerplate.Application.Interfaces
 
         public Task<GetHeroDTO> CreateHero(InsertHeroDTO hero);
 
-        public Task<GetHeroDTO> UpdateHero(UpdateHeroDTO hero);
+        public Task<GetHeroDTO> UpdateHero(Guid id, UpdateHeroDTO updatedHero);
 
         public Task<bool> DeleteHero(Guid id);
 

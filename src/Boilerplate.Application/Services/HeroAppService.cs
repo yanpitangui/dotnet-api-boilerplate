@@ -29,12 +29,12 @@ namespace Boilerplate.Application.Services
 
             var heroes = _heroRepository
                 .GetAll()
-                .WhereIf(!string.IsNullOrEmpty(filter?.Name), x => x.Name.Contains(filter.Name, StringComparison.InvariantCultureIgnoreCase))
-                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => x.Nickname.Contains(filter.Nickname, StringComparison.InvariantCultureIgnoreCase))
+                .WhereIf(!string.IsNullOrEmpty(filter?.Name), x => EF.Functions.Like(x.Name, $"%{filter.Name}%"))
+                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => EF.Functions.Like(x.Nickname, $"%{filter.Nickname}%"))
                 .WhereIf(filter?.Age != null, x => x.Age == filter.Age)
                 .WhereIf(filter?.HeroType != null, x => x.HeroType == filter.HeroType)
                 .WhereIf(!string.IsNullOrEmpty(filter?.Team), x => (x.Team == filter.Team))
-                .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => x.Name.Contains(filter.Name, StringComparison.InvariantCultureIgnoreCase));
+                .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => EF.Functions.Like(x.Individuality, $"%{filter.Individuality}%"));
             return await _mapper.ProjectTo<GetHeroDTO>(heroes)
                 .ToListAsync();
         }
@@ -51,11 +51,20 @@ namespace Boilerplate.Application.Services
             return _mapper.Map<GetHeroDTO>(created);
         }
 
-        public async Task<GetHeroDTO> UpdateHero(UpdateHeroDTO hero)
+        public async Task<GetHeroDTO> UpdateHero(Guid id, UpdateHeroDTO updatedHero)
         {
-            var updated = _heroRepository.Update(_mapper.Map<Hero>(hero));
+            var originalHero = await _heroRepository.GetById(id);
+            if (originalHero == null) return null;
+
+            originalHero.Name = updatedHero?.Name;
+            originalHero.Nickname = updatedHero?.Nickname;
+            originalHero.Team = updatedHero?.Team;
+            originalHero.Individuality = updatedHero?.Individuality;
+            originalHero.Age = updatedHero?.Age;
+            originalHero.HeroType = updatedHero.HeroType;
+            _heroRepository.Update(originalHero);
             await _heroRepository.SaveChangesAsync();
-            return _mapper.Map<GetHeroDTO>(updated);
+            return _mapper.Map<GetHeroDTO>(originalHero);
         }
 
         public async Task<bool> DeleteHero(Guid id)

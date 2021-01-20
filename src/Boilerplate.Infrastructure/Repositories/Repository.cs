@@ -46,7 +46,11 @@ namespace Boilerplate.Infrastructure.Repositories
 
         public virtual async Task Delete(Guid id)
         {
-            DbSet.Remove(await DbSet.FindAsync(id));
+            var entity = await DbSet.FindAsync(id);
+            if (entity != null)
+            {
+                DbSet.Remove(entity);
+            }
 
         }
 
