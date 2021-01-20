@@ -1,9 +1,7 @@
 ﻿using Boilerplate.Api.IntegrationTests.Helpers;
-using Boilerplate.Domain.Entities;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
