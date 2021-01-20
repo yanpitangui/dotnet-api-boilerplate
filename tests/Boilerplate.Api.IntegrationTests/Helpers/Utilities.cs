@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Hosting;
 using Boilerplate.Domain.Entities;
 using Boilerplate.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Boilerplate.Api.IntegrationTests.Helpers
 {
@@ -39,14 +41,9 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
         {
             return factory.WithWebHostBuilder(builder =>
             {
+                builder.UseEnvironment("Testing");
                 builder.ConfigureServices(services =>
                 {
-                    services.RemoveAll(typeof(HeroDbContext));
-                    services.AddDbContext<HeroDbContext>(options =>
-                    {
-                        options.UseInMemoryDatabase("TestDb");
-                    });
-
                     var sp = services.BuildServiceProvider();
 
                     using (var scope = sp.CreateScope())
