@@ -1,9 +1,7 @@
 # dotnet-api-boilerplate
 A `.Net 5.0` WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
 
-
-![Build and Test](https://github.com/yanpitangui/dotnet-api-boilerplate/workflows/Build%20and%20Test/badge.svg)
-![CodeQL](https://github.com/yanpitangui/dotnet-api-boilerplate/workflows/CodeQL/badge.svg)
+![Build, test and CodeQL](https://github.com/yanpitangui/dotnet-api-boilerplate/workflows/CodeQL/badge.svg)
 
 The goal of this project is to be a kickstart to your .Net WebApi, implementing the most common used patterns
 and technologies for a restful API in .net, making your work easier.
