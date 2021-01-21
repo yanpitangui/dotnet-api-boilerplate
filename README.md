@@ -19,7 +19,7 @@ and technologies for a restful API in .net, making your work easier.
 3. Visit http://localhost:5000/api-docs or https://localhost:5001/api-docs to access the application's swagger.
 
 ## Docker
-1. Run ``docker-compose up -d`` in the root directory, or, in visual studio, set the docker-compose project as startup and run. This should start the application, DB. ~~and Redis cache (optional)~~
+1. Run ``docker-compose up -d`` in the root directory, or, in visual studio, set the docker-compose project as startup and run. This should start the application, DB.
 2. Visit http://localhost:5000/api-docs or https://localhost:5001/api-docs to access the application's swagger.
 
 ## Running tests
@@ -66,9 +66,6 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 2. Rename solution, projects, namespaces, and ruleset to your use.
 3. Change the dockerfile and docker-compose.yml to your new csproj/folder names.
 3. Give this repo a star!
-
-# TODO
-- Convert project to .NET 5.0+
 
 # If you like it, give it a Star
 If this template was useful for you, or if you learned something, please give it a Star! :star:
