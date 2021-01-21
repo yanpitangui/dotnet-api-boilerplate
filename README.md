@@ -1,16 +1,16 @@
-# netcore-boilerplate-api
-A `.Net Core 3.1` WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
+# dotnet-api-boilerplate
+A `.Net 5.0` WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
 
 
-![Build and Test](https://github.com/yanpitangui/netcore-boilerplate-api/workflows/Build%20and%20Test/badge.svg)
-[![License](https://img.shields.io/github/license/yanpitangui/netcore-boilerplate-api.svg)](LICENSE)
+![Build and Test](https://github.com/yanpitangui/dotnet-api-boilerplate/workflows/Build%20and%20Test/badge.svg)
+[![License](https://img.shields.io/github/license/yanpitangui/dotnet-api-boilerplate.svg)](LICENSE)
 
-The goal of this project is to be a kickstart to your .Netcore WebApi, implementing the most common used patterns
-and technologies for a restful API in .net core, making your work easier.
+The goal of this project is to be a kickstart to your .Net WebApi, implementing the most common used patterns
+and technologies for a restful API in .net, making your work easier.
 
 # How to run
 - Use this template(github) or clone/download to your local workplace.
-- Download the latest .NetCore SDK and Visual Studio/Code.
+- Download the latest .Net SDK and Visual Studio/Code.
 
 ## Standalone
 1. You may need a running instance of MsSQL, with appropriate migrations initialized.
@@ -27,12 +27,11 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 
 # This project contains:
 - SwaggerUI
-- EntityFramework Core
-- Code quality ruleset
+- EntityFramework
 - AutoMapper
 - Generic repository (to easily bootstrap a CRUD repository)
 - Serilog with request logging and easily configurable sinks
-- .NetCore Dependency Injection
+- .Net Dependency Injection
 - Resource filtering
 - Response compression
 - CI (Github Actions)
