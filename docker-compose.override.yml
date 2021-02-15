@@ -7,9 +7,7 @@ services:
       - 1433:1433
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_PID=Express
       - SA_PASSWORD=Yourpassword123
-
   boilerplate-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

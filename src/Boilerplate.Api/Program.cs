@@ -1,6 +1,10 @@
 using System;
+using System.Threading.Tasks;
 using Boilerplate.Api.Extensions;
+using Boilerplate.Infrastructure.Context;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -8,13 +12,23 @@ namespace Boilerplate.Api
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Log.Logger = SerilogExtension.CreateLogger();
+            var host = CreateHostBuilder(args).Build();
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+
             try
             {
                 Log.Logger.Information("Application starting up...");
-                CreateHostBuilder(args).Build().Run();
+                var dbContext = services.GetRequiredService<HeroDbContext>();
+                if (dbContext.Database.IsSqlServer())
+                {
+                    await dbContext.Database.MigrateAsync();
+                }
+
+                await host.RunAsync();
             }
             catch(Exception ex)
             {
