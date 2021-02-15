@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
+using Boilerplate.Infrastructure.Context;
 
 namespace Boilerplate.Api
 {
@@ -75,7 +76,6 @@ namespace Boilerplate.Api
 
 
             app.UseResponseCompression();
-
         }
     }
 }
