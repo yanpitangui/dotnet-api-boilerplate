@@ -68,6 +68,12 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 3. Change the dockerfile and docker-compose.yml to your new csproj/folder names.
 3. Give this repo a star!
 
+# Migrations
+1. To run migrations on this project, run the following command on the root folder: 
+	- ``dotnet ef migrations add InitialCreate --startup-project .\src\Boilerplate.Api\ --project .\src\Boilerplate.Infrastructure\``
+
+2. This command will set the entrypoint for the migration (the responsible to selecting the dbprovider { sqlserver, mysql, etc } and the connection string) and the project itself will be the infrastructure, which is where the dbcontext is.
+
 # If you like it, give it a Star
 If this template was useful for you, or if you learned something, please give it a Star! :star:
 
