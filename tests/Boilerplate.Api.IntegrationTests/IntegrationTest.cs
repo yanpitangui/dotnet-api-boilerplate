@@ -1,13 +1,16 @@
 using Boilerplate.Api.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Boilerplate.Api.IntegrationTests
 {
+    [TestClass]
     public class IntegrationTest
     {
-        protected readonly WebApplicationFactory<Startup> _factory;
+        protected static WebApplicationFactory<Startup> _factory;
 
-        public IntegrationTest()
+        [AssemblyInitialize]
+        public static void AssemblyInitialize(TestContext context)
         {
             var appFactory = new WebApplicationFactory<Startup>().BuildApplicationFactory();
             _factory = appFactory;
