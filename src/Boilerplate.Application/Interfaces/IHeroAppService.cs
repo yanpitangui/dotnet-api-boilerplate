@@ -1,14 +1,15 @@
-﻿using Boilerplate.Application.DTOs.Hero;
-using Boilerplate.Application.Filters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Boilerplate.Application.DTOs.Hero;
+using Boilerplate.Application.Filters;
 
 namespace Boilerplate.Application.Interfaces
 {
     public interface IHeroAppService : IDisposable
     {
         #region Hero Methods
+
         public Task<List<GetHeroDTO>> GetAllHeroes(GetHeroesFilter filter);
 
         public Task<GetHeroDTO> GetHeroById(Guid id);

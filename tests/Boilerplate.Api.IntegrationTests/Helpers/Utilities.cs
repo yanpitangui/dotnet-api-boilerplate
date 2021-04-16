@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Hosting;
 using Boilerplate.Domain.Entities;
+using Boilerplate.Domain.Entities.Enums;
 using Boilerplate.Infrastructure.Context;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Boilerplate.Api.IntegrationTests.Helpers
 {
@@ -29,11 +26,11 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
 
         public static List<Hero> GetSeedingHeroes()
         {
-            return new List<Hero>()
+            return new()
             {
-                new Hero(){ Id = new Guid("824a7a65-b769-4b70-bccb-91f880b6ddf1"), Name = "Corban Best", HeroType = Domain.Entities.Enums.HeroType.ProHero },
-                new Hero(){ Id = new Guid("b426070e-ccb3-42e6-8fb4-ef6aa5a62cc4"), Name = "Priya Hull", HeroType = Domain.Entities.Enums.HeroType.Student },
-                new Hero(){ Id = new Guid("634769f7-a7b8-4146-9cb2-ff2dd90e886b"), Name = "Harrison Vu", HeroType = Domain.Entities.Enums.HeroType.Teacher }
+                new(){ Id = new Guid("824a7a65-b769-4b70-bccb-91f880b6ddf1"), Name = "Corban Best", HeroType = HeroType.ProHero },
+                new() { Id = new Guid("b426070e-ccb3-42e6-8fb4-ef6aa5a62cc4"), Name = "Priya Hull", HeroType = HeroType.Student },
+                new() { Id = new Guid("634769f7-a7b8-4146-9cb2-ff2dd90e886b"), Name = "Harrison Vu", HeroType = HeroType.Teacher }
             };
         }
 
@@ -99,7 +96,5 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
                 });
             });
         }
-
-
     }
 }

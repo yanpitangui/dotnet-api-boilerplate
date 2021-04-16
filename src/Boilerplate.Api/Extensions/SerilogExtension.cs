@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Serilog.Core;
-using System;
+using Serilog.Events;
 
 namespace Boilerplate.Api.Extensions
 {
@@ -13,7 +14,7 @@ namespace Boilerplate.Api.Extensions
         {
             var configuration = LoadAppConfiguration();
             return new LoggerConfiguration()
-                .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                 .ReadFrom.Configuration(configuration)
                 .Destructure.AsScalar<JObject>()
                 .Destructure.AsScalar<JArray>()
@@ -38,9 +39,9 @@ namespace Boilerplate.Api.Extensions
         private static IConfigurationRoot LoadAppConfiguration()
         {
             return new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
-                .AddJsonFile("appsettings.local.json", optional: true)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+                .AddJsonFile("appsettings.local.json", true)
                 .Build();
         }
     }

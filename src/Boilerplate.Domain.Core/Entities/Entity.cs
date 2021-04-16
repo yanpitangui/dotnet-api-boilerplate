@@ -38,6 +38,5 @@ namespace Boilerplate.Domain.Core.Entities
         {
             return GetType().GetHashCode() * 907 + Id.GetHashCode();
         }
-
     }
 }

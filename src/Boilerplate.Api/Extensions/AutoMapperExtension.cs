@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Boilerplate.Application.MappingProfiles;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Boilerplate.Api.Extensions
 {

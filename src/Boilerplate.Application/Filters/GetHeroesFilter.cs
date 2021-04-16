@@ -1,7 +1,4 @@
 ﻿using Boilerplate.Domain.Entities.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Boilerplate.Application.Filters
 {
@@ -16,6 +13,5 @@ namespace Boilerplate.Application.Filters
         public HeroType? HeroType { get; set; }
 
         public string Team { get; set; }
-
     }
 }

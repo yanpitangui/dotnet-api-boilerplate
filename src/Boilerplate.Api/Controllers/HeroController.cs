@@ -1,11 +1,10 @@
-﻿using Boilerplate.Application.DTOs.Hero;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Boilerplate.Api.Controllers
 {
@@ -34,7 +33,6 @@ namespace Boilerplate.Api.Controllers
         }
 
 
-
         /// <summary>
         /// Get one hero by id from the database
         /// </summary>
@@ -48,7 +46,7 @@ namespace Boilerplate.Api.Controllers
         {
             var hero = await _heroAppService.GetHeroById(id);
             if (hero == null) return NotFound();
-            else return Ok(hero);
+            return Ok(hero);
         }
 
         /// <summary>
@@ -76,10 +74,7 @@ namespace Boilerplate.Api.Controllers
 
             var updatedHero = await _heroAppService.UpdateHero(id, dto);
 
-            if (updatedHero == null)
-            {
-                return NotFound();
-            }
+            if (updatedHero == null) return NotFound();
 
             return NoContent();
         }
@@ -99,7 +94,7 @@ namespace Boilerplate.Api.Controllers
 
             var deleted = await _heroAppService.DeleteHero(id);
             if (deleted) return NoContent();
-            else return NotFound();
+            return NotFound();
 
         }
     }

@@ -1,12 +1,12 @@
-﻿using Boilerplate.Api.IntegrationTests.Helpers;
-using FluentAssertions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Boilerplate.Api.IntegrationTests.Helpers;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Boilerplate.Api.IntegrationTests
 {
@@ -26,7 +26,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            string json = await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStringAsync();
             var array = JArray.Parse(json);
             array.HasValues.Should().BeTrue();
             array.Should().OnlyHaveUniqueItems();
@@ -43,7 +43,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            string json = await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStringAsync();
             var array = JArray.Parse(json);
             array.HasValues.Should().BeTrue();
             array.Should().OnlyHaveUniqueItems();
@@ -62,7 +62,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            string json = await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStringAsync();
             var array = JArray.Parse(json);
             array.Should().BeEmpty();
         }
