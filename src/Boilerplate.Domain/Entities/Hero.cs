@@ -1,8 +1,6 @@
-﻿using Boilerplate.Domain.Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using Boilerplate.Domain.Core.Entities;
 using Boilerplate.Domain.Entities.Enums;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Boilerplate.Domain.Entities
 {
@@ -10,6 +8,7 @@ namespace Boilerplate.Domain.Entities
     {
         [Required]
         public string Name { get; set; }
+
         public string Nickname { get; set; }
         public string Individuality { get; set; }
         public int? Age { get; set; }

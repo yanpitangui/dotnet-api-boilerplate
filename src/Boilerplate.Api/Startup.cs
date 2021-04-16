@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Boilerplate.Api.Extensions;
 using Boilerplate.Application.Interfaces;
 using Boilerplate.Application.Services;
@@ -8,8 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json.Serialization;
-using Boilerplate.Infrastructure.Context;
 
 namespace Boilerplate.Api
 {
@@ -57,10 +56,7 @@ namespace Boilerplate.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseCustomSerilogRequestLogging();
             app.UseRouting();
             app.UseApiDoc();

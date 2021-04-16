@@ -1,5 +1,5 @@
-﻿using Boilerplate.Domain.Entities.Enums;
-using System;
+﻿using System;
+using Boilerplate.Domain.Entities.Enums;
 
 namespace Boilerplate.Application.DTOs.Hero
 {
@@ -15,6 +15,5 @@ namespace Boilerplate.Application.DTOs.Hero
         public HeroType? HeroType { get; set; }
 
         public string Team { get; set; }
-
     }
 }

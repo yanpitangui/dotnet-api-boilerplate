@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Boilerplate.Api.Extensions
 {
@@ -13,15 +15,15 @@ namespace Boilerplate.Api.Extensions
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
-                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    new OpenApiInfo
                     {
                         Title = "Boilerplate.Api",
                         Version = "v1",
                         Description = "Boilerplate de API",
-                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                        Contact = new OpenApiContact
                         {
                             Name = "Yan Pitangui",
-                            Url = new System.Uri("https://github.com/yanpitangui")
+                            Url = new Uri("https://github.com/yanpitangui")
                         }
                     });
                 c.DescribeAllParametersInCamelCase();
@@ -41,8 +43,8 @@ namespace Boilerplate.Api.Extensions
                .UseSwaggerUI(c =>
                {
                    c.RoutePrefix = "api-docs";
-                   c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
-                   c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List);
+                   c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                   c.DocExpansion(DocExpansion.List);
                });
             return app;
         }

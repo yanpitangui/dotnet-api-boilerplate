@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace Boilerplate.Application.DTOs.Hero
+﻿namespace Boilerplate.Application.DTOs.Hero
 {
     public class UpdateHeroDTO : InsertHeroDTO
-    {
-    }
+    {}
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.IO.Compression;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,7 @@ namespace Boilerplate.Api.Extensions
             services.Configure<GzipCompressionProviderOptions>(
             options =>
             {
-                options.Level = System.IO.Compression.CompressionLevel.Optimal;
+                options.Level = CompressionLevel.Optimal;
             });
 
             services.AddResponseCompression(options =>

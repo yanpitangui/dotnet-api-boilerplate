@@ -1,24 +1,24 @@
-﻿using Boilerplate.Domain.Core.Entities;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Boilerplate.Domain.Core.Entities;
 using Boilerplate.Domain.Core.Interfaces;
 using Boilerplate.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Boilerplate.Infrastructure.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
-        protected HeroDbContext Db { get; }
-
-        protected DbSet<TEntity> DbSet { get; }
-
         public Repository(HeroDbContext dbContext)
         {
             Db = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             DbSet = Db.Set<TEntity>();
         }
+
+        protected HeroDbContext Db { get; }
+
+        protected DbSet<TEntity> DbSet { get; }
 
         public virtual IQueryable<TEntity> GetAll()
         {
@@ -47,14 +47,13 @@ namespace Boilerplate.Infrastructure.Repositories
         public virtual async Task Delete(Guid id)
         {
             var entity = await DbSet.FindAsync(id);
-            if (entity != null)
-            {
-                DbSet.Remove(entity);
-            }
-
+            if (entity != null) DbSet.Remove(entity);
         }
 
-        public async Task<int> SaveChangesAsync() => await Db.SaveChangesAsync();
+        public async Task<int> SaveChangesAsync()
+        {
+            return await Db.SaveChangesAsync();
+        }
 
         public void Dispose()
         {
@@ -65,10 +64,7 @@ namespace Boilerplate.Infrastructure.Repositories
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                Db.Dispose();
-            }
+            if (disposing) Db.Dispose();
         }
     }
 }
