@@ -227,5 +227,16 @@ namespace Boilerplate.Api.UnitTests
                 (await context.Set<Hero>().ToListAsync()).Should().NotBeEmpty();
             }
         }
+
+        [Fact]
+        public void NullDbContext_Throws_ArgumentNullException()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() =>
+            {
+                var repository = new HeroRepository(null);
+            });
+            exception.Should().NotBeNull();
+            exception.ParamName.Should().Be("dbContext");
+        }
     }
 }
