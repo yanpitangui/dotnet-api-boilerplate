@@ -133,7 +133,7 @@ namespace Boilerplate.Api.UnitTests
             using (var context = CreateDbContext("Create_Hero"))
             {
                 (await context.Heroes.CountAsync()).Should().Be(1);
-                (await context.Heroes.FirstAsync()).Should().Be(hero);
+                (await context.Heroes.FirstAsync()).Should().BeEquivalentTo(hero);
             }
         }
 
@@ -181,7 +181,7 @@ namespace Boilerplate.Api.UnitTests
             // Simulate access from another context to verifiy that correct data was saved to database
             using (var context = CreateDbContext("Update_Hero"))
             {
-                (await context.Heroes.FirstAsync(x => x.Id == updateHero.Id)).Should().Be(updateHero);
+                (await context.Heroes.FirstAsync(x => x.Id == updateHero.Id)).Should().BeEquivalentTo(updateHero);
             }
         }
 
