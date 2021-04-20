@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,36 @@ namespace Boilerplate.Api.IntegrationTests
             var json = await response.Content.ReadAsStringAsync();
             var array = JArray.Parse(json);
             array.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public async Task GetById_ExistingHero_ReturnsOk()
+        {
+            // Arrange
+            var client = _factory.RebuildDb().CreateClient();
+
+            // Act
+            var response = await client.GetAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var json = JObject.Parse(await response.Content.ReadAsStringAsync());
+            json["id"].Should().NotBeNull();
+            json["name"].Should().NotBeNull();
+            json["heroType"].Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public async Task GetById_ExistingHero_ReturnsNotFound()
+        {
+            // Arrange
+            var client = _factory.RebuildDb().CreateClient();
+
+            // Act
+            var response = await client.GetAsync($"/api/Hero/{Guid.NewGuid()}");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         #endregion
