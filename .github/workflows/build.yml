@@ -44,5 +44,5 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"yanpitangui_dotnet-api-boilerplate" /o:"yanpitangui" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build WebApiBoilerplate.sln --configuration Release
-          dotnet test WebApiBoilerplate.sln --configuration Release
+          dotnet test WebApiBoilerplate.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
