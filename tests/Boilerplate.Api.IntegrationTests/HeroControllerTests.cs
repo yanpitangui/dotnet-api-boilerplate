@@ -5,18 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Boilerplate.Api.IntegrationTests.Helpers;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xunit;
 
 namespace Boilerplate.Api.IntegrationTests
 {
-    [TestClass]
     public class HeroControllerTests : IntegrationTest
     {
         #region GET
 
-        [TestMethod]
+        [Fact]
         public async Task Get_AllHeroes_ReturnsOk()
         {
             // Arrange
@@ -33,7 +32,7 @@ namespace Boilerplate.Api.IntegrationTests
             array.Should().OnlyHaveUniqueItems();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_ExistingHeroesWithFilter_ReturnsOk()
         {
             // Arrange
@@ -52,7 +51,7 @@ namespace Boilerplate.Api.IntegrationTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Get_NonExistingHeroesWithFilter_ReturnsOk()
         {
             // Arrange
@@ -68,7 +67,7 @@ namespace Boilerplate.Api.IntegrationTests
             array.Should().BeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetById_ExistingHero_ReturnsOk()
         {
             // Arrange
@@ -85,7 +84,7 @@ namespace Boilerplate.Api.IntegrationTests
             json["heroType"].Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetById_ExistingHero_ReturnsNotFound()
         {
             // Arrange
@@ -102,7 +101,7 @@ namespace Boilerplate.Api.IntegrationTests
 
         #region POST
 
-        [TestMethod]
+        [Fact]
         public async Task Post_ValidHero_ReturnsCreated()
         {
             // Arrange
@@ -124,7 +123,7 @@ namespace Boilerplate.Api.IntegrationTests
             json["heroType"].Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Post_NamelessHero_ReturnsBadRequest()
         {
             // Arrange
@@ -141,7 +140,7 @@ namespace Boilerplate.Api.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Post_IndividualitylessHero_ReturnsBadRequest()
         {
             // Arrange
@@ -158,7 +157,7 @@ namespace Boilerplate.Api.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Post_EmptyHero_ReturnsBadRequest()
         {
             // Arrange
@@ -179,7 +178,7 @@ namespace Boilerplate.Api.IntegrationTests
 
         #region PUT
 
-        [TestMethod]
+        [Fact]
         public async Task Put_ValidHero_ReturnsNoContent()
         {
             // Arrange
@@ -198,7 +197,7 @@ namespace Boilerplate.Api.IntegrationTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Put_NamelessHero_ReturnsBadRequest()
         {
             // Arrange
@@ -215,7 +214,7 @@ namespace Boilerplate.Api.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Put_Individualityless_ReturnsBadRequest()
         {
             // Arrange
@@ -232,7 +231,7 @@ namespace Boilerplate.Api.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Put_EmptyHero_ReturnsBadRequest()
         {
             // Arrange
@@ -248,7 +247,7 @@ namespace Boilerplate.Api.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Put_InvalidHeroId_ReturnsNotFound()
         {
             // Arrange
@@ -270,7 +269,7 @@ namespace Boilerplate.Api.IntegrationTests
 
         #region DELETE
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_ValidHero_ReturnsNoContent()
         {
             // Arrange
@@ -282,7 +281,7 @@ namespace Boilerplate.Api.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_InvalidHero_ReturnsNotFound()
         {
             // Arrange
