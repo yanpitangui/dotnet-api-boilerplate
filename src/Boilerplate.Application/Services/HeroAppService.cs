@@ -20,8 +20,8 @@ namespace Boilerplate.Application.Services
 
         public HeroAppService(IMapper mapper, IHeroRepository heroRepository)
         {
-            _mapper = mapper;
-            _heroRepository = heroRepository;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _heroRepository = heroRepository ?? throw new ArgumentNullException(nameof(heroRepository));
         }
 
         public void Dispose()
@@ -65,14 +65,19 @@ namespace Boilerplate.Application.Services
 
         public async Task<GetHeroDto> UpdateHero(Guid id, UpdateHeroDto updatedHero)
         {
+            if (updatedHero is null)
+            {
+                throw new ArgumentNullException(nameof(updatedHero));
+            }
+
             var originalHero = await _heroRepository.GetById(id);
             if (originalHero == null) return null;
 
-            originalHero.Name = updatedHero?.Name;
-            originalHero.Nickname = updatedHero?.Nickname;
-            originalHero.Team = updatedHero?.Team;
-            originalHero.Individuality = updatedHero?.Individuality;
-            originalHero.Age = updatedHero?.Age;
+            originalHero.Name = updatedHero.Name;
+            originalHero.Nickname = updatedHero.Nickname;
+            originalHero.Team = updatedHero.Team;
+            originalHero.Individuality = updatedHero.Individuality;
+            originalHero.Age = updatedHero.Age;
             originalHero.HeroType = updatedHero.HeroType;
             _heroRepository.Update(originalHero);
             await _heroRepository.SaveChangesAsync();
