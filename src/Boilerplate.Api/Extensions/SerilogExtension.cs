@@ -19,6 +19,7 @@ namespace Boilerplate.Api.Extensions
                 .Destructure.AsScalar<JObject>()
                 .Destructure.AsScalar<JArray>()
                 .Enrich.FromLogContext()
+                .Enrich.WithCorrelationId()
                 .WriteTo.Console()
                 .CreateLogger();
         }
