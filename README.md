@@ -2,8 +2,8 @@
 A `.Net 5.0` WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
-
-[SonarCloud Dashboard](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=alert_status)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
 
 The goal of this project is to be a kickstart to your .Net WebApi, implementing the most common used patterns
 and technologies for a restful API in .net, making your work easier.
