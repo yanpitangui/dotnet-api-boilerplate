@@ -70,7 +70,7 @@ namespace Boilerplate.Api.UnitTests
             using (var context = CreateDbContext("GetById_inexisting_heroes"))
             {
                 var repository = new HeroRepository(context);
-                hero = await repository.GetById(new Guid());
+                hero = await repository.GetById(Guid.NewGuid());
             }
             // Assert
             hero.Should().BeNull();
@@ -97,7 +97,7 @@ namespace Boilerplate.Api.UnitTests
             }
             // Assert
             heroes.Should().NotBeNull();
-            heroes.Count().Should().Be(count);
+            heroes.Count.Should().Be(count);
         }
 
         [Fact]

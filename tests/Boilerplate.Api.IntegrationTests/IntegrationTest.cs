@@ -7,6 +7,11 @@ namespace Boilerplate.Api.IntegrationTests
     [TestClass]
     public class IntegrationTest
     {
+        protected IntegrationTest()
+        {
+
+        }
+
         protected static WebApplicationFactory<Startup> _factory;
 
         [AssemblyInitialize]

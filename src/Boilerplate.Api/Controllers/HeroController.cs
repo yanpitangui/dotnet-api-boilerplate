@@ -27,7 +27,7 @@ namespace Boilerplate.Api.Controllers
         /// <param name="filter"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<GetHeroDTO>>> GetHeroes([FromQuery] GetHeroesFilter filter)
+        public async Task<ActionResult<List<GetHeroDto>>> GetHeroes([FromQuery] GetHeroesFilter filter)
         {
             return Ok(await _heroAppService.GetAllHeroes(filter));
         }
@@ -41,8 +41,8 @@ namespace Boilerplate.Api.Controllers
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(404)]
-        [ProducesResponseType(typeof(GetHeroDTO), 200)]
-        public async Task<ActionResult<GetHeroDTO>> GetHeroById(Guid id)
+        [ProducesResponseType(typeof(GetHeroDto), 200)]
+        public async Task<ActionResult<GetHeroDto>> GetHeroById(Guid id)
         {
             var hero = await _heroAppService.GetHeroById(id);
             if (hero == null) return NotFound();
@@ -55,10 +55,10 @@ namespace Boilerplate.Api.Controllers
         /// <param name="dto">The hero information</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<GetHeroDTO>> Create([FromBody] InsertHeroDTO dto)
+        public async Task<ActionResult<GetHeroDto>> Create([FromBody] InsertHeroDto dto)
         {
             var newHero = await _heroAppService.CreateHero(dto);
-            return CreatedAtAction("GetHeroById", new { id = newHero.Id }, newHero);
+            return CreatedAtAction(nameof(GetHeroById), new { id = newHero.Id }, newHero);
 
         }
 
@@ -69,7 +69,7 @@ namespace Boilerplate.Api.Controllers
         /// <param name="dto">The update object</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetHeroDTO>> Update(Guid id, [FromBody] UpdateHeroDTO dto)
+        public async Task<ActionResult<GetHeroDto>> Update(Guid id, [FromBody] UpdateHeroDto dto)
         {
 
             var updatedHero = await _heroAppService.UpdateHero(id, dto);

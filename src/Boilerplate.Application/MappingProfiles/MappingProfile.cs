@@ -8,11 +8,10 @@ namespace Boilerplate.Application.MappingProfiles
     {
         public MappingProfile()
         {
-            /// Hero Map
-            CreateMap<Hero, GetHeroDTO>().ReverseMap();
-            CreateMap<InsertHeroDTO, Hero>();
-            CreateMap<UpdateHeroDTO, Hero>();
-            ///
+            // Hero Map
+            CreateMap<Hero, GetHeroDto>().ReverseMap();
+            CreateMap<InsertHeroDto, Hero>();
+            CreateMap<UpdateHeroDto, Hero>();
         }
     }
 }

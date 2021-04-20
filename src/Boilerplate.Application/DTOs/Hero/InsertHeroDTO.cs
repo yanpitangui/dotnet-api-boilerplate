@@ -3,7 +3,7 @@ using Boilerplate.Domain.Entities.Enums;
 
 namespace Boilerplate.Application.DTOs.Hero
 {
-    public class InsertHeroDTO
+    public class InsertHeroDto
     {
         [Required(ErrorMessage = "É necessário informar o nome do herói")]
         public string Name { get; set; }

@@ -3,7 +3,7 @@ using Boilerplate.Domain.Entities.Enums;
 
 namespace Boilerplate.Application.DTOs.Hero
 {
-    public class GetHeroDTO
+    public class GetHeroDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

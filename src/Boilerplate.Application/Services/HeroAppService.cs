@@ -37,7 +37,7 @@ namespace Boilerplate.Application.Services
 
         #region Hero Methods
 
-        public async Task<List<GetHeroDTO>> GetAllHeroes(GetHeroesFilter filter) {
+        public async Task<List<GetHeroDto>> GetAllHeroes(GetHeroesFilter filter) {
 
             var heroes = _heroRepository
                 .GetAll()
@@ -47,23 +47,23 @@ namespace Boilerplate.Application.Services
                 .WhereIf(filter?.HeroType != null, x => x.HeroType == filter.HeroType)
                 .WhereIf(!string.IsNullOrEmpty(filter?.Team), x => x.Team == filter.Team)
                 .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => EF.Functions.Like(x.Individuality, $"%{filter.Individuality}%"));
-            return await _mapper.ProjectTo<GetHeroDTO>(heroes)
+            return await _mapper.ProjectTo<GetHeroDto>(heroes)
                 .ToListAsync();
         }
 
-        public async Task<GetHeroDTO> GetHeroById(Guid id)
+        public async Task<GetHeroDto> GetHeroById(Guid id)
         {
-            return _mapper.Map<GetHeroDTO>(await _heroRepository.GetById(id));
+            return _mapper.Map<GetHeroDto>(await _heroRepository.GetById(id));
         }
 
-        public async Task<GetHeroDTO> CreateHero(InsertHeroDTO hero)
+        public async Task<GetHeroDto> CreateHero(InsertHeroDto hero)
         {
             var created = _heroRepository.Create(_mapper.Map<Hero>(hero));
             await _heroRepository.SaveChangesAsync();
-            return _mapper.Map<GetHeroDTO>(created);
+            return _mapper.Map<GetHeroDto>(created);
         }
 
-        public async Task<GetHeroDTO> UpdateHero(Guid id, UpdateHeroDTO updatedHero)
+        public async Task<GetHeroDto> UpdateHero(Guid id, UpdateHeroDto updatedHero)
         {
             var originalHero = await _heroRepository.GetById(id);
             if (originalHero == null) return null;
@@ -76,7 +76,7 @@ namespace Boilerplate.Application.Services
             originalHero.HeroType = updatedHero.HeroType;
             _heroRepository.Update(originalHero);
             await _heroRepository.SaveChangesAsync();
-            return _mapper.Map<GetHeroDTO>(originalHero);
+            return _mapper.Map<GetHeroDto>(originalHero);
         }
 
         public async Task<bool> DeleteHero(Guid id)

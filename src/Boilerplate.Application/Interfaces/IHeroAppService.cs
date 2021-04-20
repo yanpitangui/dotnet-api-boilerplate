@@ -10,13 +10,13 @@ namespace Boilerplate.Application.Interfaces
     {
         #region Hero Methods
 
-        public Task<List<GetHeroDTO>> GetAllHeroes(GetHeroesFilter filter);
+        public Task<List<GetHeroDto>> GetAllHeroes(GetHeroesFilter filter);
 
-        public Task<GetHeroDTO> GetHeroById(Guid id);
+        public Task<GetHeroDto> GetHeroById(Guid id);
 
-        public Task<GetHeroDTO> CreateHero(InsertHeroDTO hero);
+        public Task<GetHeroDto> CreateHero(InsertHeroDto hero);
 
-        public Task<GetHeroDTO> UpdateHero(Guid id, UpdateHeroDTO updatedHero);
+        public Task<GetHeroDto> UpdateHero(Guid id, UpdateHeroDto updatedHero);
 
         public Task<bool> DeleteHero(Guid id);
 
