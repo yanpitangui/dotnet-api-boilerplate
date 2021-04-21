@@ -149,10 +149,11 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JObject.Parse(await response.Content.ReadAsStringAsync());
-            json["id"].Should().NotBeNull();
-            json["name"].Should().NotBeNull();
-            json["heroType"].Should().NotBeNull();
+            var json = JsonConvert.DeserializeObject<GetHeroDto>(await response.Content.ReadAsStringAsync());
+            json.Should().NotBeNull();
+            json.Id.Should().NotBeEmpty();
+            json.Name.Should().NotBeNull();
+            json.HeroType.Should().NotBeNull();
         }
 
         [Fact]
@@ -188,10 +189,11 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
-            var json = JObject.Parse(await response.Content.ReadAsStringAsync());
-            json["id"].Should().NotBeNull();
-            json["name"].Should().NotBeNull();
-            json["heroType"].Should().NotBeNull();
+            var json = JsonConvert.DeserializeObject<GetHeroDto>(await response.Content.ReadAsStringAsync());
+            json.Should().NotBeNull();
+            json.Id.Should().NotBeEmpty();
+            json.Name.Should().NotBeNull();
+            json.HeroType.Should().NotBeNull();
         }
 
         [Fact]
