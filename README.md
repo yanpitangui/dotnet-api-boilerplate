@@ -38,6 +38,7 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 - .Net Dependency Injection
 - Resource filtering
 - Response compression
+- Response pagination
 - CI (Github Actions)
 - Unit tests
 - Integration tests
