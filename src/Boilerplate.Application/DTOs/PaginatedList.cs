@@ -6,17 +6,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Boilerplate.Application.DTOs
 {
-    public class PaginatedList<T> : List<T>
+    public class PaginatedList<T>
     {
-        public int CurrentPage { get; }
-        public int TotalPages { get; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+        public int TotalItems { get; set; }
+
+        public List<T> Result { get; set; } = new List<T>();
 
         public PaginatedList(List<T> items, int count, int currentPage, int pageSize)
         {
             CurrentPage = currentPage;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            TotalItems = count;
+            Result.AddRange(items);
+        }
 
-            this.AddRange(items);
+        public PaginatedList()
+        {
+
         }
     }
 
