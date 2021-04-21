@@ -2,7 +2,7 @@
 
 namespace Boilerplate.Application.Filters
 {
-    public class GetHeroesFilter
+    public class GetHeroesFilter : PaginationInfoFilter
     {
         public string Name { get; set; }
         public string Nickname { get; set; }

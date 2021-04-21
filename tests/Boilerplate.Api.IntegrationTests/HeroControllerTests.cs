@@ -30,6 +30,61 @@ namespace Boilerplate.Api.IntegrationTests
             var array = JArray.Parse(json);
             array.HasValues.Should().BeTrue();
             array.Should().OnlyHaveUniqueItems();
+            array.Should().HaveCount(3);
+        }
+
+        [Fact]
+        public async Task Get_AllHeroesWithPaginationFilter_ReturnsOk()
+        {
+            // Arrange
+            var client = _factory.RebuildDb().CreateClient();
+
+            // Act
+            var response = await client.GetAsync("/api/Hero?PageSize=1&CurrentPage=1");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var json = await response.Content.ReadAsStringAsync();
+            var array = JArray.Parse(json);
+            array.HasValues.Should().BeTrue();
+            array.Should().OnlyHaveUniqueItems();
+            array.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async Task Get_AllHeroesWithNegativePageSize_ReturnsOk()
+        {
+            // Arrange
+            var client = _factory.RebuildDb().CreateClient();
+
+            // Act
+            var response = await client.GetAsync("/api/Hero?PageSize=-1&CurrentPage=1");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var json = await response.Content.ReadAsStringAsync();
+            var array = JArray.Parse(json);
+            array.HasValues.Should().BeTrue();
+            array.Should().OnlyHaveUniqueItems();
+            array.Should().HaveCount(3);
+        }
+
+        [Fact]
+        public async Task Get_AllHeroesWithNegativeCurrentPage_ReturnsOk()
+        {
+            // Arrange
+            var client = _factory.RebuildDb().CreateClient();
+
+            // Act
+            var response = await client.GetAsync("/api/Hero?PageSize=15&CurrentPage=-1");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var json = await response.Content.ReadAsStringAsync();
+            var array = JArray.Parse(json);
+            array.HasValues.Should().BeTrue();
+            array.Should().OnlyHaveUniqueItems();
+            array.Should().HaveCount(3);
         }
 
         [Fact]
@@ -47,7 +102,7 @@ namespace Boilerplate.Api.IntegrationTests
             var array = JArray.Parse(json);
             array.HasValues.Should().BeTrue();
             array.Should().OnlyHaveUniqueItems();
-            array.Should().ContainSingle();
+            array.Should().HaveCount(1);
         }
 
 

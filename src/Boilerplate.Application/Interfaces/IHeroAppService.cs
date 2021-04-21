@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.Filters;
 
@@ -10,7 +11,7 @@ namespace Boilerplate.Application.Interfaces
     {
         #region Hero Methods
 
-        public Task<List<GetHeroDto>> GetAllHeroes(GetHeroesFilter filter);
+        public Task<PaginatedList<GetHeroDto>> GetAllHeroes(GetHeroesFilter filter);
 
         public Task<GetHeroDto> GetHeroById(Guid id);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.Extensions;
 using Boilerplate.Application.Filters;
@@ -37,18 +38,18 @@ namespace Boilerplate.Application.Services
 
         #region Hero Methods
 
-        public async Task<List<GetHeroDto>> GetAllHeroes(GetHeroesFilter filter) {
-
+        public async Task<PaginatedList<GetHeroDto>> GetAllHeroes(GetHeroesFilter filter)
+        {
+            filter ??= new GetHeroesFilter();
             var heroes = _heroRepository
                 .GetAll()
-                .WhereIf(!string.IsNullOrEmpty(filter?.Name), x => EF.Functions.Like(x.Name, $"%{filter.Name}%"))
-                .WhereIf(!string.IsNullOrEmpty(filter?.Nickname), x => EF.Functions.Like(x.Nickname, $"%{filter.Nickname}%"))
-                .WhereIf(filter?.Age != null, x => x.Age == filter.Age)
-                .WhereIf(filter?.HeroType != null, x => x.HeroType == filter.HeroType)
-                .WhereIf(!string.IsNullOrEmpty(filter?.Team), x => x.Team == filter.Team)
-                .WhereIf(!string.IsNullOrEmpty(filter?.Individuality), x => EF.Functions.Like(x.Individuality, $"%{filter.Individuality}%"));
-            return await _mapper.ProjectTo<GetHeroDto>(heroes)
-                .ToListAsync();
+                .WhereIf(!string.IsNullOrEmpty(filter.Name), x => EF.Functions.Like(x.Name, $"%{filter.Name}%"))
+                .WhereIf(!string.IsNullOrEmpty(filter.Nickname), x => EF.Functions.Like(x.Nickname, $"%{filter.Nickname}%"))
+                .WhereIf(filter.Age != null, x => x.Age == filter.Age)
+                .WhereIf(filter.HeroType != null, x => x.HeroType == filter.HeroType)
+                .WhereIf(!string.IsNullOrEmpty(filter.Team), x => x.Team == filter.Team)
+                .WhereIf(!string.IsNullOrEmpty(filter.Individuality), x => EF.Functions.Like(x.Individuality, $"%{filter.Individuality}%"));
+            return await _mapper.ProjectTo<GetHeroDto>(heroes).ToPaginatedListAsync(filter.CurrentPage, filter.PageSize);
         }
 
         public async Task<GetHeroDto> GetHeroById(Guid id)
@@ -65,11 +66,6 @@ namespace Boilerplate.Application.Services
 
         public async Task<GetHeroDto> UpdateHero(Guid id, UpdateHeroDto updatedHero)
         {
-            if (updatedHero is null)
-            {
-                throw new ArgumentNullException(nameof(updatedHero));
-            }
-
             var originalHero = await _heroRepository.GetById(id);
             if (originalHero == null) return null;
 
