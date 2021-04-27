@@ -233,7 +233,7 @@ namespace Boilerplate.Api.UnitTests
         {
             var exception = Assert.Throws<ArgumentNullException>(() =>
             {
-                var repository = new HeroRepository(null);
+                new HeroRepository(null);
             });
             exception.Should().NotBeNull();
             exception.ParamName.Should().Be("dbContext");
