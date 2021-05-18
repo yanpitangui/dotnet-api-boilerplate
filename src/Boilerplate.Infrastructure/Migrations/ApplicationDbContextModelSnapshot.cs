@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Boilerplate.Infrastructure.Migrations
 {
-    [DbContext(typeof(HeroDbContext))]
-    internal class HeroDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationDbContext))]
+    internal class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

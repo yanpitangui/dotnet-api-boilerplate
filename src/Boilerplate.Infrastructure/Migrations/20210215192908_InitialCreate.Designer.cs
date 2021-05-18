@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Boilerplate.Infrastructure.Migrations
 {
-    [DbContext(typeof(HeroDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20210215192908_InitialCreate")]
     partial class InitialCreate
     {
