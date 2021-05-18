@@ -1,14 +1,18 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using Boilerplate.Api.Extensions;
+using Boilerplate.Application.DTOs;
 using Boilerplate.Application.Interfaces;
 using Boilerplate.Application.Services;
 using Boilerplate.Domain.Repositories;
 using Boilerplate.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Boilerplate.Api
 {
@@ -40,6 +44,34 @@ namespace Boilerplate.Api
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
             });
 
+
+            var tokenConfig = Configuration.GetSection("TokenConfiguration");
+            services.Configure<TokenConfiguration>(tokenConfig);
+
+            // configure jwt authentication
+            var appSettings = tokenConfig.Get<TokenConfiguration>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = Environment.IsProduction();
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidIssuer = appSettings.Issuer,
+                        ValidAudience = appSettings.Audience
+                    };
+                });
+
+
             // AutoMapper settings
             services.AddAutoMapperSetup();
 
@@ -60,6 +92,10 @@ namespace Boilerplate.Api
             app.UseCustomSerilogRequestLogging();
             app.UseRouting();
             app.UseApiDoc();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

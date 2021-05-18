@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Boilerplate.Api.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class HeroController : ControllerBase
