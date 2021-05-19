@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
@@ -27,7 +27,7 @@ namespace Boilerplate.Api.Controllers
         /// <param name="filter"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<GetHeroDto>>> GetHeroes([FromQuery] GetHeroesFilter filter)
+        public async Task<ActionResult<PaginatedList<GetHeroDto>>> GetHeroes([FromQuery] GetHeroesFilter filter)
         {
             return Ok(await _heroService.GetAllHeroes(filter));
         }
