@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Auth;
+using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.DTOs.User;
+using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
 using Boilerplate.Domain.Auth;
 using Microsoft.AspNetCore.Authorization;
@@ -44,17 +47,48 @@ namespace Boilerplate.Api.Controllers
             return Ok(_authService.GenerateToken(user));
         }
 
+
+        /// <summary>
+        /// Returns all users in the database
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(PaginatedList<GetUserDto>), StatusCodes.Status200OK)]
+        [Authorize(Roles = Roles.Admin)]
+        [HttpGet]
+        public async Task<ActionResult<PaginatedList<GetUserDto>>> GetUsers([FromQuery] GetUsersFilter filter)
+        {
+            return Ok(await _userService.GetAllUsers(filter));
+        }
+
+
+        /// <summary>
+        /// Get one user by id from the database
+        /// </summary>
+        /// <param name="id">The user's ID</param>
+        /// <returns></returns>
+        [Authorize(Roles = Roles.Admin)]
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
+        public async Task<ActionResult<GetUserDto>> GetUserById(Guid id)
+        {
+            var user = await _userService.GetUserById(id);
+            if (user == null) return NotFound();
+            return Ok(user);
+        }
+
         [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<GetUserDto>> CreateAccount(CreateUserDto dto)
+        public async Task<ActionResult<GetUserDto>> CreateUser(CreateUserDto dto)
         {
             var newAccount = await _userService.CreateUser(dto);
-            return CreatedAtAction("GetAccountById", new { id = newAccount.Id }, newAccount);
+            return CreatedAtAction(nameof(GetUserById), new { id = newAccount.Id }, newAccount);
         }
 
-        [Authorize]
-        [HttpPut("{id:guid}")]
+        [HttpPatch("updatePassword/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> UpdatePassword(Guid id, [FromBody] UpdatePasswordDto dto)
         {

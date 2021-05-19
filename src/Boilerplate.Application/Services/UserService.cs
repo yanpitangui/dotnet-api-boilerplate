@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using Boilerplate.Application.DTOs.Hero;
+using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.User;
+using Boilerplate.Application.Extensions;
+using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
 using Boilerplate.Domain.Auth;
 using Boilerplate.Domain.Entities;
@@ -41,7 +43,6 @@ namespace Boilerplate.Application.Services
         public async Task<User> Authenticate(string email, string password)
         {
             var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
-
             if (user == null || !BC.Verify(password, user.Password))
             {
                 return null;
@@ -53,7 +54,7 @@ namespace Boilerplate.Application.Services
         public async Task<GetUserDto> CreateUser(CreateUserDto user)
         {
             var created = _userRepository.Create(_mapper.Map<User>(user));
-            user.Password = BC.HashPassword(user.Password);
+            created.Password = BC.HashPassword(user.Password);
             await _userRepository.SaveChangesAsync();
             return _mapper.Map<GetUserDto>(created);
         }
@@ -73,6 +74,21 @@ namespace Boilerplate.Application.Services
             _userRepository.Update(originalUser);
             await _userRepository.SaveChangesAsync();
             return _mapper.Map<GetUserDto>(originalUser);
+        }
+
+        public async Task<PaginatedList<GetUserDto>> GetAllUsers(GetUsersFilter filter)
+        {
+            filter ??= new GetUsersFilter();
+            var users = _userRepository
+                .GetAll()
+                .WhereIf(!string.IsNullOrEmpty(filter.Email), x => EF.Functions.Like(x.Email, $"%{filter.Email}%"))
+                .WhereIf(filter.IsAdmin, x => x.Role == Roles.Admin);
+            return await _mapper.ProjectTo<GetUserDto>(users).ToPaginatedListAsync(filter.CurrentPage, filter.PageSize);
+        }
+
+        public async Task<GetUserDto> GetUserById(Guid id)
+        {
+            return _mapper.Map<GetUserDto>(await _userRepository.GetById(id));
         }
     }
 }
