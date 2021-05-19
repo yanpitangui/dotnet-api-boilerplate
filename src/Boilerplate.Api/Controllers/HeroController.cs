@@ -55,7 +55,7 @@ namespace Boilerplate.Api.Controllers
         /// <param name="dto">The hero information</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<GetHeroDto>> Create([FromBody] InsertHeroDto dto)
+        public async Task<ActionResult<GetHeroDto>> Create([FromBody] CreateHeroDto dto)
         {
             var newHero = await _heroService.CreateHero(dto);
             return CreatedAtAction(nameof(GetHeroById), new { id = newHero.Id }, newHero);
@@ -91,11 +91,9 @@ namespace Boilerplate.Api.Controllers
         [Route("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-
             var deleted = await _heroService.DeleteHero(id);
             if (deleted) return NoContent();
             return NotFound();
-
         }
     }
 }

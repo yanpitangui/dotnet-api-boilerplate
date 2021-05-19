@@ -31,13 +31,9 @@ namespace Boilerplate.Application.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var claims = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
             });
-
-            foreach (var role in user.Roles)
-            {
-                claims.AddClaim(new Claim(ClaimTypes.Role, role.Name));
-            }
 
             var expDate = DateTime.UtcNow.AddHours(1);
 

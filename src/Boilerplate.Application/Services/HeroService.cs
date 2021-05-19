@@ -57,7 +57,7 @@ namespace Boilerplate.Application.Services
             return _mapper.Map<GetHeroDto>(await _heroRepository.GetById(id));
         }
 
-        public async Task<GetHeroDto> CreateHero(InsertHeroDto hero)
+        public async Task<GetHeroDto> CreateHero(CreateHeroDto hero)
         {
             var created = _heroRepository.Create(_mapper.Map<Hero>(hero));
             await _heroRepository.SaveChangesAsync();
