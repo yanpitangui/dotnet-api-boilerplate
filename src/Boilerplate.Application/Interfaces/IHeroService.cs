@@ -7,7 +7,7 @@ using Boilerplate.Application.Filters;
 
 namespace Boilerplate.Application.Interfaces
 {
-    public interface IHeroAppService : IDisposable
+    public interface IHeroService : IDisposable
     {
         #region Hero Methods
 

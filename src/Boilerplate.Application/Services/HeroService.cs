@@ -13,13 +13,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Boilerplate.Application.Services
 {
-    public class HeroAppService : IHeroAppService
+    public class HeroService : IHeroService
     {
         private readonly IHeroRepository _heroRepository;
 
         private readonly IMapper _mapper;
 
-        public HeroAppService(IMapper mapper, IHeroRepository heroRepository)
+        public HeroService(IMapper mapper, IHeroRepository heroRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _heroRepository = heroRepository ?? throw new ArgumentNullException(nameof(heroRepository));

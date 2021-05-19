@@ -35,7 +35,10 @@ namespace Boilerplate.Api
 
             //DI Services and Repos
             services.AddScoped<IHeroRepository, HeroRepository>();
-            services.AddScoped<IHeroAppService, HeroAppService>();
+            services.AddScoped<IHeroService, HeroService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             // WebApi Configuration
             services.AddControllers().AddJsonOptions(options =>
