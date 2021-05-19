@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Boilerplate.Api.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Boilerplate.Api.Extensions
@@ -36,6 +36,16 @@ namespace Boilerplate.Api.Extensions
                 c.DescribeAllParametersInCamelCase();
                 c.OrderActionsBy(x => x.RelativePath);
 
+                var xmlfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlfile);
+                if (File.Exists(xmlPath))
+                {
+                    c.IncludeXmlComments(xmlPath);
+                }
+
+                c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+
                 // To Enable authorization using Swagger (JWT)    
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -53,14 +63,8 @@ namespace Boilerplate.Api.Extensions
                     }
                 });
 
-                c.OperationFilter<AddAuthHeaderOperationFilter>();
 
-                var xmlfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlfile);
-                if (File.Exists(xmlPath))
-                {
-                    c.IncludeXmlComments(xmlPath);
-                }
+
 
             });
             return services;

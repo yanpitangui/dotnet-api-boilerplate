@@ -26,7 +26,10 @@ namespace Boilerplate.Application.Services
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing) { }
+            if (disposing)
+            {
+                _userRepository.Dispose();
+            }
         }
 
         public async Task<User> Authenticate(string email, string password)
