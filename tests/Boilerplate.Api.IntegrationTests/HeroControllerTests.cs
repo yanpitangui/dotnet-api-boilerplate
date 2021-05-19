@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Boilerplate.Api.IntegrationTests.Helpers;
 using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Hero;
 using FluentAssertions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -29,7 +25,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JsonConvert.DeserializeObject<PaginatedList<GetHeroDto>>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
             json.Should().NotBeNull();
             json.Result.Should().OnlyHaveUniqueItems();
             json.Result.Should().HaveCount(3);
@@ -49,7 +45,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JsonConvert.DeserializeObject<PaginatedList<GetHeroDto>>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
             json.Should().NotBeNull();
             json.Result.Should().OnlyHaveUniqueItems();
             json.Result.Should().HaveCount(1);
@@ -69,7 +65,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JsonConvert.DeserializeObject<PaginatedList<GetHeroDto>>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
             json.Should().NotBeNull();
             json.Result.Should().OnlyHaveUniqueItems();
             json.Result.Should().HaveCount(3);
@@ -89,7 +85,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JsonConvert.DeserializeObject<PaginatedList<GetHeroDto>>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
             json.Should().NotBeNull();
             json.Result.Should().OnlyHaveUniqueItems();
             json.Result.Should().HaveCount(3);
@@ -109,7 +105,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JsonConvert.DeserializeObject<PaginatedList<GetHeroDto>>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
             json.Should().NotBeNull();
             json.Result.Should().OnlyHaveUniqueItems();
             json.Result.Should().HaveCount(1);
@@ -130,7 +126,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JsonConvert.DeserializeObject<PaginatedList<GetHeroDto>>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
             json.Should().NotBeNull();
             json.Result.Should().BeEmpty();
             json.CurrentPage.Should().Be(1);
@@ -149,7 +145,7 @@ namespace Boilerplate.Api.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var json = JsonConvert.DeserializeObject<GetHeroDto>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<GetHeroDto>();
             json.Should().NotBeNull();
             json.Id.Should().NotBeEmpty();
             json.Name.Should().NotBeNull();
@@ -180,16 +176,16 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
                 Name = "Name hero success",
                 HeroType = 1
-            });
-            var response = await client.PostAsync("/api/Hero", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PostAsync("/api/Hero", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
-            var json = JsonConvert.DeserializeObject<GetHeroDto>(await response.Content.ReadAsStringAsync());
+            var json = await response.DeserializeContent<GetHeroDto>();
             json.Should().NotBeNull();
             json.Id.Should().NotBeEmpty();
             json.Name.Should().NotBeNull();
@@ -203,11 +199,11 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
                 Individuality = "Individuality hero badrequest"
-            });
-            var response = await client.PostAsync("/api/Hero", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PostAsync("/api/Hero", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -220,11 +216,11 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
                 Name = "Name hero badrequest"
-            });
-            var response = await client.PostAsync("/api/Hero", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PostAsync("/api/Hero", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -237,10 +233,10 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
-            });
-            var response = await client.PostAsync("/api/Hero", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PostAsync("/api/Hero", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -258,12 +254,12 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
                 Name = "Name hero success",
                 HeroType = 1
-            });
-            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -277,11 +273,11 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
                 HeroType = 1
-            });
-            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -294,11 +290,11 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
                 Name = "Name hero badrequest"
-            });
-            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -311,10 +307,10 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
-            });
-            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -327,12 +323,12 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
 
             // Act
-            var newHero = JsonSerializer.Serialize(new
+            var newHero = new
             {
                 Name = "Name hero not found",
                 HeroType = 1
-            });
-            var response = await client.PutAsync("/api/Hero/1d2c03e0-cc51-4f22-b1be-cdee04b1f896", new StringContent(newHero, Encoding.UTF8, "application/json"));
+            };
+            var response = await client.PutAsync("/api/Hero/1d2c03e0-cc51-4f22-b1be-cdee04b1f896", newHero.GetStringContent());
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
