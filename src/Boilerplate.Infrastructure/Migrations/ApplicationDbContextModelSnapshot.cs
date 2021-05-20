@@ -57,7 +57,8 @@ namespace Boilerplate.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -69,21 +70,24 @@ namespace Boilerplate.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("94cbc37b-76b0-4744-840a-79e18577c3b8"),
+                            Id = new Guid("687d9fd5-2752-4a96-93d5-0f33a49913c6"),
                             Email = "admin@boilerplate.com",
-                            Password = "$2a$11$eGHkKk2zSEWEqIZucj1BT.QDksyLIn2qPPUWRCtkAanLLdvcjZ/u2",
+                            Password = "$2a$11$oNUUOd3qRUAGD55pG/VBR.p3kn4kgdk5qJ6ArL5UybYMI0kFOlX4i",
                             Role = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("89876205-7a51-4845-95c4-68815054c560"),
+                            Id = new Guid("6648c89f-e894-42bb-94f0-8fd1059c86b4"),
                             Email = "user@boilerplate.com",
-                            Password = "$2a$11$fbth8r0E6qE.xi5qxrELCulvXhgNLPk8jIjoep5lIszsT7C9OwMZm",
+                            Password = "$2a$11$COfh6eYz/zaenoTtBexF7ueQmxbUo5PJJPdyR/HYoqDmolhWpZ3ui",
                             Role = "User"
                         });
                 });

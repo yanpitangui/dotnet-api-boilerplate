@@ -5,7 +5,6 @@ namespace Boilerplate.Domain.Entities
 {
     public class User : Entity
     {
-        [Required]
         public string Email { get; set; }
 
         [Required]

@@ -12,7 +12,7 @@ namespace Boilerplate.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -24,12 +24,18 @@ namespace Boilerplate.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Password", "Role" },
-                values: new object[] { new Guid("94cbc37b-76b0-4744-840a-79e18577c3b8"), "admin@boilerplate.com", "$2a$11$eGHkKk2zSEWEqIZucj1BT.QDksyLIn2qPPUWRCtkAanLLdvcjZ/u2", "Admin" });
+                values: new object[] { new Guid("687d9fd5-2752-4a96-93d5-0f33a49913c6"), "admin@boilerplate.com", "$2a$11$oNUUOd3qRUAGD55pG/VBR.p3kn4kgdk5qJ6ArL5UybYMI0kFOlX4i", "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Password", "Role" },
-                values: new object[] { new Guid("89876205-7a51-4845-95c4-68815054c560"), "user@boilerplate.com", "$2a$11$fbth8r0E6qE.xi5qxrELCulvXhgNLPk8jIjoep5lIszsT7C9OwMZm", "User" });
+                values: new object[] { new Guid("6648c89f-e894-42bb-94f0-8fd1059c86b4"), "user@boilerplate.com", "$2a$11$COfh6eYz/zaenoTtBexF7ueQmxbUo5PJJPdyR/HYoqDmolhWpZ3ui", "User" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

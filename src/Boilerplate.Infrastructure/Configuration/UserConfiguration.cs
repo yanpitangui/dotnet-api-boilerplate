@@ -10,6 +10,11 @@ namespace Boilerplate.Infrastructure.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(x => x.Email).IsRequired().HasMaxLength(254);
+            builder.HasIndex(x => x.Email).IsUnique();
+
+
+
             builder.HasData(
                 new User
                 {
