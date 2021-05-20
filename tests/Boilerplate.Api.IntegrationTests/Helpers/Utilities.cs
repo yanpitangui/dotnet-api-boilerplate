@@ -68,25 +68,13 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
                 {
                     var sp = services.BuildServiceProvider();
 
-                    using (var scope = sp.CreateScope())
-                    {
-                        var scopedServices = scope.ServiceProvider;
-                        var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-                        var logger = scopedServices
-                            .GetRequiredService<ILogger<WebApplicationFactory<Startup>>>();
-                        db.Database.EnsureDeleted();
-                        db.Database.EnsureCreated();
+                    using var scope = sp.CreateScope();
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                    db.Database.EnsureDeleted();
 
-                        try
-                        {
-                            InitializeDbForTests(db);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, "An error occurred seeding the " +
-                                                "database with test messages. Error: {Message}", ex.Message);
-                        }
-                    }
+                    db.Database.EnsureCreated();
+                    InitializeDbForTests(db);
                 });
             });
         }
@@ -99,25 +87,11 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
                 builder.ConfigureServices(services =>
                 {
                     var serviceProvider = services.BuildServiceProvider();
-
-                    using (var scope = serviceProvider.CreateScope())
-                    {
-                        var scopedServices = scope.ServiceProvider;
-                        var db = scopedServices
-                            .GetRequiredService<ApplicationDbContext>();
-                        var logger = scopedServices
-                            .GetRequiredService<ILogger<IntegrationTest>>();
-                        try
-                        {
-                            ReinitializeDbForTests(db);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, "An error occurred seeding " +
-                                                "the database with test messages. Error: {Message}",
-                                ex.Message);
-                        }
-                    }
+                    using var scope = serviceProvider.CreateScope();
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices
+                        .GetRequiredService<ApplicationDbContext>();
+                    ReinitializeDbForTests(db);
                 });
             });
         }

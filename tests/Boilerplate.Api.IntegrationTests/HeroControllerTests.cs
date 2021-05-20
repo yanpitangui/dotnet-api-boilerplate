@@ -5,13 +5,16 @@ using Boilerplate.Api.IntegrationTests.Helpers;
 using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Hero;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Boilerplate.Api.IntegrationTests
 {
     public class HeroControllerTests : IntegrationTest
     {
+
+        public HeroControllerTests(WebApplicationFactory<Startup> fixture) : base(fixture) { }
+
         #region GET
 
         [Fact]

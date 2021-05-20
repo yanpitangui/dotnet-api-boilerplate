@@ -6,6 +6,7 @@ using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Auth;
 using Boilerplate.Application.DTOs.User;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -14,9 +15,24 @@ namespace Boilerplate.Api.IntegrationTests
     public class UserControllerTests : IntegrationTest
     {
 
-        private static readonly string AdminToken = GetAdminToken().Result;
+        private static string _adminToken;
 
-        private static readonly string UserToken = GetUserToken().Result;
+        private static string _userToken;
+
+        public UserControllerTests(WebApplicationFactory<Startup> fixture) : base(fixture)
+        {
+
+        }
+
+        public string AdminToken
+        {
+            get { return _adminToken ??= GetAdminToken().Result; }
+        }
+
+        public string UserToken
+        {
+            get { return _userToken ??= GetUserToken().Result; }
+        }
 
         #region GET
 
@@ -190,7 +206,7 @@ namespace Boilerplate.Api.IntegrationTests
         #region POST
 
         [Fact]
-        public static async Task<string> GetAdminToken()
+        public async Task<string> GetAdminToken()
         {
             // Arrange
             var client = Factory.RebuildDb().CreateClient();
@@ -213,7 +229,7 @@ namespace Boilerplate.Api.IntegrationTests
         }
 
         [Fact]
-        public static async Task<string> GetUserToken()
+        public async Task<string> GetUserToken()
         {
             // Arrange
             var client = Factory.RebuildDb().CreateClient();
