@@ -47,24 +47,14 @@ namespace Boilerplate.Api.Extensions
                 c.OperationFilter<SecurityRequirementsOperationFilter>();
 
                 // To Enable authorization using Swagger (JWT)    
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer",
+                    Type = SecuritySchemeType.ApiKey,
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter your valid token in the text input below.\r\n\r\nExample: \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
-
-                    Reference = new OpenApiReference
-                    {
-                        Id = JwtBearerDefaults.AuthenticationScheme,
-                        Type = ReferenceType.SecurityScheme
-                    }
+                    Description = "Enter your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
                 });
-
-
-
 
             });
             return services;
