@@ -4,14 +4,13 @@ using Xunit;
 
 namespace Boilerplate.Api.IntegrationTests
 {
-    [Collection("Integration tests")] // workaround to make the conflict between tests not crash itself
-    public abstract class IntegrationTest: IClassFixture<WebApplicationFactory<Startup>>
+    public abstract class IntegrationTest: IClassFixture<WebApplicationFactoryFixture>
     {
         protected readonly WebApplicationFactory<Startup> Factory;
 
-        protected IntegrationTest(WebApplicationFactory<Startup> fixture)
+        protected IntegrationTest(WebApplicationFactoryFixture fixture)
         {
-            Factory = fixture.BuildApplicationFactory();
+            Factory = fixture.Factory;
         }
     }
 }

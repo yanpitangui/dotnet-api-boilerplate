@@ -19,7 +19,7 @@ namespace Boilerplate.Api.IntegrationTests
 
         private static string _userToken;
 
-        public UserControllerTests(WebApplicationFactory<Startup> fixture) : base(fixture)
+        public UserControllerTests(WebApplicationFactoryFixture fixture) : base(fixture)
         {
 
         }

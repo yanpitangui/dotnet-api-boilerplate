@@ -6,6 +6,7 @@ using Boilerplate.Domain.Entities.Enums;
 using Boilerplate.Infrastructure.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using BC = BCrypt.Net.BCrypt;
@@ -63,20 +64,29 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
 
         public static WebApplicationFactory<Startup> BuildApplicationFactory(this WebApplicationFactory<Startup> factory)
         {
+            var connectionString = $"Data Source={Guid.NewGuid()}.db";
             return factory.WithWebHostBuilder(builder =>
             {
-                builder.UseEnvironment("Testing");
                 builder.ConfigureServices(services =>
                 {
+                    var descriptor = services.SingleOrDefault(
+                        d => d.ServiceType ==
+                    typeof(DbContextOptions<ApplicationDbContext>));
+
+                    services.Remove(descriptor);
+
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                    {
+                        options.UseSqlite(connectionString);
+                    });
+
                     var sp = services.BuildServiceProvider();
 
                     using var scope = sp.CreateScope();
                     var scopedServices = scope.ServiceProvider;
-                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-                    db.Database.EnsureDeleted();
-
-                    db.Database.EnsureCreated();
-                    InitializeDbForTests(db);
+                    var context = scopedServices.GetRequiredService<ApplicationDbContext>();
+                    context.Database.EnsureCreated();
+                    InitializeDbForTests(context);
                 });
             });
         }

@@ -31,7 +31,7 @@ namespace Boilerplate.Api
         public void ConfigureServices(IServiceCollection services)
         {
             //Extension method for less clutter in startup
-            services.AddApplicationDbContext(Configuration, Environment);
+            services.AddApplicationDbContext(Configuration);
 
             //DI Services and Repos
             services.AddScoped<IHeroRepository, HeroRepository>();

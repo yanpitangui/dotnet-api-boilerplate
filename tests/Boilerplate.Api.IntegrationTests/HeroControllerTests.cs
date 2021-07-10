@@ -13,7 +13,7 @@ namespace Boilerplate.Api.IntegrationTests
     public class HeroControllerTests : IntegrationTest
     {
 
-        public HeroControllerTests(WebApplicationFactory<Startup> fixture) : base(fixture) { }
+        public HeroControllerTests(WebApplicationFactoryFixture fixture) : base(fixture) { }
 
         #region GET
 
