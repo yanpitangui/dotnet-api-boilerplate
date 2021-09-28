@@ -51,10 +51,10 @@ namespace Boilerplate.Application.Services
             return user;
         }
 
-        public async Task<GetUserDto> CreateUser(CreateUserDto user)
+        public async Task<GetUserDto> CreateUser(CreateUserDto dto)
         {
-            var created = _userRepository.Create(_mapper.Map<User>(user));
-            created.Password = BC.HashPassword(user.Password);
+            var created = _userRepository.Create(_mapper.Map<User>(dto));
+            created.Password = BC.HashPassword(dto.Password);
             await _userRepository.SaveChangesAsync();
             return _mapper.Map<GetUserDto>(created);
         }
@@ -65,12 +65,12 @@ namespace Boilerplate.Application.Services
             return await _userRepository.SaveChangesAsync() > 0;
         }
 
-        public async Task<GetUserDto> UpdatePassword(Guid id, UpdatePasswordDto passwordDto)
+        public async Task<GetUserDto> UpdatePassword(Guid id, UpdatePasswordDto dto)
         {
             var originalUser = await _userRepository.GetById(id);
             if (originalUser == null) return null;
 
-            originalUser.Password = BC.HashPassword(passwordDto.Password);
+            originalUser.Password = BC.HashPassword(dto.Password);
             _userRepository.Update(originalUser);
             await _userRepository.SaveChangesAsync();
             return _mapper.Map<GetUserDto>(originalUser);
