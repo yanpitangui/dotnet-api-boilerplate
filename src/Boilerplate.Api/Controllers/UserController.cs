@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Auth;
-using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.DTOs.User;
 using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
@@ -10,6 +9,7 @@ using Boilerplate.Domain.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ISession = Boilerplate.Domain.Auth.Interfaces.ISession;
 
 namespace Boilerplate.Api.Controllers
 {
@@ -20,11 +20,13 @@ namespace Boilerplate.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
+        private readonly ISession _session;
 
-        public UserController(IUserService userService, IAuthService authService)
+        public UserController(IUserService userService, IAuthService authService, ISession session)
         {
             _userService = userService;
             _authService = authService;
+            _session = session;
         }
 
         /// <summary>
@@ -88,11 +90,11 @@ namespace Boilerplate.Api.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = newAccount.Id }, newAccount);
         }
 
-        [HttpPatch("updatePassword/{id:guid}")]
+        [HttpPatch("updatePassword")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> UpdatePassword(Guid id, [FromBody] UpdatePasswordDto dto)
-        {
-            await _userService.UpdatePassword(id, dto);
+        public async Task<ActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto)
+        {            
+            await _userService.UpdatePassword(_session.UserId, dto);
             return NoContent();
         }
 

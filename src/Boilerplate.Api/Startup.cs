@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Boilerplate.Application.Auth;
+using Boilerplate.Domain.Auth.Interfaces;
 
 namespace Boilerplate.Api
 {
@@ -39,6 +41,7 @@ namespace Boilerplate.Api
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ISession, Session>();
 
             // WebApi Configuration
             services.AddControllers().AddJsonOptions(options =>

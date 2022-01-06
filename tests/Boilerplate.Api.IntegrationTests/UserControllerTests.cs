@@ -371,7 +371,7 @@ namespace Boilerplate.Api.IntegrationTests
             client.UpdateBearerToken(newUserToken.Token);
 
             // Act
-            response = await client.PatchAsync($"/api/User/updatePassword/{userInfo.Id}",
+            response = await client.PatchAsync($"/api/User/updatePassword",
                 new {Password = "mypasswordisverynice"}.GetStringContent());
 
             // Assert
