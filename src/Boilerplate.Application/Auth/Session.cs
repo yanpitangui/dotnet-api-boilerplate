@@ -19,9 +19,7 @@ namespace Boilerplate.Application.Auth
 
             if(nameIdentifier != null)
             {
-                Guid userId;
-                Guid.TryParse(nameIdentifier.Value, out userId);
-                UserId = userId;
+                UserId = new Guid(nameIdentifier.Value);
             }
         }
 
