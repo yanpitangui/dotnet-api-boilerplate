@@ -40,8 +40,10 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 - Response compression
 - Response pagination
 - CI (Github Actions)
+- Authentication
+- Authorization
 - Unit tests
-- Integration tests
+- Integration tests with Fixtures
 - Container support with [docker](src/Boilerplate.Api/dockerfile) and [docker-compose](docker-compose.yml)
 
 
@@ -54,12 +56,16 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 		- This project exists to allow you to run docker-compose with Visual Studio. It contains a reference to the docker-compose file and will build all the projects dependencies and run it.
 2. Application
 	-  This folder stores all data transformations between your api and your domain layer. It also contains your business logic.
+	1. Auth
+		- This folder contains the login Session implementation.
 3. Domain
 	- This folder contains your business models, enums and common interfaces.
 	1. Boilerplate.Domain.Core
 		- Contains the base entity for all other domain entities, as well as the interface for the repository implementation.
-	1. Boilerplate.Domain
+	2. Boilerplate.Domain
 		- Contains business models and enums.
+		1. Auth
+			- This folder contains the login Session Interface.
 4. Infra
 	- This folder contains all data access repositories, database contexts, anything that reaches for outside data.
 	1. Boilerplate.Infrastructure
