@@ -3,7 +3,7 @@ name: Documentation suggestion
 about: Suggest an improvement to the documentation
 title: "[DOCUMENTATION]"
 labels: documentation
-assignees: yanpitangui
+assignees: ''
 
 ---
 
