@@ -34,6 +34,18 @@ Isso criará o certificado https.
 Na pasta raiz, execute ``dotnet test``. Este comando tentará encontrar todos os porjetos associados ao arquivo da solução.
 Se você estiver utilizando o Visual Studio, você também pode acessar o menu "Test" e abrir o "Test Explorer", onde é possível executar todos os testes ou algum específico.
 
+## Autenticação
+Neste projeto, algumas rotas precisam de autenticação/autorização. Para isso, você terá que utilizar a rota ``api/user/authenticate`` para obter o JWT.
+Por padrão, você tem dois usuários disponíveis para login:
+- Usuário normal: 
+	- email: user@boilerplate.com
+	- senha: userpassword
+- Admin:
+	- email: admin@boilerplate.com
+	- senha: adminpassword
+
+Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swagger) ou via o cabeçalho `Authorization` se tiver realizando uma requisição http.
+
 # Este projeto contém:
 - SwaggerUI
 - EntityFramework
