@@ -1,4 +1,8 @@
 # dotnet-api-boilerplate
+<p align="center">
+  <a href="https://github.com/yanpitangui/dotnet-api-boilerplate/tree/main/README.md">English</a> |
+  <span>Português</span>
+</p>
 Um boilerplate de API `.Net 5.0` / projeto de template. Repositórios, Swagger, Mapper, Serilog, entre outros, implementados.
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
