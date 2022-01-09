@@ -67,6 +67,7 @@ namespace Boilerplate.Api.IntegrationTests.Helpers
             var connectionString = $"Data Source={Guid.NewGuid()}.db";
             return factory.WithWebHostBuilder(builder =>
             {
+                builder.UseEnvironment("Testing");
                 builder.ConfigureServices(services =>
                 {
                     var descriptor = services.SingleOrDefault(
