@@ -3,6 +3,7 @@
   <span>English</span> |
   <a href="https://github.com/yanpitangui/dotnet-api-boilerplate/tree/main/translations/pt-br/README.md">Português</a>
 </p>
+
 A ``.Net 5.0`` WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
