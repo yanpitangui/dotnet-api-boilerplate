@@ -6,33 +6,27 @@ using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Auth;
 using Boilerplate.Application.DTOs.User;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Xunit;
 
 namespace Boilerplate.Api.IntegrationTests
 {
-    public class UserControllerTests : IntegrationTest
+    public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
-
-        private static string _adminToken;
-
-        private static string _userToken;
-
         public UserControllerTests(WebApplicationFactoryFixture fixture) : base(fixture)
         {
 
         }
 
-        public string AdminToken
+        public async Task InitializeAsync()
         {
-            get { return _adminToken ??= GetAdminToken().Result; }
+            AdminToken ??= await GetAdminToken();
+            UserToken ??= await GetUserToken();
         }
 
-        public string UserToken
-        {
-            get { return _userToken ??= GetUserToken().Result; }
-        }
+        public static string AdminToken { get; private set; }
+
+        public static string UserToken { get; private set; }
 
         #region GET
 
@@ -276,14 +270,14 @@ namespace Boilerplate.Api.IntegrationTests
             // Arrange
             var client = Factory.RebuildDb().CreateClient();
             client.UpdateBearerToken(AdminToken);
+            var userFaker = new Bogus.Faker<CreateUserDto>();
 
             // Act
-            var newUser = new
-            {
-                Email = Faker.Internet.Email(),
-                Password = $"{Guid.NewGuid()}{Guid.NewGuid()}",
-                IsAdmin = true
-            };
+            var newUser = userFaker
+                .RuleFor(x => x.Email, f => f.Internet.Email())
+                .RuleFor(x => x.Password, f=> f.Internet.Password())
+                .RuleFor(x => x.IsAdmin, f => true)
+                .Generate();
             var response = await client.PostAsync("/api/User", newUser.GetStringContent());
 
             // Assert
@@ -317,12 +311,14 @@ namespace Boilerplate.Api.IntegrationTests
             // Arrange
             var client = Factory.RebuildDb().CreateClient();
             client.UpdateBearerToken(AdminToken);
+            var userFaker = new Bogus.Faker<CreateUserDto>();
 
             // Act
-            var newUser = new
-            {
-                Email = Faker.Internet.Email()
-            };
+            var newUser = userFaker
+                .RuleFor(x => x.Email, f => f.Internet.Email())
+                .RuleFor(x => x.Password, f=> null)
+                .RuleFor(x => x.IsAdmin, f => false)
+                .Generate();
             var response = await client.PostAsync("/api/User", newUser.GetStringContent());
 
             // Assert
@@ -357,11 +353,13 @@ namespace Boilerplate.Api.IntegrationTests
             var client = Factory.RebuildDb().CreateClient();
             client.UpdateBearerToken(AdminToken);
 
-            var newUser = new
-            {
-                Email = Faker.Internet.Email(),
-                Password = "myverynicepassword"
-            };
+            var userFaker = new Bogus.Faker<CreateUserDto>();
+
+            var newUser = userFaker
+                .RuleFor(x => x.Email, f => f.Internet.Email())
+                .RuleFor(x => x.Password, f=> f.Internet.Password())
+                .RuleFor(x => x.IsAdmin, f => true)
+                .Generate();
             var response = await client.PostAsync("/api/User", newUser.GetStringContent());
             response.StatusCode.Should().Be(HttpStatusCode.Created);
             var userInfo = await response.DeserializeContent<GetUserDto>();
@@ -422,5 +420,11 @@ namespace Boilerplate.Api.IntegrationTests
         }
 
         #endregion
+
+
+        public Task DisposeAsync()
+        {
+            return Task.CompletedTask;
+        }
     }
 }

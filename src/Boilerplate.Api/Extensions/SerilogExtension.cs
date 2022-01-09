@@ -5,6 +5,8 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
+using Serilog.Exceptions;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Boilerplate.Api.Extensions
 {
@@ -13,14 +15,19 @@ namespace Boilerplate.Api.Extensions
         public static Logger CreateLogger()
         {
             var configuration = LoadAppConfiguration();
-            return new LoggerConfiguration()
-                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+            var loggerConfiguration = new LoggerConfiguration();
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing") return loggerConfiguration.MinimumLevel.Fatal().CreateLogger();
+            return loggerConfiguration
                 .ReadFrom.Configuration(configuration)
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Infrastructure", LogEventLevel.Warning)
                 .Destructure.AsScalar<JObject>()
                 .Destructure.AsScalar<JArray>()
+                .WriteTo.Async(a => a.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}", theme: AnsiConsoleTheme.Code))
+                .Enrich.WithExceptionDetails()
                 .Enrich.FromLogContext()
-                .Enrich.WithCorrelationId()
-                .WriteTo.Console()
                 .CreateLogger();
         }
 

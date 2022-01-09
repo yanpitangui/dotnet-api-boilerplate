@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bogus;
 using Boilerplate.Domain.Entities;
 using Boilerplate.Domain.Entities.Enums;
 using Boilerplate.Infrastructure.Context;
@@ -30,11 +31,15 @@ namespace Boilerplate.Api.UnitTests
         [InlineData("e141a755-98d4-44d3-a84f-528e6e75f543")]
         public async Task GetById_existing_heroes(Guid id)
         {
+            var heroFaker = new Faker<Hero>()
+                .RuleFor(x => x.Id, f => id)
+                .RuleFor(x => x.Name, f => f.Name.FirstName())
+                .RuleFor(x => x.HeroType, f => f.PickRandom<HeroType>());
             // Arrange
 
             using (var context = CreateDbContext("GetById_existing_heroes"))
             {
-                context.Set<Hero>().Add(new Hero { Id = id });
+                context.Set<Hero>().Add(heroFaker.Generate());
                 await context.SaveChangesAsync();
             }
             Hero hero = null;
@@ -58,10 +63,14 @@ namespace Boilerplate.Api.UnitTests
         [InlineData("e141a755-98d4-44d3-a84f-528e6e75f543")]
         public async Task GetById_inexistent_heroes(Guid id)
         {
+            var heroFaker = new Faker<Hero>()
+                .RuleFor(x => x.Id, f => id)
+                .RuleFor(x => x.Name, f => f.Name.FirstName())
+                .RuleFor(x => x.HeroType, f => f.PickRandom<HeroType>());
             // Arrange
             using (var context = CreateDbContext("GetById_inexisting_heroes"))
             {
-                context.Set<Hero>().Add(new Hero { Id = id });
+                context.Set<Hero>().Add(heroFaker.Generate());
                 await context.SaveChangesAsync();
             }
             Hero hero = null;
@@ -82,10 +91,14 @@ namespace Boilerplate.Api.UnitTests
         [InlineData(5)]
         public async Task GetAll_heroes(int count)
         {
+            var heroFaker = new Faker<Hero>()
+                .RuleFor(x => x.Id, f => Guid.NewGuid())
+                .RuleFor(x => x.Name, f => f.Name.FirstName())
+                .RuleFor(x => x.HeroType, f => f.PickRandom<HeroType>());
             // Arrange
             using (var context = CreateDbContext($"GetAll_with_heroes_{count}"))
             {
-                for (var i = 0; i < count; i++) context.Set<Hero>().Add(new Hero());
+                for (var i = 0; i < count; i++) context.Set<Hero>().Add(heroFaker.Generate());
                 await context.SaveChangesAsync();
             }
             List<Hero> heroes = null;

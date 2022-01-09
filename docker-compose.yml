@@ -11,7 +11,9 @@ services:
     image: mcr.microsoft.com/mssql/server:2017-latest
     container_name: mssql
     networks:
-      - localdev  
+      - localdev
+    volumes:
+      - sqlvolume:/var/opt/mssql      
   boilerplate-api:
     entrypoint: ["./wait-for.sh", "mssql:1433", "-t", "120", "--", "dotnet", "Boilerplate.Api.dll"]
     build:
@@ -25,3 +27,6 @@ services:
       - localdev
     volumes:
       - ./etc/wait-for.sh:/app/wait-for.sh
+
+volumes:
+  sqlvolume:
