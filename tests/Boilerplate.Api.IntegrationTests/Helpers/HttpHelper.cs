@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using Boilerplate.Application.DTOs.User;
 using Newtonsoft.Json;
 

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using Boilerplate.Api.IntegrationTests.Helpers;
 using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Hero;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
 
 namespace Boilerplate.Api.IntegrationTests;
 

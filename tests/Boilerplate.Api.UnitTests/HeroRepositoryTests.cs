@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Bogus;
 using Boilerplate.Domain.Entities;
 using Boilerplate.Domain.Entities.Enums;
 using Boilerplate.Infrastructure.Context;
 using Boilerplate.Infrastructure.Repositories;
-using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 
 namespace Boilerplate.Api.UnitTests;
 

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using Boilerplate.Api.IntegrationTests.Helpers;
 using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Auth;
 using Boilerplate.Application.DTOs.User;
 using FluentAssertions;
 using Newtonsoft.Json;
-using Xunit;
 
 namespace Boilerplate.Api.IntegrationTests;
 
