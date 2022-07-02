@@ -16,104 +16,103 @@ using Microsoft.IdentityModel.Tokens;
 using Boilerplate.Application.Auth;
 using Boilerplate.Domain.Auth.Interfaces;
 
-namespace Boilerplate.Api
+namespace Boilerplate.Api;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration, IWebHostEnvironment environment)
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        Configuration = configuration;
+        Environment = environment;
+    }
+
+    public IConfiguration Configuration { get; }
+    public IWebHostEnvironment Environment { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        //Extension method for less clutter in startup
+        services.AddApplicationDbContext(Configuration);
+
+        //DI Services and Repos
+        services.AddScoped<IHeroRepository, HeroRepository>();
+        services.AddScoped<IHeroService, HeroService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ISession, Session>();
+
+        // WebApi Configuration
+        services.AddControllers().AddJsonOptions(options =>
         {
-            Configuration = configuration;
-            Environment = environment;
-        }
+            options.JsonSerializerOptions.IgnoreNullValues = true;
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
+        });
 
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            //Extension method for less clutter in startup
-            services.AddApplicationDbContext(Configuration);
+        var tokenConfig = Configuration.GetSection("TokenConfiguration");
+        services.Configure<TokenConfiguration>(tokenConfig);
 
-            //DI Services and Repos
-            services.AddScoped<IHeroRepository, HeroRepository>();
-            services.AddScoped<IHeroService, HeroService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ISession, Session>();
-
-            // WebApi Configuration
-            services.AddControllers().AddJsonOptions(options =>
+        // configure jwt authentication
+        var appSettings = tokenConfig.Get<TokenConfiguration>();
+        var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+        services.AddAuthentication(x =>
             {
-                options.JsonSerializerOptions.IgnoreNullValues = true;
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = Environment.IsProduction();
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = appSettings.Issuer,
+                    ValidAudience = appSettings.Audience
+                };
             });
 
 
-            var tokenConfig = Configuration.GetSection("TokenConfiguration");
-            services.Configure<TokenConfiguration>(tokenConfig);
+        // AutoMapper settings
+        services.AddAutoMapperSetup();
 
-            // configure jwt authentication
-            var appSettings = tokenConfig.Get<TokenConfiguration>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-                {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = Environment.IsProduction();
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidIssuer = appSettings.Issuer,
-                        ValidAudience = appSettings.Audience
-                    };
-                });
+        // HttpContext for log enrichment 
+        services.AddHttpContextAccessor();
 
+        // Swagger settings
+        services.AddApiDoc();
+        // GZip compression
+        services.AddCompression();
 
-            // AutoMapper settings
-            services.AddAutoMapperSetup();
+    }
 
-            // HttpContext for log enrichment 
-            services.AddHttpContextAccessor();
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+        app.UseCustomSerilogRequestLogging();
+        app.UseRouting();
+        app.UseApiDoc();
 
-            // Swagger settings
-            services.AddApiDoc();
-            // GZip compression
-            services.AddCompression();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseEndpoints(endpoints =>
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-            app.UseCustomSerilogRequestLogging();
-            app.UseRouting();
-            app.UseApiDoc();
+            endpoints.MapControllers();
+        });
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            //added request logging
+        //added request logging
 
 
-            app.UseHttpsRedirection();
+        app.UseHttpsRedirection();
 
 
-            app.UseResponseCompression();
-        }
+        app.UseResponseCompression();
     }
 }

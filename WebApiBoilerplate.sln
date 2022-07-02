@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Domain.Core", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Infrastructure", "src\Boilerplate.Infrastructure\Boilerplate.Infrastructure.csproj", "{8ADAF360-AFE1-46E0-BFB9-A8EC87133CB0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Services", "1 - Services", "{C7816907-144D-4EB4-B645-3E7E03BD4835}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Api", "1 - Api", "{C7816907-144D-4EB4-B645-3E7E03BD4835}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{6965B827-25B1-4990-9654-6061FD7F1DC0}"
 EndProject

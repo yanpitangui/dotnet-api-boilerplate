@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Boilerplate.Application.DTOs.Auth
+namespace Boilerplate.Application.DTOs.Auth;
+
+public class JwtDto
 {
-    public class JwtDto
-    {
-        public string Token { get; set; }
-        public DateTime ExpDate { get; set; }
-    }
+    public string Token { get; set; }
+    public DateTime ExpDate { get; set; }
 }

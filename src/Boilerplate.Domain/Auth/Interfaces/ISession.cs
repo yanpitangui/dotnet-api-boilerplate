@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Boilerplate.Domain.Auth.Interfaces
-{
-    public interface ISession
-    {
-        public Guid UserId { get; }
+namespace Boilerplate.Domain.Auth.Interfaces;
 
-        public DateTime Now { get; }
-    }
+public interface ISession
+{
+    public Guid UserId { get; }
+
+    public DateTime Now { get; }
 }

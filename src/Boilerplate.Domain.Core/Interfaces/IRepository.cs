@@ -2,20 +2,19 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boilerplate.Domain.Core.Interfaces
+namespace Boilerplate.Domain.Core.Interfaces;
+
+public interface IRepository<TEntity> : IDisposable where TEntity : class
 {
-    public interface IRepository<TEntity> : IDisposable where TEntity : class
-    {
-        IQueryable<TEntity> GetAll();
+    IQueryable<TEntity> GetAll();
 
-        Task<TEntity> GetById(Guid id);
+    Task<TEntity> GetById(Guid id);
 
-        TEntity Create(TEntity entity);
+    TEntity Create(TEntity entity);
 
-        TEntity Update(TEntity entity);
+    TEntity Update(TEntity entity);
 
-        Task Delete(Guid id);
+    Task Delete(Guid id);
 
-        Task<int> SaveChangesAsync();
-    }
+    Task<int> SaveChangesAsync();
 }

@@ -3,25 +3,24 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Boilerplate.Api.Extensions
+namespace Boilerplate.Api.Extensions;
+
+public static class CompressionExtension
 {
-    public static class CompressionExtension
+    public static IServiceCollection AddCompression(this IServiceCollection services)
     {
-        public static IServiceCollection AddCompression(this IServiceCollection services)
-        {
-            services.Configure<GzipCompressionProviderOptions>(
+        services.Configure<GzipCompressionProviderOptions>(
             options =>
             {
                 options.Level = CompressionLevel.Optimal;
             });
 
-            services.AddResponseCompression(options =>
-            {
-                options.Providers.Add<GzipCompressionProvider>();
-                options.EnableForHttps = true;
-            });
+        services.AddResponseCompression(options =>
+        {
+            options.Providers.Add<GzipCompressionProvider>();
+            options.EnableForHttps = true;
+        });
 
-            return services;
-        }
+        return services;
     }
 }

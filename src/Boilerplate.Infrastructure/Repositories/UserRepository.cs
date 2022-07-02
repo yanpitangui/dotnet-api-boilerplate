@@ -2,12 +2,11 @@
 using Boilerplate.Domain.Repositories;
 using Boilerplate.Infrastructure.Context;
 
-namespace Boilerplate.Infrastructure.Repositories
+namespace Boilerplate.Infrastructure.Repositories;
+
+public class UserRepository : Repository<User>, IUserRepository
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
-        public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

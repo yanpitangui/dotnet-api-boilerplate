@@ -2,11 +2,9 @@
 using Boilerplate.Domain.Repositories;
 using Boilerplate.Infrastructure.Context;
 
-namespace Boilerplate.Infrastructure.Repositories
-{
-    public class HeroRepository : Repository<Hero>, IHeroRepository
-    {
-        public HeroRepository(ApplicationDbContext dbContext) : base(dbContext) { }
-    }
-}
+namespace Boilerplate.Infrastructure.Repositories;
 
+public class HeroRepository : Repository<Hero>, IHeroRepository
+{
+    public HeroRepository(ApplicationDbContext dbContext) : base(dbContext) { }
+}

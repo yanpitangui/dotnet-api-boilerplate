@@ -1,10 +1,9 @@
 ﻿using Boilerplate.Application.DTOs.Auth;
 using Boilerplate.Domain.Entities;
 
-namespace Boilerplate.Application.Interfaces
+namespace Boilerplate.Application.Interfaces;
+
+public interface IAuthService
 {
-    public interface IAuthService
-    {
-        JwtDto GenerateToken(User user);
-    }
+    JwtDto GenerateToken(User user);
 }

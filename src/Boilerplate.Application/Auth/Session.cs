@@ -3,25 +3,24 @@ using System;
 using System.Security.Claims;
 using ISession = Boilerplate.Domain.Auth.Interfaces.ISession;
 
-namespace Boilerplate.Application.Auth
+namespace Boilerplate.Application.Auth;
+
+public class Session : ISession
 {
-    public class Session : ISession
+    public Guid UserId { get; private set; }
+
+    public DateTime Now => DateTime.Now;
+
+    public Session(IHttpContextAccessor httpContextAccessor)
     {
-        public Guid UserId { get; private set; }
+        var user = httpContextAccessor.HttpContext?.User;
 
-        public DateTime Now => DateTime.Now;
+        var nameIdentifier = user?.FindFirst(ClaimTypes.NameIdentifier);
 
-        public Session(IHttpContextAccessor httpContextAccessor)
+        if(nameIdentifier != null)
         {
-            var user = httpContextAccessor.HttpContext?.User;
-
-            var nameIdentifier = user?.FindFirst(ClaimTypes.NameIdentifier);
-
-            if(nameIdentifier != null)
-            {
-                UserId = new Guid(nameIdentifier.Value);
-            }
+            UserId = new Guid(nameIdentifier.Value);
         }
-
     }
+
 }

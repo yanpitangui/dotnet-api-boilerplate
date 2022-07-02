@@ -4,32 +4,31 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Boilerplate.Api.IntegrationTests
+namespace Boilerplate.Api.IntegrationTests;
+
+public class WebApplicationFactoryFixture : IDisposable
 {
-    public class WebApplicationFactoryFixture : IDisposable
+    public readonly WebApplicationFactory<Startup> Factory;
+
+    public WebApplicationFactoryFixture()
     {
-        public readonly WebApplicationFactory<Startup> Factory;
+        Factory = new WebApplicationFactory<Startup>().BuildApplicationFactory();
+    }
 
-        public WebApplicationFactoryFixture()
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            Factory = new WebApplicationFactory<Startup>().BuildApplicationFactory();
+            using var _scope = (Factory.Services.GetRequiredService<IServiceScopeFactory>()).CreateScope();
+            using var _context = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            _context?.Database.EnsureDeleted();
+            Factory.Dispose();
         }
+    }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                using var _scope = (Factory.Services.GetRequiredService<IServiceScopeFactory>()).CreateScope();
-                using var _context = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                _context?.Database.EnsureDeleted();
-                Factory.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }
