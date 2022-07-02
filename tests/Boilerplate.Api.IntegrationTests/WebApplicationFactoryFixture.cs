@@ -8,11 +8,11 @@ namespace Boilerplate.Api.IntegrationTests;
 
 public class WebApplicationFactoryFixture : IDisposable
 {
-    public readonly WebApplicationFactory<Startup> Factory;
+    public readonly WebApplicationFactory<IAssemblyMarker> Factory;
 
     public WebApplicationFactoryFixture()
     {
-        Factory = new WebApplicationFactory<Startup>().BuildApplicationFactory();
+        Factory = new WebApplicationFactory<IAssemblyMarker>().BuildApplicationFactory();
     }
 
     protected virtual void Dispose(bool disposing)

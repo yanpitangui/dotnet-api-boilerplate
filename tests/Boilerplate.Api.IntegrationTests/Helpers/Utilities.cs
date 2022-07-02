@@ -62,7 +62,7 @@ public static class Utilities
         };
     }
 
-    public static WebApplicationFactory<Startup> BuildApplicationFactory(this WebApplicationFactory<Startup> factory)
+    public static WebApplicationFactory<IAssemblyMarker> BuildApplicationFactory(this WebApplicationFactory<IAssemblyMarker> factory)
     {
         var connectionString = $"Data Source={Guid.NewGuid()}.db";
         return factory.WithWebHostBuilder(builder =>
@@ -93,7 +93,7 @@ public static class Utilities
     }
 
 
-    public static WebApplicationFactory<Startup> RebuildDb(this WebApplicationFactory<Startup> factory)
+    public static WebApplicationFactory<IAssemblyMarker> RebuildDb(this WebApplicationFactory<IAssemblyMarker> factory)
     {
         return factory.WithWebHostBuilder(builder =>
         {

@@ -4,7 +4,7 @@ namespace Boilerplate.Api.IntegrationTests;
 
 public abstract class IntegrationTest: IClassFixture<WebApplicationFactoryFixture>
 {
-    protected readonly WebApplicationFactory<Startup> Factory;
+    protected readonly WebApplicationFactory<IAssemblyMarker> Factory;
 
     protected IntegrationTest(WebApplicationFactoryFixture fixture)
     {

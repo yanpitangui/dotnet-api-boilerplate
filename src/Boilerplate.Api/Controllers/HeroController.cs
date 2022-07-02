@@ -4,12 +4,14 @@ using Boilerplate.Application.DTOs;
 using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.Filters;
 using Boilerplate.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Boilerplate.Api.Controllers;
 
 [ApiController]
+[AllowAnonymous]
 [Route("api/[controller]")]
 public class HeroController : ControllerBase
 {

@@ -1,18 +1,17 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
+using System.IO;
+using System.Reflection;
 
-namespace Boilerplate.Api.Extensions;
+namespace Boilerplate.Api.Configurations;
 
-public static class SwaggerExtension
+public static class SwaggerSetup
 {
-    public static IServiceCollection AddApiDoc(this IServiceCollection services)
+    public static IServiceCollection AddSwaggerSetup(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
         {
@@ -60,7 +59,7 @@ public static class SwaggerExtension
         return services;
     }
 
-    public static IApplicationBuilder UseApiDoc(this IApplicationBuilder app)
+    public static IApplicationBuilder UseSwaggerSetup(this IApplicationBuilder app)
     {
         app.UseSwagger()
             .UseSwaggerUI(c =>
@@ -68,6 +67,7 @@ public static class SwaggerExtension
                 c.RoutePrefix = "api-docs";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.DocExpansion(DocExpansion.List);
+                c.DisplayRequestDuration();
             });
         return app;
     }

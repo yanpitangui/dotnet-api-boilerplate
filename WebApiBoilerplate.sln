@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Appl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{8FB31CA6-BF37-45DA-B09C-24DE15037E0C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{0EBA756A-3E01-49F4-A192-C8B805685C21}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Persistence", "4 - Persistence", "{0EBA756A-3E01-49F4-A192-C8B805685C21}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Api.UnitTests", "tests\Boilerplate.Api.UnitTests\Boilerplate.Api.UnitTests.csproj", "{B5DE98B8-8DC7-4A0E-B396-654DF67E3BFF}"
 EndProject
