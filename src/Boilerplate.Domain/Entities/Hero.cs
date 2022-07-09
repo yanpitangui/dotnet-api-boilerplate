@@ -7,14 +7,13 @@ namespace Boilerplate.Domain.Entities;
 public class Hero : Entity
 {
     [Required]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    public string Nickname { get; set; }
-    public string Individuality { get; set; }
+    public string? Nickname { get; set; }
+    public string? Individuality { get; set; } = null!;
     public int? Age { get; set; }
 
-    [Required]
-    public HeroType? HeroType { get; set; }
+    public HeroType HeroType { get; set; }
 
-    public string Team { get; set; }
+    public string? Team { get; set; }
 }

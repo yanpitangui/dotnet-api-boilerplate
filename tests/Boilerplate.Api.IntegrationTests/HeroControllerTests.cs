@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net;
 using Boilerplate.Api.IntegrationTests.Helpers;
-using Boilerplate.Application.DTOs;
-using Boilerplate.Application.DTOs.Hero;
+using Boilerplate.Application.Common.Responses;
+using Boilerplate.Application.Features.Heroes;
+using Boilerplate.Application.Features.Heroes.CreateHero;
+using Boilerplate.Application.Features.Heroes.UpdateHero;
+using Boilerplate.Domain.Entities.Enums;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Boilerplate.Api.IntegrationTests;
 
@@ -26,7 +28,7 @@ public class HeroControllerTests : IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetHeroResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(3);
@@ -46,7 +48,7 @@ public class HeroControllerTests : IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetHeroResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(1);
@@ -66,7 +68,7 @@ public class HeroControllerTests : IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetHeroResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(3);
@@ -86,7 +88,7 @@ public class HeroControllerTests : IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetHeroResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(3);
@@ -106,7 +108,7 @@ public class HeroControllerTests : IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetHeroResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(1);
@@ -127,7 +129,7 @@ public class HeroControllerTests : IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetHeroDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetHeroResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().BeEmpty();
         json.CurrentPage.Should().Be(1);
@@ -146,7 +148,7 @@ public class HeroControllerTests : IntegrationTest
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<GetHeroDto>();
+        var json = await response.DeserializeContent<GetHeroResponse>();
         json.Should().NotBeNull();
         json.Id.Should().NotBeEmpty();
         json.Name.Should().NotBeNull();
@@ -177,16 +179,18 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new CreateHeroRequest()
         {
             Name = "Name hero success",
-            HeroType = 1
+            HeroType = HeroType.Student,
+            Individuality = "all for one"
+            
         };
         var response = await client.PostAsync("/api/Hero", newHero.GetStringContent());
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        var json = await response.DeserializeContent<GetHeroDto>();
+        var json = await response.DeserializeContent<GetHeroResponse>();
         json.Should().NotBeNull();
         json.Id.Should().NotBeEmpty();
         json.Name.Should().NotBeNull();
@@ -200,9 +204,10 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new CreateHeroRequest()
         {
-            Individuality = "Individuality hero badrequest"
+            Individuality = "Individuality hero badrequest",
+            
         };
         var response = await client.PostAsync("/api/Hero", newHero.GetStringContent());
 
@@ -217,7 +222,7 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new CreateHeroRequest()
         {
             Name = "Name hero badrequest"
         };
@@ -234,7 +239,7 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new CreateHeroRequest()
         {
         };
         var response = await client.PostAsync("/api/Hero", newHero.GetStringContent());
@@ -255,10 +260,12 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new UpdateHeroRequest()
         {
             Name = "Name hero success",
-            HeroType = 1
+            HeroType = HeroType.Villain,
+            Individuality = "Invisibility"
+            
         };
         var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero.GetStringContent());
 
@@ -274,9 +281,9 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new UpdateHeroRequest()
         {
-            HeroType = 1
+            HeroType = HeroType.Student
         };
         var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero.GetStringContent());
 
@@ -291,7 +298,7 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new UpdateHeroRequest()
         {
             Name = "Name hero badrequest"
         };
@@ -308,7 +315,7 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new UpdateHeroRequest()
         {
         };
         var response = await client.PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero.GetStringContent());
@@ -324,10 +331,11 @@ public class HeroControllerTests : IntegrationTest
         var client = Factory.RebuildDb().CreateClient();
 
         // Act
-        var newHero = new
+        var newHero = new UpdateHeroRequest()
         {
             Name = "Name hero not found",
-            HeroType = 1
+            HeroType = HeroType.Teacher,
+            Individuality = "one for all"
         };
         var response = await client.PutAsync("/api/Hero/1d2c03e0-cc51-4f22-b1be-cdee04b1f896", newHero.GetStringContent());
 

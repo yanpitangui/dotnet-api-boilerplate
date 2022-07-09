@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
-namespace Boilerplate.Application.DTOs;
+namespace Boilerplate.Application.Common.Responses;
 
-public class PaginatedList<T>
+public record PaginatedList<T>
 {
-    public int CurrentPage { get; set; }
-    public int TotalPages { get; set; }
-    public int TotalItems { get; set; }
+    public int CurrentPage { get; init; }
+    public int TotalPages { get; init; }
+    public int TotalItems { get; init; }
 
-    public List<T> Result { get; set; } = new List<T>();
+    public List<T> Result { get; init; } = new List<T>();
 
     public PaginatedList(List<T> items, int count, int currentPage, int pageSize)
     {

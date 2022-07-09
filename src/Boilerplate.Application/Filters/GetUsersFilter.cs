@@ -1,7 +1,9 @@
-﻿namespace Boilerplate.Application.Filters;
+﻿using Boilerplate.Application.Common.Requests;
 
-public class GetUsersFilter : PaginationInfoFilter
+namespace Boilerplate.Application.Filters;
+
+public record GetUsersFilter : PaginatedRequest
 {
-    public string Email { get; set; }
-    public bool IsAdmin { get; set; }
+    public string? Email { get; init; }
+    public bool IsAdmin { get; init; }
 }

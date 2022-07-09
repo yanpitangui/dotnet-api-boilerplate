@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Net;
 using Boilerplate.Api.IntegrationTests.Helpers;
+using Boilerplate.Application.Common;
+using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.DTOs;
-using Boilerplate.Application.DTOs.Auth;
 using Boilerplate.Application.DTOs.User;
+using Boilerplate.Application.Features.Users;
+using Boilerplate.Application.Features.Users.CreateUser;
 using FluentAssertions;
 using Newtonsoft.Json;
 
@@ -40,8 +43,8 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         var response = await client.GetAsync("/api/User");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetUserDto>>();
+        response.StatusCode.Should().Be(HttpStatusCode.OK, await response.Content.ReadAsStringAsync());
+        var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(2);
@@ -63,7 +66,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetUserDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(1);
@@ -85,7 +88,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetUserDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(2);
@@ -107,7 +110,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetUserDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(2);
@@ -129,7 +132,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetUserDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(1);
@@ -152,7 +155,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<PaginatedList<GetUserDto>>();
+        var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
         json.Result.Should().BeEmpty();
         json.CurrentPage.Should().Be(1);
@@ -173,7 +176,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<GetUserDto>();
+        var json = await response.DeserializeContent<GetUserResponse>();
         json.Should().NotBeNull();
         json.Id.Should().NotBeEmpty();
     }
@@ -212,7 +215,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         var response = await client.PostAsync("/api/User/authenticate", loginData.GetStringContent());
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<JwtDto>();
+        var json = await response.DeserializeContent<Jwt>();
         json.Should().NotBeNull();
         json.ExpDate.Should().NotBe(DateTime.MinValue);
         json.Token.Should().NotBeNullOrWhiteSpace();
@@ -235,7 +238,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         var response = await client.PostAsync("/api/User/authenticate", loginData.GetStringContent());
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var json = await response.DeserializeContent<JwtDto>();
+        var json = await response.DeserializeContent<Jwt>();
         json.Should().NotBeNull();
         json.ExpDate.Should().NotBe(DateTime.MinValue);
         json.Token.Should().NotBeNullOrWhiteSpace();
@@ -268,7 +271,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
         client.UpdateBearerToken(AdminToken);
-        var userFaker = new Bogus.Faker<CreateUserDto>();
+        var userFaker = new Bogus.Faker<CreateUserRequest>();
 
         // Act
         var newUser = userFaker
@@ -280,7 +283,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        var json = JsonConvert.DeserializeObject<GetUserDto>(await response.Content.ReadAsStringAsync());
+        var json = JsonConvert.DeserializeObject<GetUserResponse>(await response.Content.ReadAsStringAsync());
         json.Should().NotBeNull();
         json.Id.Should().NotBeEmpty();
     }
@@ -309,7 +312,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
         client.UpdateBearerToken(AdminToken);
-        var userFaker = new Bogus.Faker<CreateUserDto>();
+        var userFaker = new Bogus.Faker<CreateUserRequest>();
 
         // Act
         var newUser = userFaker
@@ -351,7 +354,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         var client = Factory.RebuildDb().CreateClient();
         client.UpdateBearerToken(AdminToken);
 
-        var userFaker = new Bogus.Faker<CreateUserDto>();
+        var userFaker = new Bogus.Faker<CreateUserRequest>();
 
         var newUser = userFaker
             .RuleFor(x => x.Email, f => f.Internet.Email())
@@ -360,10 +363,10 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
             .Generate();
         var response = await client.PostAsync("/api/User", newUser.GetStringContent());
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        var userInfo = await response.DeserializeContent<GetUserDto>();
+        var userInfo = await response.DeserializeContent<GetUserResponse>();
 
         response = await client.PostAsync("/api/User/authenticate", newUser.GetStringContent());
-        var newUserToken = await response.DeserializeContent<JwtDto>();
+        var newUserToken = await response.DeserializeContent<Jwt>();
         client.UpdateBearerToken(newUserToken.Token);
 
         // Act

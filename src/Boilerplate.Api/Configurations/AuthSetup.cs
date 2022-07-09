@@ -1,4 +1,4 @@
-﻿using Boilerplate.Application.DTOs;
+﻿using Boilerplate.Application.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

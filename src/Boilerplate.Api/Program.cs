@@ -1,3 +1,4 @@
+using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.Services
-    .AddControllers();
+    .AddControllers(options =>
+    {
+        options.AllowEmptyInputInBodyModelBinding = true;
+        options.Filters.Add<ValidationErrorResultFilter>();
+    })
+    .AddValidationSetup();
 
 // Authn / Authrz
 builder.Services.AddAuthSetup(builder.Configuration);
@@ -28,8 +34,11 @@ builder.Services.AddCompressionSetup();
 // HttpContextAcessor
 builder.Services.AddHttpContextAccessor();
 
+// Mediator
+builder.Services.AddMediatRSetup();
+
 // Middleware
-builder.Services.AddScoped<Boilerplate.Api.Common.ExceptionHandlerMiddleware>();
+builder.Services.AddScoped<ExceptionHandlerMiddleware>();
 
 builder.Logging.ClearProviders();
 
@@ -49,7 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-app.UseMiddleware(typeof(Boilerplate.Api.Common.ExceptionHandlerMiddleware));
+app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
 
 app.UseSwaggerSetup();
 

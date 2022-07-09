@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
-using Boilerplate.Application.DTOs.Hero;
 using Boilerplate.Application.DTOs.User;
+using Boilerplate.Application.Features.Heroes;
+using Boilerplate.Application.Features.Heroes.CreateHero;
+using Boilerplate.Application.Features.Heroes.UpdateHero;
+using Boilerplate.Application.Features.Users;
+using Boilerplate.Application.Features.Users.CreateUser;
 using Boilerplate.Domain.Auth;
 using Boilerplate.Domain.Entities;
 
@@ -11,13 +15,13 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         // Hero Map
-        CreateMap<Hero, GetHeroDto>().ReverseMap();
-        CreateMap<CreateHeroDto, Hero>();
-        CreateMap<UpdateHeroDto, Hero>();
+        CreateMap<Hero, GetHeroResponse>().ReverseMap();
+        CreateMap<CreateHeroRequest, Hero>();
+        CreateMap<UpdateHeroRequest, Hero>();
 
         // User Map
-        CreateMap<User, GetUserDto>().ForMember(dest => dest.IsAdmin, opt => opt.MapFrom(x => x.Role == Roles.Admin)).ReverseMap();
-        CreateMap<CreateUserDto, User>().ForMember(dest => dest.Role,
+        CreateMap<User, GetUserResponse>().ForMember(dest => dest.IsAdmin, opt => opt.MapFrom(x => x.Role == Roles.Admin)).ReverseMap();
+        CreateMap<CreateUserRequest, User>().ForMember(dest => dest.Role,
             opt => opt.MapFrom(org => org.IsAdmin ? Roles.Admin : Roles.User));
         CreateMap<UpdatePasswordDto, User>();
     }

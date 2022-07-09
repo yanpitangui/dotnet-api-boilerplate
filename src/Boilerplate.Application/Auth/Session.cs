@@ -7,7 +7,7 @@ namespace Boilerplate.Application.Auth;
 
 public class Session : ISession
 {
-    public Guid UserId { get; private set; }
+    public Guid UserId { get; private init; }
 
     public DateTime Now => DateTime.Now;
 

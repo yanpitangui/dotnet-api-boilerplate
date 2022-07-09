@@ -13,10 +13,8 @@ public static class ApplicationSetup
     {
         
         services.AddScoped<IHeroRepository, HeroRepository>();
-        services.AddScoped<IHeroService, HeroService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IAuthService, AuthService>();
         services.AddAutoMapper(typeof(MappingProfile));
 
         return services;
