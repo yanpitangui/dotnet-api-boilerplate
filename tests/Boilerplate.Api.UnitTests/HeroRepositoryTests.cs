@@ -29,7 +29,7 @@ public class HeroRepositoryTests
     public async Task GetById_existing_heroes(Guid id)
     {
         var heroFaker = new Faker<Hero>()
-            .RuleFor(x => x.Id, f => id)
+            .RuleFor(x => x.Id, _ => id)
             .RuleFor(x => x.Name, f => f.Name.FirstName())
             .RuleFor(x => x.HeroType, f => f.PickRandom<HeroType>());
         // Arrange
@@ -39,17 +39,17 @@ public class HeroRepositoryTests
             context.Set<Hero>().Add(heroFaker.Generate());
             await context.SaveChangesAsync();
         }
-        Hero hero = null;
+        Hero? hero;
 
         // Act
-        using (var context = CreateDbContext("GetById_existing_heroes"))
+        await using (var context = CreateDbContext("GetById_existing_heroes"))
         {
             var repository = new HeroRepository(context);
             hero = await repository.GetById(id);
         }
         // Assert
         hero.Should().NotBeNull();
-        hero.Id.Should().Be(id);
+        hero!.Id.Should().Be(id);
     }
 
     [Theory]
@@ -61,7 +61,7 @@ public class HeroRepositoryTests
     public async Task GetById_inexistent_heroes(Guid id)
     {
         var heroFaker = new Faker<Hero>()
-            .RuleFor(x => x.Id, f => id)
+            .RuleFor(x => x.Id, _ => id)
             .RuleFor(x => x.Name, f => f.Name.FirstName())
             .RuleFor(x => x.HeroType, f => f.PickRandom<HeroType>());
         // Arrange
@@ -70,10 +70,10 @@ public class HeroRepositoryTests
             context.Set<Hero>().Add(heroFaker.Generate());
             await context.SaveChangesAsync();
         }
-        Hero hero = null;
+        Hero? hero = null;
 
         // Act
-        using (var context = CreateDbContext("GetById_inexisting_heroes"))
+        await using (var context = CreateDbContext("GetById_inexisting_heroes"))
         {
             var repository = new HeroRepository(context);
             hero = await repository.GetById(Guid.NewGuid());
@@ -89,7 +89,7 @@ public class HeroRepositoryTests
     public async Task GetAll_heroes(int count)
     {
         var heroFaker = new Faker<Hero>()
-            .RuleFor(x => x.Id, f => Guid.NewGuid())
+            .RuleFor(x => x.Id, _ => Guid.NewGuid())
             .RuleFor(x => x.Name, f => f.Name.FirstName())
             .RuleFor(x => x.HeroType, f => f.PickRandom<HeroType>());
         // Arrange
@@ -98,7 +98,7 @@ public class HeroRepositoryTests
             for (var i = 0; i < count; i++) context.Set<Hero>().Add(heroFaker.Generate());
             await context.SaveChangesAsync();
         }
-        List<Hero> heroes = null;
+        List<Hero>? heroes = null;
         // Act
         using (var context = CreateDbContext($"GetAll_with_heroes_{count}"))
         {
@@ -153,7 +153,7 @@ public class HeroRepositoryTests
         // Arrange
         int result;
         Guid? id;
-        using (var context = CreateDbContext("Update_Hero"))
+        await using (var context = CreateDbContext("Update_Hero"))
         {
             var createdHero = new Hero
             {
@@ -172,10 +172,10 @@ public class HeroRepositoryTests
 
         // Act
 
-        Hero updateHero;
-        using (var context = CreateDbContext("Update_Hero"))
+        Hero? updateHero;
+        await using (var context = CreateDbContext("Update_Hero"))
         {
-            updateHero = await context.Set<Hero>().FirstOrDefaultAsync(x => x.Id == id);
+            updateHero = await context.Set<Hero>().FirstAsync(x => x.Id == id);
             updateHero.Age = 15;
             updateHero.Individuality = "Blackwhip";
             updateHero.Team = null;
@@ -189,7 +189,7 @@ public class HeroRepositoryTests
         result.Should().BeGreaterThan(0);
         result.Should().Be(1);
         // Simulate access from another context to verifiy that correct data was saved to database
-        using (var context = CreateDbContext("Update_Hero"))
+        await using (var context = CreateDbContext("Update_Hero"))
         {
             (await context.Heroes.FirstAsync(x => x.Id == updateHero.Id)).Should().BeEquivalentTo(updateHero);
         }
@@ -243,7 +243,7 @@ public class HeroRepositoryTests
     {
         var exception = Assert.Throws<ArgumentNullException>(() =>
         {
-            new HeroRepository(null);
+            new HeroRepository(null!);
         });
         exception.Should().NotBeNull();
         exception.ParamName.Should().Be("dbContext");

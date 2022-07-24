@@ -18,13 +18,13 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        AdminToken ??= await GetAdminToken();
-        UserToken ??= await GetUserToken();
+        _adminToken ??= await GetAdminToken();
+        _userToken ??= await GetUserToken();
     }
 
-    public static string AdminToken { get; private set; }
+    private static string? _adminToken;
 
-    public static string UserToken { get; private set; }
+    private static string? _userToken;
 
     #region GET
 
@@ -33,7 +33,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -43,7 +43,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK, await response.Content.ReadAsStringAsync());
         var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
-        json.Result.Should().OnlyHaveUniqueItems();
+        json!.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(2);
         json.CurrentPage.Should().Be(1);
         json.TotalItems.Should().Be(2);
@@ -55,7 +55,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -65,7 +65,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
-        json.Result.Should().OnlyHaveUniqueItems();
+        json!.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(1);
         json.CurrentPage.Should().Be(1);
         json.TotalItems.Should().Be(2);
@@ -77,7 +77,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -87,7 +87,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
-        json.Result.Should().OnlyHaveUniqueItems();
+        json!.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(2);
         json.CurrentPage.Should().Be(1);
         json.TotalItems.Should().Be(2);
@@ -99,7 +99,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -109,7 +109,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
-        json.Result.Should().OnlyHaveUniqueItems();
+        json!.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(2);
         json.CurrentPage.Should().Be(1);
         json.TotalItems.Should().Be(2);
@@ -121,7 +121,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -131,7 +131,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
-        json.Result.Should().OnlyHaveUniqueItems();
+        json!.Result.Should().OnlyHaveUniqueItems();
         json.Result.Should().HaveCount(1);
         json.CurrentPage.Should().Be(1);
         json.TotalItems.Should().Be(1);
@@ -144,7 +144,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -154,7 +154,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<PaginatedList<GetUserResponse>>();
         json.Should().NotBeNull();
-        json.Result.Should().BeEmpty();
+        json!.Result.Should().BeEmpty();
         json.CurrentPage.Should().Be(1);
         json.TotalItems.Should().Be(0);
         json.TotalPages.Should().Be(0);
@@ -165,7 +165,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -175,7 +175,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<GetUserResponse>();
         json.Should().NotBeNull();
-        json.Id.Should().NotBeEmpty();
+        json!.Id.Should().NotBeEmpty();
     }
 
     [Fact]
@@ -183,7 +183,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
 
         // Act
@@ -214,7 +214,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<Jwt>();
         json.Should().NotBeNull();
-        json.ExpDate.Should().NotBe(DateTime.MinValue);
+        json!.ExpDate.Should().NotBe(DateTime.MinValue);
         json.Token.Should().NotBeNullOrWhiteSpace();
 
         return json.Token;
@@ -237,7 +237,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<Jwt>();
         json.Should().NotBeNull();
-        json.ExpDate.Should().NotBe(DateTime.MinValue);
+        json!.ExpDate.Should().NotBe(DateTime.MinValue);
         json.Token.Should().NotBeNullOrWhiteSpace();
 
         return json.Token;
@@ -267,14 +267,14 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
         var userFaker = new Bogus.Faker<CreateUserRequest>();
 
         // Act
         var newUser = userFaker
             .RuleFor(x => x.Email, f => f.Internet.Email())
             .RuleFor(x => x.Password, f=> f.Internet.Password())
-            .RuleFor(x => x.IsAdmin, f => true)
+            .RuleFor(x => x.IsAdmin, _ => true)
             .Generate();
         var response = await client.PostAsync("/api/User", newUser.GetStringContent());
 
@@ -282,7 +282,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var json = JsonConvert.DeserializeObject<GetUserResponse>(await response.Content.ReadAsStringAsync());
         json.Should().NotBeNull();
-        json.Id.Should().NotBeEmpty();
+        json!.Id.Should().NotBeEmpty();
     }
 
     [Fact]
@@ -290,7 +290,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
         // Act
         var newUser = new
@@ -308,14 +308,14 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
         var userFaker = new Bogus.Faker<CreateUserRequest>();
 
         // Act
         var newUser = userFaker
             .RuleFor(x => x.Email, f => f.Internet.Email())
-            .RuleFor(x => x.Password, f=> null)
-            .RuleFor(x => x.IsAdmin, f => false)
+            .RuleFor(x => x.Password, _=> null!)
+            .RuleFor(x => x.IsAdmin, _ => false)
             .Generate();
         var response = await client.PostAsync("/api/User", newUser.GetStringContent());
 
@@ -328,7 +328,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
         // Act
         var newUser = new
@@ -349,22 +349,21 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
         var userFaker = new Bogus.Faker<CreateUserRequest>();
 
         var newUser = userFaker
             .RuleFor(x => x.Email, f => f.Internet.Email())
             .RuleFor(x => x.Password, f=> f.Internet.Password())
-            .RuleFor(x => x.IsAdmin, f => true)
+            .RuleFor(x => x.IsAdmin, _ => true)
             .Generate();
         var response = await client.PostAsync("/api/User", newUser.GetStringContent());
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        var userInfo = await response.DeserializeContent<GetUserResponse>();
 
         response = await client.PostAsync("/api/User/authenticate", newUser.GetStringContent());
         var newUserToken = await response.DeserializeContent<Jwt>();
-        client.UpdateBearerToken(newUserToken.Token);
+        client.UpdateBearerToken(newUserToken!.Token);
 
         // Act
         response = await client.PatchAsync($"/api/User/password",
@@ -383,7 +382,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
         var response = await client.DeleteAsync("/api/User/c68acd7b-9054-4dc3-b536-17a1b81fa7a3");
 
@@ -396,7 +395,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(AdminToken);
+        client.UpdateBearerToken(_adminToken);
 
         var response = await client.DeleteAsync($"/api/User/{Guid.NewGuid()}");
 
@@ -409,7 +408,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
     {
         // Arrange
         var client = Factory.RebuildDb().CreateClient();
-        client.UpdateBearerToken(UserToken);
+        client.UpdateBearerToken(_userToken);
 
         var response = await client.DeleteAsync($"/api/User/{Guid.NewGuid()}");
 

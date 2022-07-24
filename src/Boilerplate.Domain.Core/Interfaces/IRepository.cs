@@ -8,7 +8,7 @@ public interface IRepository<TEntity> : IDisposable where TEntity : class
 {
     IQueryable<TEntity> GetAll();
 
-    Task<TEntity> GetById(Guid id);
+    Task<TEntity?> GetById(Guid id);
 
     TEntity Create(TEntity entity);
 

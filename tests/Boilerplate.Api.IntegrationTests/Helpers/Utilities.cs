@@ -25,7 +25,7 @@ public static class Utilities
 
     public static User[] GetSeedingUsers()
     {
-        return new User[]
+        return new[]
         {
             new User()
             {
@@ -69,7 +69,7 @@ public static class Utilities
             builder.UseEnvironment("Testing");
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.SingleOrDefault(
+                var descriptor = services.Single(
                     d => d.ServiceType ==
                          typeof(DbContextOptions<ApplicationDbContext>));
 

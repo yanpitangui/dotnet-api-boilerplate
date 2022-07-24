@@ -10,7 +10,7 @@ namespace Boilerplate.Infrastructure.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
 {
-    public Repository(ApplicationDbContext dbContext)
+    protected Repository(ApplicationDbContext dbContext)
     {
         Db = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         DbSet = Db.Set<TEntity>();
@@ -25,7 +25,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
         return DbSet.AsNoTracking();
     }
 
-    public virtual async Task<TEntity> GetById(Guid id)
+    public virtual async Task<TEntity?> GetById(Guid id)
     {
         return await DbSet
             .AsNoTracking()

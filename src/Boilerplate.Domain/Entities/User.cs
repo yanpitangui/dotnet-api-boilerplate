@@ -1,15 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Boilerplate.Domain.Core.Entities;
+﻿using Boilerplate.Domain.Core.Entities;
 
 namespace Boilerplate.Domain.Entities;
 
 public class User : Entity
 {
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    [Required]
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
 
-    [Required]
-    public string Role { get; set; }
+    public string Role { get; set; } = null!;
 }

@@ -19,9 +19,9 @@ public class WebApplicationFactoryFixture : IDisposable
     {
         if (disposing)
         {
-            using var _scope = (Factory.Services.GetRequiredService<IServiceScopeFactory>()).CreateScope();
-            using var _context = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            _context?.Database.EnsureDeleted();
+            using var scope = (Factory.Services.GetRequiredService<IServiceScopeFactory>()).CreateScope();
+            using var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            context.Database.EnsureDeleted();
             Factory.Dispose();
         }
     }

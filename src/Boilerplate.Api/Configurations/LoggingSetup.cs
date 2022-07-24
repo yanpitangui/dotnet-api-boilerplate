@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -13,7 +12,7 @@ public static class LoggingSetup
 {
     public static IHostBuilder UseLoggingSetup(this IHostBuilder host, IConfiguration configuration)
     {
-        host.UseSerilog((ctx, services, lc) =>
+        host.UseSerilog((_, services, lc) =>
         {
             lc.ConfigureBaseLogging(configuration, services);
         });

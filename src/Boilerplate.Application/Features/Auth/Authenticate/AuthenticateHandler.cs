@@ -41,9 +41,9 @@ public class AuthenticateHandler : IRequestHandler<AuthenticateRequest, Jwt?>
         var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
         var claims = new ClaimsIdentity(new Claim[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role)
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Role, user.Role)
         });
 
         var expDate = DateTime.UtcNow.AddHours(1);

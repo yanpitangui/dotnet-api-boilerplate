@@ -76,7 +76,7 @@ public class UserController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetUserResponse>> GetUserById(Guid id)
+    public async Task<IActionResult> GetUserById(Guid id)
     {
         var user = await _mediator.Send(new GetUserByIdRequest(id));
         if (user is null) return NotFound();

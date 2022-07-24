@@ -7,7 +7,7 @@ namespace Boilerplate.Api.IntegrationTests.Helpers;
 
 public static class HttpHelper
 {
-    public static async Task<T> DeserializeContent<T>(this HttpResponseMessage response)
+    public static async Task<T?> DeserializeContent<T>(this HttpResponseMessage response)
     {
         return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
     }
@@ -17,7 +17,7 @@ public static class HttpHelper
         return new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
     }
 
-    public static void UpdateBearerToken(this HttpClient client, string token)
+    public static void UpdateBearerToken(this HttpClient client, string? token)
     {
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
