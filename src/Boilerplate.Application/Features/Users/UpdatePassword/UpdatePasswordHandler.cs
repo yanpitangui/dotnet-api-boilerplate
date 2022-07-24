@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
-using Boilerplate.Application.DTOs.User;
-using Boilerplate.Application.Features.Users;
 using Boilerplate.Domain.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
-namespace Boilerplate.Application.Features.Auth.UpdatePassword;
+namespace Boilerplate.Application.Features.Users.UpdatePassword;
 
-public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordDto, GetUserResponse?>
+public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordRequest, GetUserResponse?>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
@@ -21,7 +19,7 @@ public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordDto, GetUserR
     }
 
 
-    public async Task<GetUserResponse?> Handle(UpdatePasswordDto request, CancellationToken cancellationToken)
+    public async Task<GetUserResponse?> Handle(UpdatePasswordRequest request, CancellationToken cancellationToken)
     {
         var originalUser = await _userRepository.GetById(request.Id);
         if (originalUser == null) return null;

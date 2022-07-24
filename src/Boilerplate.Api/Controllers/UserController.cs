@@ -1,13 +1,13 @@
 ﻿using Boilerplate.Application.Common.Responses;
 using System;
 using System.Threading.Tasks;
-using Boilerplate.Application.DTOs.User;
 using Boilerplate.Application.Features.Auth.Authenticate;
 using Boilerplate.Application.Features.Users;
 using Boilerplate.Application.Features.Users.CreateUser;
+using Boilerplate.Application.Features.Users.DeleteUser;
 using Boilerplate.Application.Features.Users.GetUserById;
-using Boilerplate.Application.Filters;
-using Boilerplate.Application.Interfaces;
+using Boilerplate.Application.Features.Users.GetUsers;
+using Boilerplate.Application.Features.Users.UpdatePassword;
 using Boilerplate.Domain.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,13 +22,11 @@ namespace Boilerplate.Api.Controllers;
 [Authorize]
 public class UserController : ControllerBase
 {
-    private readonly IUserService _userService;
     private readonly ISession _session;
     private readonly IMediator _mediator;
 
-    public UserController(IUserService userService, ISession session, IMediator mediator)
+    public UserController(ISession session, IMediator mediator)
     {
-        _userService = userService;
         _session = session;
         _mediator = mediator;
     }
@@ -57,14 +55,14 @@ public class UserController : ControllerBase
     /// <summary>
     /// Returns all users in the database
     /// </summary>
-    /// <param name="filter"></param>
+    /// <param name="request"></param>
     /// <returns></returns>
     [ProducesResponseType(typeof(PaginatedList<GetUserResponse>), StatusCodes.Status200OK)]
     [Authorize(Roles = Roles.Admin)]
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<GetUserResponse>>> GetUsers([FromQuery] GetUsersFilter filter)
+    public async Task<ActionResult<PaginatedList<GetUserResponse>>> GetUsers([FromQuery] GetUsersRequest request)
     {
-        return Ok(await _userService.GetAllUsers(filter));
+        return Ok(await _mediator.Send(request));
     }
 
 
@@ -94,11 +92,11 @@ public class UserController : ControllerBase
         return CreatedAtAction(nameof(GetUserById), new { id = newAccount.Id }, newAccount);
     }
 
-    [HttpPatch("updatePassword")]
+    [HttpPatch("password")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto)
+    public async Task<ActionResult> UpdatePassword([FromBody] UpdatePasswordRequest request)
     {            
-        await _mediator.Send(dto with { Id = _session.UserId });
+        await _mediator.Send(request with { Id = _session.UserId });
         return NoContent();
     }
 
@@ -107,7 +105,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var deleted = await _userService.DeleteUser(id);
+        var deleted = await _mediator.Send(new DeleteUserRequest(id));
         if (deleted) return NoContent();
         return NotFound();
     }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Net;
 using Boilerplate.Api.IntegrationTests.Helpers;
-using Boilerplate.Application.Common;
 using Boilerplate.Application.Common.Responses;
-using Boilerplate.Application.DTOs;
-using Boilerplate.Application.DTOs.User;
 using Boilerplate.Application.Features.Users;
 using Boilerplate.Application.Features.Users.CreateUser;
 using FluentAssertions;
@@ -370,7 +367,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         client.UpdateBearerToken(newUserToken.Token);
 
         // Act
-        response = await client.PatchAsync($"/api/User/updatePassword",
+        response = await client.PatchAsync($"/api/User/password",
             new {Password = "mypasswordisverynice"}.GetStringContent());
 
         // Assert

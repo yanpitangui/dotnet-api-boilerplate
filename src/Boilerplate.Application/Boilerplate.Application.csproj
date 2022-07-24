@@ -21,17 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="DTOs\Auth\**" />
-    <Compile Remove="Services\HeroService.cs" />
-    <Compile Remove="Interfaces\IHeroService.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="DTOs\Auth\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="DTOs\Auth\**" />
-  </ItemGroup>
+    <Folder Include="Filters" />
+  </ItemGroup> 
 
 </Project>

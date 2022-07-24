@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using Boilerplate.Application.DTOs.User;
 using Newtonsoft.Json;
 
 namespace Boilerplate.Api.IntegrationTests.Helpers;
