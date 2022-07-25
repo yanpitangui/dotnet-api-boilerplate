@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using Boilerplate.Domain.Entities.Common;
+using MediatR;
 using System;
 
 namespace Boilerplate.Application.Features.Heroes.GetHeroById;
 
-public record GetHeroByIdRequest(Guid Id) : IRequest<GetHeroResponse?>;
+public record GetHeroByIdRequest(HeroId Id) : IRequest<GetHeroResponse?>;

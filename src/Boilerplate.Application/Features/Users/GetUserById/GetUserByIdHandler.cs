@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Boilerplate.Domain.Repositories;
+using Boilerplate.Application.Common;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,17 +9,18 @@ namespace Boilerplate.Application.Features.Users.GetUserById;
 
 public class GetUserByIdHandler : IRequestHandler<GetUserByIdRequest, GetUserResponse?>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IContext _context;
     private readonly IMapper _mapper;
 
-    public GetUserByIdHandler(IMapper mapper, IUserRepository userRepository)
+    public GetUserByIdHandler(IMapper mapper, IContext context)
     {
         _mapper = mapper;
-        _userRepository = userRepository;
+        _context = context;
     }
 
     public async Task<GetUserResponse?> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<GetUserResponse>(await _userRepository.GetById(request.Id));
+        return _mapper.Map<GetUserResponse>(await _context.Users
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken));
     }
 }

@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Boilerplate.Domain.Core.Entities;
+﻿using Boilerplate.Domain.Entities.Common;
 using Boilerplate.Domain.Entities.Enums;
+using MassTransit;
 
 namespace Boilerplate.Domain.Entities;
 
-public class Hero : Entity
+public class Hero : Entity<HeroId>
 {
-    [Required]
+    public override HeroId Id { get; set; } = NewId.NextSequentialGuid();
     public string Name { get; set; } = null!;
 
     public string? Nickname { get; set; }

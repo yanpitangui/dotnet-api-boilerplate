@@ -1,9 +1,11 @@
-﻿using Boilerplate.Domain.Core.Entities;
+﻿using Boilerplate.Domain.Entities.Common;
+using MassTransit;
 
 namespace Boilerplate.Domain.Entities;
 
-public class User : Entity
+public class User : Entity<UserId>
 {
+    public override UserId Id { get; set; } = NewId.NextSequentialGuid();
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;

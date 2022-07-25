@@ -7,6 +7,7 @@ using Boilerplate.Application.Features.Heroes.DeleteHero;
 using Boilerplate.Application.Features.Heroes.GetAllHeroes;
 using Boilerplate.Application.Features.Heroes.GetHeroById;
 using Boilerplate.Application.Features.Heroes.UpdateHero;
+using Boilerplate.Domain.Entities.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ public class HeroController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(GetHeroResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetHeroResponse>> GetHeroById(Guid id)
+    public async Task<ActionResult<GetHeroResponse>> GetHeroById(HeroId id)
     {
         var hero = await _mediator.Send(new GetHeroByIdRequest(id));
         if (hero == null) return NotFound();
@@ -75,7 +76,7 @@ public class HeroController : ControllerBase
     /// <param name="request">The update object</param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<ActionResult<GetHeroResponse>> Update(Guid id, [FromBody] UpdateHeroRequest request)
+    public async Task<ActionResult<GetHeroResponse>> Update(HeroId id, [FromBody] UpdateHeroRequest request)
     {
 
         var updatedHero = await _mediator.Send(request with { Id = id });
@@ -95,7 +96,7 @@ public class HeroController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Route("{id}")]
-    public async Task<ActionResult> Delete(Guid id)
+    public async Task<ActionResult> Delete(HeroId id)
     {
         var deleted = await _mediator.Send(new DeleteHeroRequest(id));
         if (deleted) return NoContent();

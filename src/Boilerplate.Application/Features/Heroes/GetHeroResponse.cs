@@ -1,11 +1,12 @@
-﻿using Boilerplate.Domain.Entities.Enums;
+﻿using Boilerplate.Domain.Entities.Common;
+using Boilerplate.Domain.Entities.Enums;
 using System;
 
 namespace Boilerplate.Application.Features.Heroes;
 
 public record GetHeroResponse
 {
-    public Guid Id { get; init; }
+    public HeroId Id { get; init; }
     public string Name { get; init; } = null!;
     public string? Nickname { get; init; }
 

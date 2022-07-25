@@ -1,5 +1,6 @@
-﻿using Boilerplate.Domain.Repositories;
+﻿using Boilerplate.Application.Common;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,14 +8,15 @@ namespace Boilerplate.Application.Features.Heroes.DeleteHero;
 
 public class DeleteHeroHandler : IRequestHandler<DeleteHeroRequest, bool>
 {
-    private readonly IHeroRepository _heroRepository;
-    public DeleteHeroHandler(IHeroRepository heroRepository)
+    private readonly IContext _context;
+    public DeleteHeroHandler(IContext context)
     {
-        _heroRepository = heroRepository;
+        _context = context;
     }
     public async Task<bool> Handle(DeleteHeroRequest request, CancellationToken cancellationToken)
     {
-        await _heroRepository.Delete(request.Id);
-        return await _heroRepository.SaveChangesAsync() > 0;
+        var hero = await _context.Heroes.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        _context.Heroes.Remove(hero!);
+        return await _context.SaveChangesAsync(cancellationToken) > 0;
     }
 }

@@ -9,6 +9,7 @@ using Boilerplate.Application.Features.Users.GetUserById;
 using Boilerplate.Application.Features.Users.GetUsers;
 using Boilerplate.Application.Features.Users.UpdatePassword;
 using Boilerplate.Domain.Auth;
+using Boilerplate.Domain.Entities.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -76,7 +77,7 @@ public class UserController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetUserById(Guid id)
+    public async Task<IActionResult> GetUserById(UserId id)
     {
         var user = await _mediator.Send(new GetUserByIdRequest(id));
         if (user is null) return NotFound();
@@ -101,9 +102,9 @@ public class UserController : ControllerBase
     }
 
     [Authorize(Roles = Roles.Admin)]
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> DeleteUser(Guid id)
+    public async Task<IActionResult> DeleteUser(UserId id)
     {
         var deleted = await _mediator.Send(new DeleteUserRequest(id));
         if (deleted) return NoContent();

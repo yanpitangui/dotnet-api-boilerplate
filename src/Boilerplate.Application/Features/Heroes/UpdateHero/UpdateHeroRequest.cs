@@ -1,4 +1,5 @@
-﻿using Boilerplate.Domain.Entities.Enums;
+﻿using Boilerplate.Domain.Entities.Common;
+using Boilerplate.Domain.Entities.Enums;
 using MediatR;
 using System;
 using System.Text.Json.Serialization;
@@ -8,7 +9,7 @@ namespace Boilerplate.Application.Features.Heroes.UpdateHero;
 public record UpdateHeroRequest : IRequest<GetHeroResponse?>
 {
     [JsonIgnore]
-    public Guid Id { get; init; }
+    public HeroId Id { get; init; }
     
     public string Name { get; init; } = null!;
 

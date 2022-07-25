@@ -1,10 +1,11 @@
-﻿using Boilerplate.Domain.Entities;
+﻿using Boilerplate.Application.Common;
+using Boilerplate.Domain.Entities;
 using Boilerplate.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Boilerplate.Infrastructure.Context;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -14,6 +15,6 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
     }
 }

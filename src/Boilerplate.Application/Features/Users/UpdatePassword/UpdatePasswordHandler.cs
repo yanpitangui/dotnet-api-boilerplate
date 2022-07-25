@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Boilerplate.Domain.Repositories;
+using Boilerplate.Application.Common;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
@@ -9,24 +10,26 @@ namespace Boilerplate.Application.Features.Users.UpdatePassword;
 
 public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordRequest, GetUserResponse?>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IContext _context;
+
     private readonly IMapper _mapper;
 
-    public UpdatePasswordHandler(IUserRepository userRepository, IMapper mapper)
+    public UpdatePasswordHandler(IMapper mapper, IContext context)
     {
-        _userRepository = userRepository;
         _mapper = mapper;
+        _context = context;
     }
 
 
     public async Task<GetUserResponse?> Handle(UpdatePasswordRequest request, CancellationToken cancellationToken)
     {
-        var originalUser = await _userRepository.GetById(request.Id);
+        var originalUser = await _context.Users
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (originalUser == null) return null;
 
         originalUser.Password = BC.HashPassword(request.Password);
-        _userRepository.Update(originalUser);
-        await _userRepository.SaveChangesAsync();
+        _context.Users.Update(originalUser);
+        await _context.SaveChangesAsync(cancellationToken);
         return _mapper.Map<GetUserResponse>(originalUser);
     }
 }

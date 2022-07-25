@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Boilerplate.Domain.Entities.Common;
+using System;
 
 namespace Boilerplate.Application.Features.Users;
 
 public record GetUserResponse
 {
-    public Guid Id { get; init; }
+    public UserId Id { get; init; }
 
     public string Email { get; init; } = null!;
 

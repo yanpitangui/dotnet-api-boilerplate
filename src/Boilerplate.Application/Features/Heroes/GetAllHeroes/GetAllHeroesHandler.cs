@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Boilerplate.Application.Common;
 using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.Extensions;
-using Boilerplate.Domain.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -11,18 +11,17 @@ namespace Boilerplate.Application.Features.Heroes.GetAllHeroes;
 
 public class GetAllHeroesHandler : IRequestHandler<GetAllHeroesRequest, PaginatedList<GetHeroResponse>>
 {
-    private readonly IHeroRepository _heroRepository;
+    private readonly IContext _context;
     private readonly IMapper _mapper;
     
-    public GetAllHeroesHandler(IHeroRepository heroRepository, IMapper mapper)
+    public GetAllHeroesHandler(IMapper mapper, IContext context)
     {
-        _heroRepository = heroRepository;
         _mapper = mapper;
+        _context = context;
     }
     public async Task<PaginatedList<GetHeroResponse>> Handle(GetAllHeroesRequest request, CancellationToken cancellationToken)
     {
-        var heroes = _heroRepository
-            .GetAll()
+        var heroes = _context.Heroes
             .WhereIf(!string.IsNullOrEmpty(request.Name), x => EF.Functions.Like(x.Name, $"%{request.Name}%"))
             .WhereIf(!string.IsNullOrEmpty(request.Nickname), x => EF.Functions.Like(x.Nickname!, $"%{request.Nickname}%"))
             .WhereIf(request.Age != null, x => x.Age == request.Age)

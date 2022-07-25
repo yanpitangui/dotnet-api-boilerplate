@@ -4,6 +4,7 @@ using Boilerplate.Api.IntegrationTests.Helpers;
 using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.Features.Users;
 using Boilerplate.Application.Features.Users.CreateUser;
+using Boilerplate.Domain.Entities.Common;
 using FluentAssertions;
 using Newtonsoft.Json;
 
@@ -175,7 +176,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<GetUserResponse>();
         json.Should().NotBeNull();
-        json!.Id.Should().NotBeEmpty();
+        json!.Id.Should().NotBe(UserId.Empty);
     }
 
     [Fact]
@@ -282,7 +283,7 @@ public class UserControllerTests : IntegrationTest, IAsyncLifetime
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var json = JsonConvert.DeserializeObject<GetUserResponse>(await response.Content.ReadAsStringAsync());
         json.Should().NotBeNull();
-        json!.Id.Should().NotBeEmpty();
+        json!.Id.Should().NotBe(UserId.Empty);
     }
 
     [Fact]

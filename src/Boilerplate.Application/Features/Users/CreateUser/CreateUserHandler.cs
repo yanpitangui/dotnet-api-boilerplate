@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Boilerplate.Application.Common;
 using Boilerplate.Domain.Entities;
-using Boilerplate.Domain.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,20 +10,21 @@ namespace Boilerplate.Application.Features.Users.CreateUser;
 
 public class CreateUserHandler : IRequestHandler<CreateUserRequest, GetUserResponse>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IContext _context;
     private readonly IMapper _mapper;
     
     
-    public CreateUserHandler(IUserRepository userRepository, IMapper mapper)
+    public CreateUserHandler(IMapper mapper, IContext context)
     {
-        _userRepository = userRepository;
         _mapper = mapper;
+        _context = context;
     }
     public async Task<GetUserResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken)
     {
-        var created = _userRepository.Create(_mapper.Map<User>(request));
+        var created = _mapper.Map<User>(request);
+        _context.Users.Add(created);
         created.Password = BC.HashPassword(request.Password);
-        await _userRepository.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
         return _mapper.Map<GetUserResponse>(created);
     }
 }

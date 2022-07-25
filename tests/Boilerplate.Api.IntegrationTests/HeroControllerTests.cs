@@ -5,6 +5,7 @@ using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.Features.Heroes;
 using Boilerplate.Application.Features.Heroes.CreateHero;
 using Boilerplate.Application.Features.Heroes.UpdateHero;
+using Boilerplate.Domain.Entities.Common;
 using Boilerplate.Domain.Entities.Enums;
 using FluentAssertions;
 
@@ -150,7 +151,7 @@ public class HeroControllerTests : IntegrationTest
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.DeserializeContent<GetHeroResponse>();
         json.Should().NotBeNull();
-        json!.Id.Should().NotBeEmpty();
+        json!.Id.Should().NotBe(HeroId.Empty);
         json.Name.Should().NotBeNull();
         json.HeroType.Should().NotBeNull();
     }
@@ -192,7 +193,7 @@ public class HeroControllerTests : IntegrationTest
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var json = await response.DeserializeContent<GetHeroResponse>();
         json.Should().NotBeNull();
-        json!.Id.Should().NotBeEmpty();
+        json!.Id.Should().NotBe(HeroId.Empty);
         json.Name.Should().NotBeNull();
         json.HeroType.Should().NotBeNull();
     }

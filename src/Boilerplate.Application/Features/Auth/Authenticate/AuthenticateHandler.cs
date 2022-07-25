@@ -1,6 +1,5 @@
 ﻿using Boilerplate.Application.Common;
 using Boilerplate.Application.Common.Responses;
-using Boilerplate.Domain.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -18,20 +17,20 @@ namespace Boilerplate.Application.Features.Auth.Authenticate;
 
 public class AuthenticateHandler : IRequestHandler<AuthenticateRequest, Jwt?>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IContext _context;
     
     private readonly TokenConfiguration _appSettings;
     
-    public AuthenticateHandler(IUserRepository userRepository, IOptions<TokenConfiguration> appSettings)
+    public AuthenticateHandler(IOptions<TokenConfiguration> appSettings, IContext context)
     {
-        _userRepository = userRepository;
+        _context = context;
         _appSettings = appSettings.Value;
 
     }
 
     public async Task<Jwt?> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Email.ToLower() == request.Email.ToLower(), cancellationToken);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == request.Email.ToLower(), cancellationToken);
         if (user == null || !BC.Verify(request.Password, user.Password))
         {
             return null;

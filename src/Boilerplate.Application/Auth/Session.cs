@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Boilerplate.Domain.Entities.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
 using ISession = Boilerplate.Domain.Auth.Interfaces.ISession;
@@ -7,7 +8,7 @@ namespace Boilerplate.Application.Auth;
 
 public class Session : ISession
 {
-    public Guid UserId { get; private init; }
+    public UserId UserId { get; private init; }
 
     public DateTime Now => DateTime.Now;
 

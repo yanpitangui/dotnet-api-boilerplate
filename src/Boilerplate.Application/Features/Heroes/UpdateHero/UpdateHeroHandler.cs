@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Boilerplate.Domain.Repositories;
+using Boilerplate.Application.Common;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,18 +9,18 @@ namespace Boilerplate.Application.Features.Heroes.UpdateHero;
 
 public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, GetHeroResponse?>
 {
-    private readonly IHeroRepository _heroRepository;
+    private readonly IContext _context;
     private readonly IMapper _mapper;
 
-    public UpdateHeroHandler(IMapper mapper, IHeroRepository heroRepository)
+    public UpdateHeroHandler(IMapper mapper, IContext context)
     {
         _mapper = mapper;
-        _heroRepository = heroRepository;
+        _context = context;
     }
 
     public async Task<GetHeroResponse?> Handle(UpdateHeroRequest request, CancellationToken cancellationToken)
     {
-        var originalHero = await _heroRepository.GetById(request.Id);
+        var originalHero = await _context.Heroes.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (originalHero == null) return null;
 
         originalHero.Name = request.Name;
@@ -28,8 +29,8 @@ public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, GetHeroRespo
         originalHero.Individuality = request.Individuality;
         originalHero.Age = request.Age;
         originalHero.HeroType = request.HeroType;
-        _heroRepository.Update(originalHero);
-        await _heroRepository.SaveChangesAsync();
+        _context.Heroes.Update(originalHero);
+        await _context.SaveChangesAsync(cancellationToken);
         return _mapper.Map<GetHeroResponse>(originalHero);
     }
 }
