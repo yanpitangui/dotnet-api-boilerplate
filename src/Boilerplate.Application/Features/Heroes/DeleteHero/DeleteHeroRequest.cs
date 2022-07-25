@@ -1,7 +1,7 @@
 ﻿using Boilerplate.Domain.Entities.Common;
 using MediatR;
-using System;
+using OneOf;
 
 namespace Boilerplate.Application.Features.Heroes.DeleteHero;
 
-public record DeleteHeroRequest(HeroId Id) : IRequest<bool>;
+public record DeleteHeroRequest(HeroId Id) : IRequest<OneOf<bool, HeroNotFound>>;

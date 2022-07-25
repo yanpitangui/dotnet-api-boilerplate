@@ -1,7 +1,7 @@
 ﻿using Boilerplate.Domain.Entities.Common;
 using MediatR;
-using System;
+using OneOf;
 
 namespace Boilerplate.Application.Features.Heroes.GetHeroById;
 
-public record GetHeroByIdRequest(HeroId Id) : IRequest<GetHeroResponse?>;
+public record GetHeroByIdRequest(HeroId Id) : IRequest<OneOf<GetHeroResponse, HeroNotFound>>;

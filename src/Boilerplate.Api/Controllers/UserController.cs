@@ -79,9 +79,10 @@ public class UserController : ControllerBase
     [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetUserById(UserId id)
     {
-        var user = await _mediator.Send(new GetUserByIdRequest(id));
-        if (user is null) return NotFound();
-        return Ok(user);
+        var result = await _mediator.Send(new GetUserByIdRequest(id));
+        return result.Match<IActionResult>(
+            found => Ok(found),
+            notFound => NotFound());
     }
 
     [Authorize(Roles = Roles.Admin)]
@@ -95,10 +96,12 @@ public class UserController : ControllerBase
 
     [HttpPatch("password")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult> UpdatePassword([FromBody] UpdatePasswordRequest request)
+    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest request)
     {            
-        await _mediator.Send(request with { Id = _session.UserId });
-        return NoContent();
+        var result = await _mediator.Send(request with { Id = _session.UserId });
+        return result.Match<IActionResult>(
+            updated => NoContent(),
+            notFound => NotFound());
     }
 
     [Authorize(Roles = Roles.Admin)]
@@ -106,8 +109,9 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteUser(UserId id)
     {
-        var deleted = await _mediator.Send(new DeleteUserRequest(id));
-        if (deleted) return NoContent();
-        return NotFound();
+        var result = await _mediator.Send(new DeleteUserRequest(id));
+        return result.Match<IActionResult>(
+            deleted => NoContent(),
+            notFound => NotFound());
     }
 }

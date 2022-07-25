@@ -1,7 +1,7 @@
 ﻿using Boilerplate.Domain.Entities.Common;
 using MediatR;
-using System;
+using OneOf;
 
 namespace Boilerplate.Application.Features.Users.GetUserById;
 
-public record GetUserByIdRequest(UserId Id) : IRequest<GetUserResponse?>;
+public record GetUserByIdRequest(UserId Id) : IRequest<OneOf<GetUserResponse, UserNotFound>>;

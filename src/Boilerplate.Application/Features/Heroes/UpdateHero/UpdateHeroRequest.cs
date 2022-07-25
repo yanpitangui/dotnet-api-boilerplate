@@ -1,12 +1,12 @@
 ﻿using Boilerplate.Domain.Entities.Common;
 using Boilerplate.Domain.Entities.Enums;
 using MediatR;
-using System;
+using OneOf;
 using System.Text.Json.Serialization;
 
 namespace Boilerplate.Application.Features.Heroes.UpdateHero;
 
-public record UpdateHeroRequest : IRequest<GetHeroResponse?>
+public record UpdateHeroRequest : IRequest<OneOf<GetHeroResponse, HeroNotFound>>
 {
     [JsonIgnore]
     public HeroId Id { get; init; }

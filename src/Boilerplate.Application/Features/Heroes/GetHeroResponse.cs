@@ -1,6 +1,5 @@
 ﻿using Boilerplate.Domain.Entities.Common;
 using Boilerplate.Domain.Entities.Enums;
-using System;
 
 namespace Boilerplate.Application.Features.Heroes;
 

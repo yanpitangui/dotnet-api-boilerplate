@@ -49,11 +49,13 @@ public class HeroController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(GetHeroResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetHeroResponse>> GetHeroById(HeroId id)
+    public async Task<IActionResult> GetHeroById(HeroId id)
     {
-        var hero = await _mediator.Send(new GetHeroByIdRequest(id));
-        if (hero == null) return NotFound();
-        return Ok(hero);
+        var result = await _mediator.Send(new GetHeroByIdRequest(id));
+        return result.Match<IActionResult>(
+            valid => Ok(valid),
+            notFound => NotFound()
+        );
     }
 
     /// <summary>
@@ -76,14 +78,16 @@ public class HeroController : ControllerBase
     /// <param name="request">The update object</param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<ActionResult<GetHeroResponse>> Update(HeroId id, [FromBody] UpdateHeroRequest request)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(HeroId id, [FromBody] UpdateHeroRequest request)
     {
+        var result = await _mediator.Send(request with { Id = id });
 
-        var updatedHero = await _mediator.Send(request with { Id = id });
-
-        if (updatedHero == null) return NotFound();
-
-        return NoContent();
+        return result.Match<IActionResult>(
+            valid => NoContent(),
+            notFound => NotFound()
+        );
     }
 
 
@@ -92,14 +96,15 @@ public class HeroController : ControllerBase
     /// </summary>
     /// <param name="id">The hero's ID</param>
     /// <returns></returns>
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [Route("{id}")]
-    public async Task<ActionResult> Delete(HeroId id)
+    public async Task<IActionResult> Delete(HeroId id)
     {
-        var deleted = await _mediator.Send(new DeleteHeroRequest(id));
-        if (deleted) return NoContent();
-        return NotFound();
+        var result = await _mediator.Send(new DeleteHeroRequest(id));
+        return result.Match<IActionResult>(
+            valid => NoContent(),
+            notFound => NotFound()
+        );
     }
 }

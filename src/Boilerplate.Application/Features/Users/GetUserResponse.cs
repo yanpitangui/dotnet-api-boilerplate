@@ -1,5 +1,4 @@
 ﻿using Boilerplate.Domain.Entities.Common;
-using System;
 
 namespace Boilerplate.Application.Features.Users;
 
