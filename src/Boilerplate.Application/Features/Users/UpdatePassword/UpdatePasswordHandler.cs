@@ -9,7 +9,7 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace Boilerplate.Application.Features.Users.UpdatePassword;
 
-public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordRequest, OneOf<GetUserResponse, UserNotFound>>
+public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordRequest, GetUserResponse>
 {
     private readonly IContext _context;
 
@@ -22,12 +22,11 @@ public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordRequest, OneO
     }
 
 
-    public async Task<OneOf<GetUserResponse, UserNotFound>> Handle(UpdatePasswordRequest request, CancellationToken cancellationToken)
+    public async Task<GetUserResponse> Handle(UpdatePasswordRequest request, CancellationToken cancellationToken)
     {
+        // Guaranteed to be valid, because it comes from the session.
         var originalUser = await _context.Users
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-        if (originalUser == null) return new UserNotFound();
-
+            .FirstAsync(x => x.Id == request.Id, cancellationToken);
         originalUser.Password = BC.HashPassword(request.Password);
         _context.Users.Update(originalUser);
         await _context.SaveChangesAsync(cancellationToken);

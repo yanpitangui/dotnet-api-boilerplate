@@ -98,10 +98,8 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest request)
     {            
-        var result = await _mediator.Send(request with { Id = _session.UserId });
-        return result.Match<IActionResult>(
-            updated => NoContent(),
-            notFound => NotFound());
+        await _mediator.Send(request with { Id = _session.UserId });
+        return NoContent();
     }
 
     [Authorize(Roles = Roles.Admin)]
