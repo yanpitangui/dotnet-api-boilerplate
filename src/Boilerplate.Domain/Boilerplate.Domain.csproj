@@ -12,9 +12,6 @@
     <PackageReference Include="StronglyTypedId" Version="1.0.0-beta06" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Boilerplate.Domain.Core\Boilerplate.Domain.Core.csproj" />
-  </ItemGroup>
+  
 
 </Project>

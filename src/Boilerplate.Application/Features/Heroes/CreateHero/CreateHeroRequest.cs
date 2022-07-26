@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Boilerplate.Application.Features.Heroes.CreateHero;
 
-public record CreateHeroRequest : IRequest<GetHeroResponse>
+public record CreateHeroRequest : IRequest<GetHeroResponse?>
 {
     public string Name { get; init; } = null!;
 

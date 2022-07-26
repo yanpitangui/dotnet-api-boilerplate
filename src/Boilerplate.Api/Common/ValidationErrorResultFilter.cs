@@ -1,4 +1,6 @@
-﻿using Boilerplate.Application.Common.Handlers;
+﻿using Boilerplate.Application.Common;
+using Boilerplate.Application.Common.Handlers;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
@@ -10,9 +12,9 @@ public class ValidationErrorResultFilter : IAsyncResultFilter
 {
     private readonly ValidationErrorHandler _errorHandler;
 
-    public ValidationErrorResultFilter(ValidationErrorHandler errorHandler)
+    public ValidationErrorResultFilter(INotificationHandler<ValidationError> errorHandler)
     {
-        _errorHandler = errorHandler;
+        _errorHandler = (ValidationErrorHandler)errorHandler;
     }
 
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)

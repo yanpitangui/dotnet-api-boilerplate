@@ -64,10 +64,10 @@ public class HeroController : ControllerBase
     /// <param name="request">The hero information</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<GetHeroResponse>> Create([FromBody] CreateHeroRequest request)
+    public async Task<ActionResult<GetHeroResponse?>> Create([FromBody] CreateHeroRequest request)
     {
         var newHero = await _mediator.Send(request);
-        return CreatedAtAction(nameof(GetHeroById), new { id = newHero.Id }, newHero);
+        return CreatedAtAction(nameof(GetHeroById), new { id = newHero?.Id }, newHero);
 
     }
 
