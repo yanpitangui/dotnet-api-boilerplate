@@ -59,7 +59,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
             await _sqliteConnection.CloseAsync();
             await context.Database.EnsureDeletedAsync();
             await conn.DisposeAsync();
+            
         }
+        GC.SuppressFinalize(this);
         await base.DisposeAsync();
     }
 }

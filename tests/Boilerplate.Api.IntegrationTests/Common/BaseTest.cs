@@ -117,7 +117,7 @@ public abstract class BaseTest : IAsyncLifetime
     
     
     
-    protected async Task<HttpResponseMessage> RequestAsync(string address, object? data, Func<string, HttpContent, Task<HttpResponseMessage>> verb)
+    protected static async Task<HttpResponseMessage> RequestAsync(string address, object? data, Func<string, HttpContent, Task<HttpResponseMessage>> verb)
     {
         var json = JsonSerializer.Serialize(data);
 
