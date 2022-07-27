@@ -14,7 +14,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=yourpassword
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      - ConnectionStrings__DefaultConnection=Server=mssql;Database=Heroes;User=sa;Password=Yourpassword123
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=Heroes;User=sa;Password=Yourpassword123;TrustServerCertificate=True;Encrypt=false
     ports:
       - "5000:80"
       - "5001:443"

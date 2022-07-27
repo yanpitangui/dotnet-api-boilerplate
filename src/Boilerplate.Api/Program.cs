@@ -1,6 +1,9 @@
 using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
+using Boilerplate.Application.Common;
+using Boilerplate.Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -70,5 +73,7 @@ app.UseAuthorization();
 
 app.MapControllers()
    .RequireAuthorization();
+
+await app.Migrate();
 
 await app.RunAsync();

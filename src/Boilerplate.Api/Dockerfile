@@ -16,7 +16,6 @@ WORKDIR /src
 COPY ["src/Boilerplate.Api/Boilerplate.Api.csproj", "src/Boilerplate.Api/"]
 COPY ["src/Boilerplate.Application/Boilerplate.Application.csproj", "src/Boilerplate.Application/"]
 COPY ["src/Boilerplate.Domain/Boilerplate.Domain.csproj", "src/Boilerplate.Domain/"]
-COPY ["src/Boilerplate.Domain.Core/Boilerplate.Domain.Core.csproj", "src/Boilerplate.Domain.Core/"]
 COPY ["src/Boilerplate.Infrastructure/Boilerplate.Infrastructure.csproj", "src/Boilerplate.Infrastructure/"]
 COPY . .
 WORKDIR "/src/src/Boilerplate.Api"
