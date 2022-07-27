@@ -49,6 +49,7 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 # Este projeto contém:
 - SwaggerUI
 - EntityFramework
+- Ids fortemente tipados
 - AutoMapper
 - MediatR
 - Feature Slicing (divisão das porções lógicas da api em pastas organizadas)

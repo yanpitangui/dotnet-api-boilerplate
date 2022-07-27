@@ -50,6 +50,7 @@ After that, you can pass the jwt on the lock (if using swagger) or via the Autho
 # This project contains:
 - SwaggerUI
 - EntityFramework
+- Strongly Typed Ids
 - AutoMapper
 - MediatR
 - Feature slicing
