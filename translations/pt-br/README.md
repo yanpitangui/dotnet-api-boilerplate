@@ -4,7 +4,7 @@
   <span>Português</span>
 </p>
 
-Um boilerplate de API ``.Net 6.0`` / projeto de template. Repositórios, Swagger, Mapper, Serilog, entre outros, implementados.
+Um boilerplate de API ``.Net 6.0`` / projeto de template. MediatR, Swagger, AutoMapper, Serilog, entre outros, implementados.
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
@@ -50,7 +50,8 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 - SwaggerUI
 - EntityFramework
 - AutoMapper
-- Repositório genérico (Para facilmente criar um repositório CRUD)
+- MediatR
+- Feature Slicing (divisão das porções lógicas da api em pastas organizadas)
 - Serilog com logs de requisição e tipos de saída facilmente configuráveis
 - Injeção de Dependência
 - Filtro de recursos
@@ -73,14 +74,12 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 	- Esta pasta guarda todas as transformações de dados entre sua api e sua camada de domínio. Ela também contém lógica de negócio.
 3. Domain
 	- Esta pasta contém seus modelos de negócio, enums e interfaces comuns.
-	1. Boilerplate.Domain.Core
-		- Contém a entidade base para todas as outras entidades de domínio, bem como a interface para a implementação do repositório.
 	1. Boilerplate.Domain
 		- Contém modelos de negócio e enums.
 4. Infra
-	- Esta pasta contém todos os repositórios de acesso à dados, contexto de banco de dados, tudo o que se conecta com dados externos.
+	- Esta pasta contém todas as configurações de acesso à dados, contexto de banco de dados, tudo o que se conecta com dados externos.
 	1. Boilerplate.Infrastructure
-		- Este projeto contém o dbcontext, uma implementação genérica do padrão de repositório e um repositório da classe de domínio Hero.
+		- Este projeto contém o dbcontext, configurações das entidades do banco e migrations.
 
 
 # Adotando ao seu projeto
