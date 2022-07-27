@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Boilerplate.Domain.Entities.Common;
+using System;
 
-namespace Boilerplate.Domain.Auth.Interfaces
+namespace Boilerplate.Domain.Auth.Interfaces;
+
+public interface ISession
 {
-    public interface ISession
-    {
-        public Guid UserId { get; }
+    public UserId UserId { get; }
 
-        public DateTime Now { get; }
-    }
+    public DateTime Now { get; }
 }

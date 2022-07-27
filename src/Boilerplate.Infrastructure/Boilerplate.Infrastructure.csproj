@@ -2,16 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="EntityFrameworkCore.Exceptions.SqlServer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Boilerplate.Application\Boilerplate.Application.csproj" />
     <ProjectReference Include="..\Boilerplate.Domain.Core\Boilerplate.Domain.Core.csproj" />
     <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
   </ItemGroup>

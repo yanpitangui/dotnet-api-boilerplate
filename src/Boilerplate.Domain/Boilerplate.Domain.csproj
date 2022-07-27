@@ -2,14 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="StronglyTypedId" Version="1.0.0-beta06" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Boilerplate.Domain.Core\Boilerplate.Domain.Core.csproj" />
-  </ItemGroup>
+  
 
 </Project>

@@ -4,7 +4,7 @@
   <a href="https://github.com/yanpitangui/dotnet-api-boilerplate/tree/main/translations/pt-br/README.md">Português</a>
 </p>
 
-A ``.Net 6.0`` WebApi boilerplate / template project. Repositories, Swagger, Mapper, Serilog and more implemented. 
+A ``.Net 6.0`` WebApi boilerplate / template project. MediatR, Swagger, AutoMapper, Serilog and more implemented. 
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
@@ -51,7 +51,8 @@ After that, you can pass the jwt on the lock (if using swagger) or via the Autho
 - SwaggerUI
 - EntityFramework
 - AutoMapper
-- Generic repository (to easily bootstrap a CRUD repository)
+- MediatR
+- Feature slicing
 - Serilog with request logging and easily configurable sinks
 - .Net Dependency Injection
 - Resource filtering
@@ -61,7 +62,7 @@ After that, you can pass the jwt on the lock (if using swagger) or via the Autho
 - Authentication
 - Authorization
 - Unit tests
-- Integration tests with Fixtures
+- Integration tests
 - Container support with [docker](src/Boilerplate.Api/dockerfile) and [docker-compose](docker-compose.yml)
 
 
@@ -78,16 +79,14 @@ After that, you can pass the jwt on the lock (if using swagger) or via the Autho
 		- This folder contains the login Session implementation.
 3. Domain
 	- This folder contains your business models, enums and common interfaces.
-	1. Boilerplate.Domain.Core
-		- Contains the base entity for all other domain entities, as well as the interface for the repository implementation.
-	2. Boilerplate.Domain
+	1. Boilerplate.Domain
 		- Contains business models and enums.
 		1. Auth
 			- This folder contains the login Session Interface.
 4. Infra
-	- This folder contains all data access repositories, database contexts, anything that reaches for outside data.
+	- This folder contains all data access configuration, database contexts, anything that reaches for outside data.
 	1. Boilerplate.Infrastructure
-		- This project contains the dbcontext, an generic implementation of repository pattern and a Hero(domain class) repository.
+		- This project contains the dbcontext, entities configuration and migrations.
 
 
 # Adopting to your project
