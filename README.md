@@ -4,7 +4,7 @@
   <a href="https://github.com/yanpitangui/dotnet-api-boilerplate/tree/main/translations/pt-br/README.md">Português</a>
 </p>
 
-A ``.Net 6.0`` WebApi boilerplate / template project. MediatR, Swagger, AutoMapper, Serilog and more implemented. 
+A ``.Net 7.0`` WebApi boilerplate / template project. MediatR, Swagger, AutoMapper, Serilog and more implemented. 
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
