@@ -4,6 +4,7 @@ using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,6 +29,8 @@ public class GetAllHeroesHandler : IRequestHandler<GetAllHeroesRequest, Paginate
             .WhereIf(request.HeroType != null, x => x.HeroType == request.HeroType)
             .WhereIf(!string.IsNullOrEmpty(request.Team), x => x.Team == request.Team)
             .WhereIf(!string.IsNullOrEmpty(request.Individuality), x => EF.Functions.Like(x.Individuality!, $"%{request.Individuality}%"));
-        return await _mapper.ProjectTo<GetHeroResponse>(heroes).ToPaginatedListAsync(request.CurrentPage, request.PageSize);
+        return await _mapper.ProjectTo<GetHeroResponse>(heroes)
+            .OrderBy(x => x.Name)
+            .ToPaginatedListAsync(request.CurrentPage, request.PageSize);
     }
 }

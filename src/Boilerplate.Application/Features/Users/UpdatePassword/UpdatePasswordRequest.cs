@@ -1,6 +1,5 @@
 ﻿using Boilerplate.Domain.Entities.Common;
 using MediatR;
-using OneOf;
 using System.Text.Json.Serialization;
 
 namespace Boilerplate.Application.Features.Users.UpdatePassword;
