@@ -1,6 +1,5 @@
 ﻿using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.Features.Heroes;
-using System;
 using System.Threading.Tasks;
 using Boilerplate.Application.Features.Heroes.CreateHero;
 using Boilerplate.Application.Features.Heroes.DeleteHero;

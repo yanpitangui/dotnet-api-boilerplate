@@ -12,12 +12,12 @@ public static class AuthSetup
 {
     public static IServiceCollection AddAuthSetup(this IServiceCollection services, IConfiguration configuration)
     {
-        var tokenConfig = configuration.GetSection("TokenConfiguration");
+        var tokenConfig = configuration.GetRequiredSection("TokenConfiguration");
         services.Configure<TokenConfiguration>(tokenConfig);
 
         // configure jwt authentication
         var appSettings = tokenConfig.Get<TokenConfiguration>();
-        var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+        var key = Encoding.ASCII.GetBytes(appSettings!.Secret);
         services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

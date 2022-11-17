@@ -1,5 +1,4 @@
 ﻿using Boilerplate.Application.Common.Responses;
-using System;
 using System.Threading.Tasks;
 using Boilerplate.Application.Features.Auth.Authenticate;
 using Boilerplate.Application.Features.Users;

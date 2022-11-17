@@ -1,5 +1,4 @@
-﻿using System;
-using Boilerplate.Domain.Entities;
+﻿using Boilerplate.Domain.Entities;
 using Boilerplate.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
