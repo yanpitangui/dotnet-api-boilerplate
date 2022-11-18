@@ -16,6 +16,9 @@ namespace Boilerplate.Api.IntegrationTests;
 public class HeroControllerTests : BaseTest
 {
     
+    public HeroControllerTests(CustomWebApplicationFactory apiFactory) : base(apiFactory)
+    {
+    }
     #region GET
 
     [Fact]
@@ -325,4 +328,6 @@ public class HeroControllerTests : BaseTest
     }
 
     #endregion
+
+
 }

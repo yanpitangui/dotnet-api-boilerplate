@@ -1,5 +1,4 @@
 using Boilerplate.Api.IntegrationTests.Helpers;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -7,6 +6,7 @@ using System.Text;
 
 namespace Boilerplate.Api.IntegrationTests.Common;
 
+[Collection("Test collection")]
 public abstract class BaseTest : IAsyncLifetime
 {
     protected CustomWebApplicationFactory App { get; }
@@ -14,24 +14,19 @@ public abstract class BaseTest : IAsyncLifetime
     
     public virtual async Task InitializeAsync()
     {
-        await using var context = App.CreateContext();
-        await context.Database.EnsureCreatedAsync();
-        await TestingDatabase.InitializeDbForTests(context);
+        await TestingDatabase.SeedDatabase(App.CreateContext);
     }
 
-    public virtual async Task DisposeAsync()
+    public async Task DisposeAsync()
     {
-        await App.DisposeAsync();
+        await App.ResetDatabaseAsync();
     }
 
-    protected BaseTest()
+    protected BaseTest(CustomWebApplicationFactory apiFactory)
     {
-        App = new CustomWebApplicationFactory();
+        App = apiFactory;
 
-        Client = App.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            AllowAutoRedirect = false,
-        });
+        Client = App.Client;
     }
     
     protected async Task<T?> GetAsync<T>(string address, object? query = null)
