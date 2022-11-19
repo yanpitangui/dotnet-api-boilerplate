@@ -67,6 +67,7 @@ After that, you can pass the jwt on the lock (if using swagger) or via the Autho
 - Unit tests
 - Integration tests
 - Container support with [docker](src/Boilerplate.Api/dockerfile) and [docker-compose](docker-compose.yml)
+- OpenTelemetry support (with jaeger as default exporter)
 
 
 # Project Structure

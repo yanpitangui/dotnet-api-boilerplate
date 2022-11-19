@@ -64,8 +64,8 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 - CI (Github Actions)
 - Testes Unitários
 - Testes de Integração
-- Suporte de Container com [docker](src/Boilerplate.Api/dockerfile) e [docker-compose](docker-compose.yml)
-
+- Suporte a containers com [docker](src/Boilerplate.Api/dockerfile) e [docker-compose](docker-compose.yml)
+- Suporte a OpenTelemetry (com jaeger como o exportador padrão)
 
 # Estrutura do Projeto
 1. Services
