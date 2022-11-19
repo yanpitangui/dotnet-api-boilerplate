@@ -48,6 +48,9 @@ if (builder.Environment.EnvironmentName != "Testing")
     builder.Host.UseLoggingSetup(builder.Configuration);
 }
 
+// Add opentelemetry
+builder.AddOpenTemeletrySetup();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
