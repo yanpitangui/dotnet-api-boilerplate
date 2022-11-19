@@ -32,8 +32,10 @@ This creates the https certificate.
 2. Visit http://localhost:5000/api-docs or https://localhost:5001/api-docs to access the application's swagger.
 
 ## Running tests
+**Important**: You need to have docker up and running. The integration tests will launch a SQL server container and use it to test the API.
+
 In the root folder, run ``dotnet test``. This command will try to find all test projects associated with the sln file.
-If you are using Visual Studio, you can also acess the Test Menu and open the Test Explorer, where you can see all tests and run all of them or one specifically. 
+If you are using Visual Studio, you can also access the Test Menu and open the Test Explorer, where you can see all tests and run all of them or one specifically. 
 
 ## Authentication
 In this project, some routes requires authentication/authorization. For that, you will have to use the ``api/user/authenticate`` route to obtain the JWT.

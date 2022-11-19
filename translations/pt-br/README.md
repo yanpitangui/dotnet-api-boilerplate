@@ -31,6 +31,9 @@ Isso criará o certificado https.
 2. Visite http://localhost:5000/api-docs oru https://localhost:5001/api-docs para acessar o swagger da aplicação.
 
 ## Executando testes
+
+**Importante**: É necessário ter o docker instalado e rodando. Os testes de integração vão criar um container sql server para testar a Api.
+
 Na pasta raiz, execute ``dotnet test``. Este comando tentará encontrar todos os porjetos associados ao arquivo da solução.
 Se você estiver utilizando o Visual Studio, você também pode acessar o menu "Test" e abrir o "Test Explorer", onde é possível executar todos os testes ou algum específico.
 
