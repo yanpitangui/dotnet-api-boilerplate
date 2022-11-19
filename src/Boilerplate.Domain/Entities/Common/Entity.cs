@@ -1,12 +1,4 @@
-﻿using MassTransit;
-using System;
-
-namespace Boilerplate.Domain.Entities.Common;
-
-public abstract class Entity : Entity<Guid>
-{
-    public override Guid Id { get; set; } = NewId.NextSequentialGuid();
-}
+﻿namespace Boilerplate.Domain.Entities.Common;
 
 public abstract class Entity<T>
 {

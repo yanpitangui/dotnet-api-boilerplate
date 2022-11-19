@@ -8,10 +8,6 @@ namespace Boilerplate.Infrastructure.Context;
 
 public class ApplicationDbContext : DbContext, IContext
 {
-    public ApplicationDbContext()
-    {
-        
-    }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Hero> Heroes { get; set; } = null!;
