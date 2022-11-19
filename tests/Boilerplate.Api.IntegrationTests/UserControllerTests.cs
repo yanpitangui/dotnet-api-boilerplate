@@ -16,6 +16,11 @@ namespace Boilerplate.Api.IntegrationTests;
 
 public class UserControllerTests : BaseTest
 {
+    
+    public UserControllerTests(CustomWebApplicationFactory apiFactory) : base(apiFactory)
+    {
+    }
+    
     private static string? _adminToken;
 
     private static string? _userToken;
@@ -323,4 +328,5 @@ public class UserControllerTests : BaseTest
     }
 
     #endregion
+
 }

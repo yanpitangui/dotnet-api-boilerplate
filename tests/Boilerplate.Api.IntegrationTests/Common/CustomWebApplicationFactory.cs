@@ -1,27 +1,41 @@
-﻿using Boilerplate.Application.Common;
+﻿using Boilerplate.Api.IntegrationTests.Helpers;
+using Boilerplate.Application.Common;
 using Boilerplate.Infrastructure.Context;
-using MassTransit;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Configurations;
+using DotNet.Testcontainers.Containers;
+using EntityFramework.Exceptions.SqlServer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Respawn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 
 namespace Boilerplate.Api.IntegrationTests.Common;
 
-public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker>
+public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker>, IAsyncLifetime
 {
-    private readonly SqliteConnection? _sqliteConnection;
+    
+    // Db connection
+    private readonly MsSqlTestcontainer _dbContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
+        .WithDatabase(new MsSqlTestcontainerConfiguration()
+        {
+            Password = "myHardCoreTestDb@123"
+        })
+        .Build();
+    private string _connString = default!;
+    private Respawner _respawner = default!;
+    
+    public HttpClient Client { get; private set; } = default!;
 
+    
     public CustomWebApplicationFactory()
     {
-        _sqliteConnection = new SqliteConnection("DataSource=" + NewId.NextSequentialGuid() + ".db");
-
-        _sqliteConnection.Open();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -46,22 +60,38 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
     
     public IContext CreateContext()
     {
-        SQLitePCL.Batteries.Init();
-        return new SqliteContext(_sqliteConnection!);
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging()
+            .UseExceptionProcessor()
+            .UseSqlServer(_connString)
+            .Options;
+        return new ApplicationDbContext(options);
     }
 
-    public override async ValueTask DisposeAsync()
+    public async Task InitializeAsync()
     {
-        if (_sqliteConnection is IAsyncDisposable conn)
-        {
-            SqliteConnection.ClearPool(_sqliteConnection);
-            await using var context = CreateContext();
-            await _sqliteConnection.CloseAsync();
-            await context.Database.EnsureDeletedAsync();
-            await conn.DisposeAsync();
-            
-        }
-        GC.SuppressFinalize(this);
-        await base.DisposeAsync();
+        await _dbContainer.StartAsync();
+        _connString = $"{_dbContainer.ConnectionString};TrustServerCertificate=True";
+        Client = CreateClient();
+        await using var context = CreateContext();
+        await context.Database.EnsureCreatedAsync();
+        await SetupRespawnerAsync();
     }
+
+    public async Task ResetDatabaseAsync()
+    {
+        await _respawner.ResetAsync(_connString);
+    }
+
+    private async Task SetupRespawnerAsync()
+    {
+        _respawner = await Respawner.CreateAsync(_connString, new RespawnerOptions
+        {
+            DbAdapter = DbAdapter.SqlServer,
+            SchemasToInclude = new[] {"dbo", "performance"}
+        });
+    }
+
+    async Task IAsyncLifetime.DisposeAsync() => await _dbContainer.DisposeAsync();
 }
