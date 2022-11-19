@@ -75,7 +75,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         _connString = $"{_dbContainer.ConnectionString};TrustServerCertificate=True";
         Client = CreateClient();
         await using var context = CreateContext();
-        await context.Database.EnsureCreatedAsync();
+        await context.Database.MigrateAsync();
         await SetupRespawnerAsync();
     }
 
