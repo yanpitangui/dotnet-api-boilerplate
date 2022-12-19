@@ -25,8 +25,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
     private readonly MsSqlTestcontainer _dbContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
         .WithDatabase(new MsSqlTestcontainerConfiguration()
         {
-            Password = "myHardCoreTestDb@123"
+            Password = "myHardCoreTestDb123"
         })
+        .WithName($"integration-tests-{Guid.NewGuid()}")
         .Build();
     private string _connString = default!;
     private Respawner _respawner = default!;
@@ -75,7 +76,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         _connString = $"{_dbContainer.ConnectionString};TrustServerCertificate=True";
         Client = CreateClient();
         await using var context = CreateContext();
-        await context.Database.MigrateAsync();
+        //await context.Database.MigrateAsync();
         await SetupRespawnerAsync();
     }
 
@@ -89,7 +90,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         _respawner = await Respawner.CreateAsync(_connString, new RespawnerOptions
         {
             DbAdapter = DbAdapter.SqlServer,
-            SchemasToInclude = new[] {"dbo", "performance"}
+            SchemasToInclude = new[] {"dbo"}
         });
     }
 
