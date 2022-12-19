@@ -12,9 +12,4 @@
     <PackageReference Include="xunit" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Boilerplate.Domain\Boilerplate.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Boilerplate.Infrastructure\Boilerplate.Infrastructure.csproj" />
-  </ItemGroup>
-
 </Project>
