@@ -6,7 +6,7 @@ namespace Boilerplate.Domain.Entities;
 
 public class Hero : Entity<HeroId>
 {
-    public override HeroId Id { get; set; } = NewId.NextSequentialGuid();
+    public override HeroId Id { get; set; } = NewId.NextGuid();
     public string Name { get; set; } = null!;
 
     public string? Nickname { get; set; }

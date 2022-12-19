@@ -14,12 +14,9 @@ public static class MigrationsSetup
         await using var scope = app.Services.CreateAsyncScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<IAssemblyMarker>>();
         var dbContext = scope.ServiceProvider.GetRequiredService<IContext>();
-        if (dbContext.Database.IsSqlServer())
-        {
-            logger.LogInformation("Running migrations...");
-            await dbContext.Database.MigrateAsync();
-            logger.LogInformation("Migrations applied succesfully");
 
-        }
+        logger.LogInformation("Running migrations...");
+        await dbContext.Database.MigrateAsync();
+        logger.LogInformation("Migrations applied succesfully");
     }
 }

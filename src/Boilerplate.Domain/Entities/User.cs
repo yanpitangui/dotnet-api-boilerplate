@@ -5,7 +5,7 @@ namespace Boilerplate.Domain.Entities;
 
 public class User : Entity<UserId>
 {
-    public override UserId Id { get; set; } = NewId.NextSequentialGuid();
+    public override UserId Id { get; set; } = NewId.NextGuid();
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;
