@@ -1,0 +1,44 @@
+name: InferSharp
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyze:
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ csharp ]
+
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Cache NuGet Packages
+        uses: actions/cache@v3
+        with:
+          key: nuget-${{ hashFiles('Directory.Packages.props') }}
+          path: ~/.nuget/packages
+
+      - name: Install dotnet cake
+        run: |
+          dotnet tool install -g Cake.Tool
+
+      - name: Build with dotnet
+        run: dotnet cake --target=Build
+    
+      - name: Run Infer#
+        uses: microsoft/infersharpaction@v1.4
+        id: runinfersharp
+        with:
+          binary-path: 'src'
+      
+      - name: Upload SARIF output to GitHub Security Center
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: infer-out/report.sarif
