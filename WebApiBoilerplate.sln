@@ -31,13 +31,26 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{346415FF-9233-459C-AE00-06ACFE985BC1}"
 	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{85F6B20D-7DD1-4E73-959C-0457668CCE5F}"
+	ProjectSection(SolutionItems) = preProject
+		build.cake = build.cake
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deps", "deps", "{4BE8D923-E856-40F3-9AB6-4DA4B760F24F}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rules", "rules", "{B9AA6117-3A61-4E16-9281-D4C4A9B5253F}"
+	ProjectSection(SolutionItems) = preProject
+		Boilerplate.ruleset = Boilerplate.ruleset
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
-		Boilerplate.ruleset = Boilerplate.ruleset
-		README.md = README.md
-		.github\workflows\build.yml = .github\workflows\build.yml
-		build.cake = build.cake
-		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Global
@@ -90,6 +103,9 @@ Global
 		{B5DE98B8-8DC7-4A0E-B396-654DF67E3BFF} = {2222C55D-4478-437D-A6F0-EAA8A21903DC}
 		{92EEC4C4-C67F-4396-B93A-396DF9E9B307} = {2222C55D-4478-437D-A6F0-EAA8A21903DC}
 		{7873047B-1B2D-40D8-AEBE-587D2E3C201B} = {C7816907-144D-4EB4-B645-3E7E03BD4835}
+		{85F6B20D-7DD1-4E73-959C-0457668CCE5F} = {346415FF-9233-459C-AE00-06ACFE985BC1}
+		{4BE8D923-E856-40F3-9AB6-4DA4B760F24F} = {346415FF-9233-459C-AE00-06ACFE985BC1}
+		{B9AA6117-3A61-4E16-9281-D4C4A9B5253F} = {346415FF-9233-459C-AE00-06ACFE985BC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {541B563F-712B-4BF0-851D-756E0B417E4C}

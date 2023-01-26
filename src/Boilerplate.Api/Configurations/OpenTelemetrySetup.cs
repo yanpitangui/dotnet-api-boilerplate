@@ -1,7 +1,6 @@
 ﻿using Boilerplate.Application.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -18,7 +17,9 @@ public static class OpenTelemetrySetup
 
         var jaegerConfig = builder.Configuration.GetSection("Jaeger");
 
-        builder.Services.AddOpenTelemetryTracing(telemetry =>
+        builder.Services
+            .AddOpenTelemetry()
+            .WithTracing(telemetry =>
         {
             telemetry
                 .AddSource(OpenTelemetryExtensions.ServiceName)
