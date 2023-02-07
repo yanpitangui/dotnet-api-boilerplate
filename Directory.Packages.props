@@ -12,7 +12,7 @@
     <PackageVersion Include="MediatR" Version="11.1.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="OneOf" Version="3.0.223" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.26.1" />
     <PackageVersion Include="EntityFrameworkCore.Exceptions.SqlServer" Version="6.0.3.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.2" />
