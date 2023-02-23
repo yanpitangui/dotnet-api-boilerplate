@@ -11,7 +11,10 @@ public static class MediatRSetup
 {
     public static IServiceCollection AddMediatRSetup(this IServiceCollection services)
     {
-        services.AddMediatR(typeof(Boilerplate.Application.IAssemblyMarker).GetTypeInfo().Assembly);
+        services.AddMediatR((config) =>
+        {
+            config.RegisterServicesFromAssemblyContaining(typeof(Boilerplate.Application.IAssemblyMarker));
+        });
 
         services.AddScoped<INotificationHandler<ValidationError>, ValidationErrorHandler>();
 
