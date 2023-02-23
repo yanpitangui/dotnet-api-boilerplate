@@ -1,6 +1,7 @@
 ﻿using Boilerplate.Application.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -19,16 +20,15 @@ public static class OpenTelemetrySetup
 
         builder.Services
             .AddOpenTelemetry()
+            .ConfigureResource((rb) => rb
+                .AddService(serviceName: OpenTelemetryExtensions.ServiceName,
+                    serviceVersion: OpenTelemetryExtensions.ServiceVersion)
+                .AddTelemetrySdk()
+                .AddEnvironmentVariableDetector())
             .WithTracing(telemetry =>
         {
             telemetry
                 .AddSource(OpenTelemetryExtensions.ServiceName)
-                .SetResourceBuilder(
-                    ResourceBuilder.CreateDefault()
-                        .AddService(serviceName: OpenTelemetryExtensions.ServiceName,
-                            serviceVersion: OpenTelemetryExtensions.ServiceVersion)
-                        .AddTelemetrySdk()
-                        .AddEnvironmentVariableDetector())
                 .AddAspNetCoreInstrumentation(o =>
                 {
                     o.RecordException = true;
