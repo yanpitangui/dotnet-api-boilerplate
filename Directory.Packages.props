@@ -9,7 +9,7 @@
     <PackageVersion Include="StronglyTypedId" Version="1.0.0-beta06" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageVersion Include="FluentValidation" Version="11.5.1" />
-    <PackageVersion Include="MediatR" Version="12.0.0" />
+    <PackageVersion Include="MediatR" Version="12.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="OneOf" Version="3.0.223" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
@@ -41,7 +41,7 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.4" />
     <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.4.0-rc.4" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0-rc.4" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.13" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.4" />
     <PackageVersion Include="Serilog" Version="2.12.0" />
