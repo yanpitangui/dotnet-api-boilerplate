@@ -9,7 +9,7 @@
     <PackageVersion Include="StronglyTypedId" Version="1.0.0-beta06" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageVersion Include="FluentValidation" Version="11.5.1" />
-    <PackageVersion Include="MediatR" Version="12.0.0" />
+    <PackageVersion Include="MediatR" Version="12.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="OneOf" Version="3.0.223" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
