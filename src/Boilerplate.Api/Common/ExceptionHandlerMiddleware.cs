@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Ardalis.Result;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
@@ -37,8 +38,8 @@ public class ExceptionHandlerMiddleware : IMiddleware
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
-            var result = JsonSerializer.Serialize(new { error = exception.Message });
-            await context.Response.WriteAsync(result);
+            var result = Result.Error(exception.ToStringDemystified());
+            await context.Response.WriteAsJsonAsync(result);
         }
     }
 }

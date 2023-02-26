@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Boilerplate.Application.Common.Responses;
+namespace Boilerplate.Application.Features.Auth.Authenticate;
 
 public record Jwt
 {
