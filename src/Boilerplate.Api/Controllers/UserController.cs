@@ -1,4 +1,6 @@
-﻿using Boilerplate.Application.Common.Responses;
+﻿using Ardalis.Result;
+using Ardalis.Result.AspNetCore;
+using Boilerplate.Application.Common.Responses;
 using System.Threading.Tasks;
 using Boilerplate.Application.Features.Auth.Authenticate;
 using Boilerplate.Application.Features.Users;
@@ -39,16 +41,12 @@ public class UserController : ControllerBase
     [HttpPost]
     [Route("authenticate")]
     [AllowAnonymous]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Jwt), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
+    [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.Invalid)]
+    public async Task<Result<Jwt>> Authenticate([FromBody] AuthenticateRequest request)
     {
         var jwt = await _mediator.Send(request);
-        if (jwt == null)
-        {
-            return BadRequest(new { message = "Username or password is incorrect" });
-        }
-        return Ok(jwt);
+        return jwt;
     }
 
 
@@ -74,41 +72,40 @@ public class UserController : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [HttpGet]
     [Route("{id}")]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetUserById(UserId id)
+    [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.NotFound)]
+    public async Task<Result<GetUserResponse>> GetUserById(UserId id)
     {
         var result = await _mediator.Send(new GetUserByIdRequest(id));
-        return result.Match<IActionResult>(
-            found => Ok(found),
-            notFound => NotFound());
+        return result;
     }
 
     [Authorize(Roles = Roles.Admin)]
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<GetUserResponse>> CreateUser(CreateUserRequest request)
+    [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.Invalid)]
+    public async Task<Result<GetUserResponse>> CreateUser(CreateUserRequest request)
     {
-        var newAccount = await _mediator.Send(request);
-        return CreatedAtAction(nameof(GetUserById), new { id = newAccount.Id }, newAccount);
+        var result = await _mediator.Send(request);
+        return result;
     }
 
     [HttpPatch("password")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest request)
+    [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Invalid)]
+    public async Task<Result> UpdatePassword([FromBody] UpdatePasswordRequest request)
     {            
-        await _mediator.Send(request with { Id = _session.UserId });
-        return NoContent();
+        var result = await _mediator.Send(request with { Id = _session.UserId });
+        return result;
     }
 
     [Authorize(Roles = Roles.Admin)]
     [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> DeleteUser(UserId id)
+    [TranslateResultToActionResult]
+    [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Invalid)]
+    public async Task<Result> DeleteUser(UserId id)
     {
         var result = await _mediator.Send(new DeleteUserRequest(id));
-        return result.Match<IActionResult>(
-            deleted => NoContent(),
-            notFound => NotFound());
+        return result;
     }
 }

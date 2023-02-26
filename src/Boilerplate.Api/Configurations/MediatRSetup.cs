@@ -1,9 +1,5 @@
-﻿using Boilerplate.Application.Common;
-using Boilerplate.Application.Common.Behaviors;
-using Boilerplate.Application.Common.Handlers;
-using MediatR;
+﻿using Boilerplate.Application.Common.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Boilerplate.Api.Configurations;
 
@@ -14,12 +10,10 @@ public static class MediatRSetup
         services.AddMediatR((config) =>
         {
             config.RegisterServicesFromAssemblyContaining(typeof(Boilerplate.Application.IAssemblyMarker));
+            config.AddOpenBehavior(typeof(ValidationResultPipelineBehavior<,>));
         });
+        
 
-        services.AddScoped<INotificationHandler<ValidationError>, ValidationErrorHandler>();
-
-
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
         return services;
     }

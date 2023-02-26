@@ -228,7 +228,7 @@ public class HeroControllerTests : BaseTest
     #region PUT
 
     [Fact]
-    public async Task Put_ValidHero_ReturnsNoContent()
+    public async Task Update_ValidHero_Should_Return_Ok()
     {
         // Arrange
         
@@ -244,7 +244,7 @@ public class HeroControllerTests : BaseTest
         var response = await PutAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1", newHero);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
 
@@ -308,13 +308,23 @@ public class HeroControllerTests : BaseTest
     #region DELETE
 
     [Fact]
-    public async Task Delete_ValidHero_ReturnsNoContent()
+    public async Task Delete_ValidHero_Returns_NoContent()
     {
         // Arrange
         var response = await DeleteAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
+    
+    [Fact]
+    public async Task DeleteHero_EmptyId_Should_Return_BadRequest()
+    {
+        // Arrange
+        var response = await DeleteAsync($"/api/Hero/{Guid.Empty}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]

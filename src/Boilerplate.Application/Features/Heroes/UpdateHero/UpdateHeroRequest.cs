@@ -1,12 +1,12 @@
-﻿using Boilerplate.Domain.Entities.Common;
+﻿using Ardalis.Result;
+using Boilerplate.Domain.Entities.Common;
 using Boilerplate.Domain.Entities.Enums;
 using MediatR;
-using OneOf;
 using System.Text.Json.Serialization;
 
 namespace Boilerplate.Application.Features.Heroes.UpdateHero;
 
-public record UpdateHeroRequest : IRequest<OneOf<GetHeroResponse, HeroNotFound>>
+public record UpdateHeroRequest : IRequest<Result<GetHeroResponse>>
 {
     [JsonIgnore]
     public HeroId Id { get; init; }

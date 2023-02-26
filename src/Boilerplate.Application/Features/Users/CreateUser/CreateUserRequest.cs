@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Ardalis.Result;
+using MediatR;
 
 namespace Boilerplate.Application.Features.Users.CreateUser;
 
-public record CreateUserRequest : IRequest<GetUserResponse>
+public record CreateUserRequest : IRequest<Result<GetUserResponse>>
 {
     public string Email { get; init; } = null!;
 

@@ -1,9 +1,12 @@
+using Ardalis.Result;
+using Ardalis.Result.AspNetCore;
 using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,13 @@ builder.Services
     .AddControllers(options =>
     {
         options.AllowEmptyInputInBodyModelBinding = true;
-        options.Filters.Add<ValidationErrorResultFilter>();
+        options.AddResultConvention(resultMap =>
+        {
+            resultMap.AddDefaultMap()
+                .For(ResultStatus.Ok, HttpStatusCode.OK, resultStatusOptions => resultStatusOptions
+                    .For("POST", HttpStatusCode.Created)
+                    .For("DELETE", HttpStatusCode.NoContent));
+        });
     })
     .AddValidationSetup();
 

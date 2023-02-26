@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using Ardalis.Result;
+using AutoMapper;
 using Boilerplate.Application.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using OneOf;
 
 namespace Boilerplate.Application.Features.Heroes.UpdateHero;
 
-public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, OneOf<GetHeroResponse, HeroNotFound>>
+public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, Result<GetHeroResponse>>
 {
     private readonly IContext _context;
     private readonly IMapper _mapper;
@@ -19,12 +19,12 @@ public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, OneOf<GetHer
         _context = context;
     }
 
-    public async Task<OneOf<GetHeroResponse, HeroNotFound>> Handle(UpdateHeroRequest request,
+    public async Task<Result<GetHeroResponse>> Handle(UpdateHeroRequest request,
         CancellationToken cancellationToken)
     {
         var originalHero = await _context.Heroes
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-        if (originalHero == null) return new HeroNotFound();
+        if (originalHero == null) return Result.NotFound();
 
         originalHero.Name = request.Name;
         originalHero.Nickname = request.Nickname;
