@@ -285,7 +285,7 @@ public class UserControllerTests : BaseTest
             new UpdatePasswordRequest() {Password = "mypasswordisverynice"});
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     }
     #endregion

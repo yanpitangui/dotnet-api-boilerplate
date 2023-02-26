@@ -1,9 +1,10 @@
-﻿using Boilerplate.Domain.Entities.Enums;
+﻿using Ardalis.Result;
+using Boilerplate.Domain.Entities.Enums;
 using MediatR;
 
 namespace Boilerplate.Application.Features.Heroes.CreateHero;
 
-public record CreateHeroRequest : IRequest<GetHeroResponse?>
+public record CreateHeroRequest : IRequest<Result<GetHeroResponse>>
 {
     public string Name { get; init; } = null!;
 

@@ -5,6 +5,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!--    add your PackageVersion nodes here -->
+    <PackageVersion Include="Ardalis.Result" Version="7.0.0" />
+    <PackageVersion Include="Ardalis.Result.AspNetCore" Version="7.0.0" />
+    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.0.0" />
     <PackageVersion Include="NewId" Version="4.0.1" />
     <PackageVersion Include="StronglyTypedId" Version="1.0.0-beta06" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />

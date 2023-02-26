@@ -1,10 +1,12 @@
-﻿using Boilerplate.Application.Common;
+﻿using Ardalis.Result;
+using Boilerplate.Application.Common;
 using Boilerplate.Application.Common.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -15,7 +17,7 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace Boilerplate.Application.Features.Auth.Authenticate;
 
-public class AuthenticateHandler : IRequestHandler<AuthenticateRequest, Jwt?>
+public class AuthenticateHandler : IRequestHandler<AuthenticateRequest, Result<Jwt>>
 {
     private readonly IContext _context;
     
@@ -28,12 +30,18 @@ public class AuthenticateHandler : IRequestHandler<AuthenticateRequest, Jwt?>
 
     }
 
-    public async Task<Jwt?> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Jwt>> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == request.Email.ToLower(), cancellationToken);
         if (user == null || !BC.Verify(request.Password, user.Password))
         {
-            return null;
+            return Result.Invalid(new List<ValidationError> {
+                new ValidationError
+                {
+                    Identifier = $"{nameof(request.Password)}|{nameof(request.Email)}",
+                    ErrorMessage = "Username or password is incorrect" 
+                }
+            });
         }
         
         var tokenHandler = new JwtSecurityTokenHandler();
