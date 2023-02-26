@@ -13,11 +13,8 @@ public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordRequest, Resu
 {
     private readonly IContext _context;
 
-    private readonly IMapper _mapper;
-
-    public UpdatePasswordHandler(IMapper mapper, IContext context)
+    public UpdatePasswordHandler(IContext context)
     {
-        _mapper = mapper;
         _context = context;
     }
 
