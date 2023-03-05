@@ -1,5 +1,4 @@
 ﻿using Ardalis.Result;
-using AutoMapper;
 using Boilerplate.Application.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

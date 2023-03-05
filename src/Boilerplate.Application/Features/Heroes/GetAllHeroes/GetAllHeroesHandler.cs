@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using Boilerplate.Application.Common;
+﻿using Boilerplate.Application.Common;
 using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.Extensions;
+using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -13,11 +13,9 @@ namespace Boilerplate.Application.Features.Heroes.GetAllHeroes;
 public class GetAllHeroesHandler : IRequestHandler<GetAllHeroesRequest, PaginatedList<GetHeroResponse>>
 {
     private readonly IContext _context;
-    private readonly IMapper _mapper;
     
-    public GetAllHeroesHandler(IMapper mapper, IContext context)
+    public GetAllHeroesHandler(IContext context)
     {
-        _mapper = mapper;
         _context = context;
     }
     public async Task<PaginatedList<GetHeroResponse>> Handle(GetAllHeroesRequest request, CancellationToken cancellationToken)
@@ -29,7 +27,7 @@ public class GetAllHeroesHandler : IRequestHandler<GetAllHeroesRequest, Paginate
             .WhereIf(request.HeroType != null, x => x.HeroType == request.HeroType)
             .WhereIf(!string.IsNullOrEmpty(request.Team), x => x.Team == request.Team)
             .WhereIf(!string.IsNullOrEmpty(request.Individuality), x => EF.Functions.Like(x.Individuality!, $"%{request.Individuality}%"));
-        return await _mapper.ProjectTo<GetHeroResponse>(heroes)
+        return await heroes.ProjectToType<GetHeroResponse>()
             .OrderBy(x => x.Name)
             .ToPaginatedListAsync(request.CurrentPage, request.PageSize);
     }
