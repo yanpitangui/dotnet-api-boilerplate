@@ -18,9 +18,8 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.Result.AspNetCore" />
-    <PackageReference Include="AutoMapper" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <PackageReference Include="Ben.Demystifier" />
+    <PackageReference Include="FastExpressionCompiler" />
     <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">

@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
-using AutoMapper;
 using Boilerplate.Application.Common;
+using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -12,11 +12,9 @@ public class GetHeroByIdHandler : IRequestHandler<GetHeroByIdRequest, Result<Get
 {
     private readonly IContext _context;
 
-    private readonly IMapper _mapper;
 
-    public GetHeroByIdHandler(IMapper mapper, IContext context)
+    public GetHeroByIdHandler(IContext context)
     {
-        _mapper = mapper;
         _context = context;
     }
     public async Task<Result<GetHeroResponse>> Handle(GetHeroByIdRequest request, CancellationToken cancellationToken)
@@ -24,6 +22,6 @@ public class GetHeroByIdHandler : IRequestHandler<GetHeroByIdRequest, Result<Get
         var hero = await _context.Heroes.FirstOrDefaultAsync(x => x.Id == request.Id,
             cancellationToken: cancellationToken);
         if (hero is null) return Result.NotFound();
-        return _mapper.Map<GetHeroResponse>(hero);
+        return hero.Adapt<GetHeroResponse>();
     }
 }

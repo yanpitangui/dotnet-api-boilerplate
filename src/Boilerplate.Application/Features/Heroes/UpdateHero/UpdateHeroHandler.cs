@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
-using AutoMapper;
 using Boilerplate.Application.Common;
+using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -11,11 +11,9 @@ namespace Boilerplate.Application.Features.Heroes.UpdateHero;
 public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, Result<GetHeroResponse>>
 {
     private readonly IContext _context;
-    private readonly IMapper _mapper;
 
-    public UpdateHeroHandler(IMapper mapper, IContext context)
+    public UpdateHeroHandler(IContext context)
     {
-        _mapper = mapper;
         _context = context;
     }
 
@@ -34,6 +32,6 @@ public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, Result<GetHe
         originalHero.HeroType = request.HeroType;
         _context.Heroes.Update(originalHero);
         await _context.SaveChangesAsync(cancellationToken);
-        return _mapper.Map<GetHeroResponse>(originalHero);
+        return originalHero.Adapt<GetHeroResponse>();
     }
 }

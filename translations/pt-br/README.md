@@ -4,7 +4,7 @@
   <span>Português</span>
 </p>
 
-Um boilerplate de API ``.Net 7.0`` / projeto de template. MediatR, Swagger, AutoMapper, Serilog, entre outros, implementados.
+Um boilerplate de API ``.Net 7.0`` / projeto de template. MediatR, Swagger, ~~AutoMapper~~ Mapster, Serilog, entre outros, implementados.
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
@@ -53,7 +53,7 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 - SwaggerUI
 - EntityFramework
 - Ids fortemente tipados
-- AutoMapper
+- ~~AutoMapper~~ Mapster
 - MediatR
 - Feature Slicing (divisão das porções lógicas da api em pastas organizadas)
 - Serilog com logs de requisição e tipos de saída facilmente configuráveis
