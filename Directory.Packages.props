@@ -20,9 +20,9 @@
     <PackageVersion Include="OneOf" Version="3.0.223" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
     <PackageVersion Include="EntityFrameworkCore.Exceptions.SqlServer" Version="6.0.3.1" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.3" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.4" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
     <PackageVersion Include="Bogus" Version="34.0.2" />
     <PackageVersion Include="coverlet.msbuild" Version="3.2.0" />
     <PackageVersion Include="FluentAssertions" Version="6.10.0" />
@@ -35,15 +35,14 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
     <PackageVersion Include="Ben.Demystifier" Version="0.4.1" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.2.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.4" />
     <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.4.0" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
