@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Testcontainers.MsSql;
 
 namespace Boilerplate.Api.IntegrationTests.Common;
 
@@ -22,11 +23,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
 {
     
     // Db connection
-    private readonly MsSqlTestcontainer _dbContainer = new TestcontainersBuilder<MsSqlTestcontainer>()
-        .WithDatabase(new MsSqlTestcontainerConfiguration()
-        {
-            Password = "myHardCoreTestDb123"
-        })
+    private readonly MsSqlContainer _dbContainer = new MsSqlBuilder()
+        .WithPassword("myHardCoreTestDb123")
         .WithName($"integration-tests-{Guid.NewGuid()}")
         .Build();
     private string _connString = default!;
@@ -73,7 +71,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        _connString = $"{_dbContainer.ConnectionString};TrustServerCertificate=True";
+        _connString = $"{_dbContainer.GetConnectionString()};TrustServerCertificate=True";
         Client = CreateClient();
         await using var context = CreateContext();
         //await context.Database.MigrateAsync();
