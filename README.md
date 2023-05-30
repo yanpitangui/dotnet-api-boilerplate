@@ -65,7 +65,7 @@ After that, you can pass the jwt on the lock (if using swagger) or via the Autho
 - Authentication
 - Authorization
 - Unit tests
-- Integration tests
+- Integration tests with testcontainers
 - Container support with [docker](src/Boilerplate.Api/dockerfile) and [docker-compose](docker-compose.yml)
 - OpenTelemetry support (with jaeger as default exporter)
 - NuGet Central package management (CPM)

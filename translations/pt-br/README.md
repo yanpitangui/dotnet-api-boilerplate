@@ -63,7 +63,7 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 - Paginação de resposta
 - CI (Github Actions)
 - Testes Unitários
-- Testes de Integração
+- Testes de Integração com testcontainers
 - Suporte a containers com [docker](src/Boilerplate.Api/dockerfile) e [docker-compose](docker-compose.yml)
 - Suporte a OpenTelemetry (com jaeger como o exportador padrão)
 - Gerenciamento centralizado de pacotes do NuGet
