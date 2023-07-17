@@ -49,7 +49,7 @@
     <PackageVersion Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="7.0.8" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
   </ItemGroup>
 </Project>
