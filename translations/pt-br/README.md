@@ -4,7 +4,7 @@
   <span>Português</span>
 </p>
 
-Um boilerplate de API ``.Net 7.0`` / projeto de template. MediatR, Swagger, ~~AutoMapper~~ Mapster, Serilog, entre outros, implementados.
+Um boilerplate de API ``.Net 8.0`` / projeto de template. MediatR, Swagger, ~~AutoMapper~~ Mapster, Serilog, entre outros, implementados.
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
@@ -28,7 +28,7 @@ O objetivo deste projeto é ser um ponto de partida para a sua WebApi .Net, impl
  - 1. Para o docker-compose, você deve executar esse comando na pasta raiz: ``dotnet dev-certs https -ep https/aspnetapp.pfx -p suasenha``
 		Substitua "suasenha" por outra coisa nesse comando e o arquivo docker-compose.override.yml.
 Isso criará o certificado https.
-2. Visite http://localhost:5000/api-docs oru https://localhost:5001/api-docs para acessar o swagger da aplicação.
+2. Visite http://localhost:5000/api-docs ou https://localhost:5001/api-docs para acessar o swagger da aplicação.
 
 ## Executando testes
 
