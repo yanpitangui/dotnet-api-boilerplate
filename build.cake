@@ -29,12 +29,12 @@ Task("Test")
     };
 	
 	Coverlet(
-        "./tests/Boilerplate.Api.IntegrationTests/bin/Debug/net7.0/Boilerplate.Api.IntegrationTests.dll", 
+        "./tests/Boilerplate.Api.IntegrationTests/bin/Debug/net8.0/Boilerplate.Api.IntegrationTests.dll", 
         "./tests/Boilerplate.Api.IntegrationTests/Boilerplate.Api.IntegrationTests.csproj", 
         coverletSettings);
 		
 	Coverlet(
-        "./tests/Boilerplate.Api.UnitTests/bin/Debug/net7.0/Boilerplate.Api.UnitTests.dll", 
+        "./tests/Boilerplate.Api.UnitTests/bin/Debug/net8.0/Boilerplate.Api.UnitTests.dll", 
         "./tests/Boilerplate.Api.UnitTests/Boilerplate.Api.UnitTests.csproj", 
         coverletSettings);
 	
