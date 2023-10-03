@@ -34,7 +34,7 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
-    /// Authenticates the user and returns the token information.
+    /// Autentica o usuário e retorna as informações do token.
     /// </summary>
     /// <param name="request">Email and password information</param>
     /// <returns>Token information</returns>
@@ -51,7 +51,7 @@ public class UserController : ControllerBase
 
 
     /// <summary>
-    /// Returns all users in the database
+    /// Retorna todos os usuários no banco de dados.
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -65,7 +65,7 @@ public class UserController : ControllerBase
 
 
     /// <summary>
-    /// Get one user by id from the database
+    /// Obter um usuário por ID do banco de dados.
     /// </summary>
     /// <param name="id">The user's ID</param>
     /// <returns></returns>
