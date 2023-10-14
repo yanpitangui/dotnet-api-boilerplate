@@ -12,7 +12,6 @@ public class ApplicationDbContext : DbContext, IContext
 
     public DbSet<Hero> Heroes { get; set; } = null!;
 
-    public DbSet<User> Users { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -23,6 +22,6 @@ public class ApplicationDbContext : DbContext, IContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(HeroConfiguration).Assembly);
     }
 }
