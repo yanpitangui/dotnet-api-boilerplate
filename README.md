@@ -15,7 +15,7 @@ and technologies for a restful API in .net, making your work easier.
 
 # How to run
 - Use this template(github) or clone/download to your local workplace.
-- Download the latest .Net SDK and Visual Studio/Code.
+- Download the latest .Net SDK and Visual Studio/Code/Rider.
 
 ## Standalone
 1. You may need a running instance of MsSQL, with appropriate migrations initialized.
@@ -67,7 +67,7 @@ After that, you can pass the jwt on the lock (if using swagger) or via the Autho
 - Unit tests
 - Integration tests with testcontainers
 - Container support with [docker](src/Boilerplate.Api/dockerfile) and [docker-compose](docker-compose.yml)
-- OpenTelemetry support (with jaeger as default exporter)
+- OpenTelemetry support (with OLTP as default exporter)
 - NuGet Central package management (CPM)
 
 # Project Structure

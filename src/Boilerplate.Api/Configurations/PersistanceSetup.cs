@@ -1,6 +1,6 @@
 ﻿using Boilerplate.Application.Auth;
 using Boilerplate.Domain.Auth.Interfaces;
-using Boilerplate.Infrastructure.Context;
+using Boilerplate.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

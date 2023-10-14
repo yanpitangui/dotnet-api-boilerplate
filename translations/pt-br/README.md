@@ -14,11 +14,11 @@ O objetivo deste projeto é ser um ponto de partida para a sua WebApi .Net, impl
 
 # Como executar
 - Utilize esse template (github) ou clone/download em seu repositório local.
-- Realize o download do .Net SDK mais novo e Visual Studio/Code.
+- Realize o download do .Net SDK mais novo e Visual Studio/Code/Rider.
 
 ## Execução Independente
 1. Você vai precisar de uma instância do MsSQL rodando, com as migrations propriamente inicializadas.
-	- Você pode simplesmente rodar o banco de dados no docker. Para isso, você precisa alterar a connection string para "Server=127.0.0.1;Database=master;User=sa;Password=Yourpassword123” e rodar o comandao a seguir: ``docker-compose up -d db-server``. Fazendo isso, a aplicação estará apta para se conectar ao container do servidor de banco de dados.
+	- Você pode simplesmente rodar o banco de dados no docker. Para isso, você precisa alterar a connection string para "Server=127.0.0.1;Database=master;User=sa;Password=Yourpassword123” e rodar o comando a seguir: ``docker-compose up -d db-server``. Fazendo isso, a aplicação estará apta para se conectar ao container do servidor de banco de dados.
 	- Caso você prefira, você pode alterar o arquivo DatabaseExtension para utilizar banco de dados em memória (UseInMemoryDatabase), ao invés do Mssql.
 2. Vá para a pasta src/Boilerplate.Api e execute ``dotnet run``, ou no visual studio, defina o projeto api como "startup" e execute como console ou docker (não como IIS).
 3. Visite http://localhost:5000/api-docs ou https://localhost:5001/api-docs para acessar o swagger da aplicação.
@@ -65,7 +65,7 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 - Testes Unitários
 - Testes de Integração com testcontainers
 - Suporte a containers com [docker](src/Boilerplate.Api/dockerfile) e [docker-compose](docker-compose.yml)
-- Suporte a OpenTelemetry (com jaeger como o exportador padrão)
+- Suporte a OpenTelemetry (com OLTP como o exportador padrão)
 - Gerenciamento centralizado de pacotes do NuGet
 
 # Estrutura do Projeto

@@ -2,11 +2,13 @@
 using Boilerplate.Domain.Entities;
 using Boilerplate.Infrastructure.Configuration;
 using EntityFramework.Exceptions.SqlServer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
-namespace Boilerplate.Infrastructure.Context;
+namespace Boilerplate.Infrastructure;
 
-public class ApplicationDbContext : DbContext, IContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, IContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -22,6 +24,7 @@ public class ApplicationDbContext : DbContext, IContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(HeroConfiguration).Assembly);
     }
 }

@@ -15,6 +15,7 @@ public static class SwaggerSetup
 {
     public static IServiceCollection AddSwaggerSetup(this IServiceCollection services)
     {
+        services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1",

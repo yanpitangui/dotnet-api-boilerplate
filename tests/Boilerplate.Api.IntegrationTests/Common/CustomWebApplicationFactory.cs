@@ -1,6 +1,6 @@
 ﻿using Boilerplate.Api.IntegrationTests.Helpers;
 using Boilerplate.Application.Common;
-using Boilerplate.Infrastructure.Context;
+using Boilerplate.Infrastructure;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;

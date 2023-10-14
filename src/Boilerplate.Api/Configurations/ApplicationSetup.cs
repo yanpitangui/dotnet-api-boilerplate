@@ -1,5 +1,5 @@
 ﻿using Boilerplate.Application.Common;
-using Boilerplate.Infrastructure.Context;
+using Boilerplate.Infrastructure;
 using MassTransit;
 using MassTransit.NewIdProviders;
 using Microsoft.Extensions.DependencyInjection;

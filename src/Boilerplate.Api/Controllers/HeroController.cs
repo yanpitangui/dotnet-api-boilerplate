@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Boilerplate.Api.Controllers;
 
 [ApiController]
-[AllowAnonymous]
 [Route("api/[controller]")]
 public class HeroController : ControllerBase
 {
@@ -34,7 +33,6 @@ public class HeroController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet]
-    [TranslateResultToActionResult]
     public async Task<ActionResult<PaginatedList<GetHeroResponse>>> GetHeroes([FromQuery] GetAllHeroesRequest request)
     {
         return Ok(await _mediator.Send(request));

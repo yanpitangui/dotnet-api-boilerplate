@@ -8,6 +8,10 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <TieredPGO>true</TieredPGO>
+    <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
+    <Features>InterceptorsPreview</Features>
+    <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
+
   </PropertyGroup>
 
   <PropertyGroup>
@@ -20,7 +24,6 @@
     <PackageReference Include="Ardalis.Result.AspNetCore" />
     <PackageReference Include="Ben.Demystifier" />
     <PackageReference Include="FluentValidation.AspNetCore" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

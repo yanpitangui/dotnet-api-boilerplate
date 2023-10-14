@@ -2,7 +2,9 @@ using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
+using Boilerplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -25,8 +27,7 @@ builder.Services
     })
     .AddValidationSetup();
 
-// Authn / Authrz
-builder.Services.AddAuthSetup(builder.Configuration);
+builder.Services.AddAuthorization();
 
 // Swagger
 builder.Services.AddSwaggerSetup();
@@ -36,6 +37,11 @@ builder.Services.AddPersistenceSetup(builder.Configuration);
 
 // Application layer setup
 builder.Services.AddApplicationSetup();
+
+// Add identity stuff
+builder.Services
+    .AddIdentityApiEndpoints<ApplicationUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Request response compression
 builder.Services.AddCompressionSetup();
@@ -55,10 +61,11 @@ builder.Logging.ClearProviders();
 if (builder.Environment.EnvironmentName != "Testing")
 {
     builder.Host.UseLoggingSetup(builder.Configuration);
+    
+    // Add opentelemetry
+    builder.AddOpenTemeletrySetup();
 }
 
-// Add opentelemetry
-builder.AddOpenTemeletrySetup();
 
 var app = builder.Build();
 
@@ -70,6 +77,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseRouting();
 app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
 
 app.UseSwaggerSetup();
@@ -80,8 +88,14 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers()
-   .RequireAuthorization();
+app.UseEndpoints(cfg =>
+{
+    // Map default endpoints for identity
+    cfg.MapGroup("/identity")
+        .MapIdentityApi<ApplicationUser>();
+});
+
+app.MapControllers();
 
 await app.Migrate();
 
