@@ -48,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rules", "rules", "{B9AA6117
 		Boilerplate.ruleset = Boilerplate.ruleset
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		.github\workflows\infersharp-analysis.yml = .github\workflows\infersharp-analysis.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{16C3D5B3-4A1C-48B3-979F-29400BB2ECE7}"

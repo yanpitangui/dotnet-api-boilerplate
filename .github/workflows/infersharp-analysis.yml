@@ -25,6 +25,11 @@ jobs:
           key: nuget-${{ hashFiles('Directory.Packages.props') }}
           path: ~/.nuget/packages
 
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: '8.x'
+          
       - name: Install dotnet cake
         run: |
           dotnet tool install -g Cake.Tool
