@@ -38,7 +38,7 @@ jobs:
         run: dotnet cake --target=Build
     
       - name: Run Infer#
-        uses: microsoft/infersharpaction@v1.4
+        uses: microsoft/infersharpaction@v1.5
         id: runinfersharp
         with:
           binary-path: 'src'
