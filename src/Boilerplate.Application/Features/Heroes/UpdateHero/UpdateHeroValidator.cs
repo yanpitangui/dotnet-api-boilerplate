@@ -15,6 +15,9 @@ public class UpdateHeroValidator : AbstractValidator<UpdateHeroRequest>
             .NotEmpty()
             .MaximumLength(StringSizes.Max);
 
+        RuleFor(x => x.Individuality)
+            .NotEmpty();
+
         RuleFor(x => x.HeroType)
             .IsInEnum();
 

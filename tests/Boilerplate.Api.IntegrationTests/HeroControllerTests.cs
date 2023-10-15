@@ -40,11 +40,8 @@ public class HeroControllerTests : BaseTest
     public async Task Get_AllHeroesWithPaginationFilter_ReturnsOk()
     {
         // Act
-        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", new GetAllHeroesRequest()
-        {
-            PageSize = 1,
-            CurrentPage = 1
-        });
+        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", 
+            new GetAllHeroesRequest(null, null, null, null, null, null, 1, 1));
 
         // Assert
         response.Should().NotBeNull();
@@ -59,11 +56,8 @@ public class HeroControllerTests : BaseTest
     public async Task Get_AllHeroesWithNegativePageSize_ReturnsOk()
     {
         // Act
-        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", new GetAllHeroesRequest()
-        {
-            PageSize = -1,
-            CurrentPage = 1
-        });
+        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", new GetAllHeroesRequest(
+            null, null, null, null, null, null, 1, -1));
 
         // Assert
         response.Should().NotBeNull();
@@ -78,11 +72,8 @@ public class HeroControllerTests : BaseTest
     public async Task Get_AllHeroesWithNegativeCurrentPage_ReturnsOk()
     {
         // Act
-        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", new GetAllHeroesRequest()
-        {
-            PageSize = 15,
-            CurrentPage = -1
-        });
+        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", 
+            new GetAllHeroesRequest(null, null, null, null, null, null, -1, 15));
 
         // Assert
         response.Should().NotBeNull();
@@ -97,7 +88,7 @@ public class HeroControllerTests : BaseTest
     public async Task Get_ExistingHeroesWithFilter_ReturnsOk()
     {
         // Act
-        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", new GetAllHeroesRequest()
+        var response = await GetAsync<PaginatedList<GetHeroResponse>>("/api/Hero", new GetAllHeroesRequest("Corban", null, null, null, null, null, 1, 10)
         {
             Name = "Corban"
         });        
@@ -171,7 +162,7 @@ public class HeroControllerTests : BaseTest
         var response = await PostAsync("/api/Hero", newHero);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
         var json = await response.Content.ReadFromJsonAsync<GetHeroResponse>();
         json.Should().NotBeNull();
         json!.Id.Should().NotBe(HeroId.Empty);
@@ -314,7 +305,7 @@ public class HeroControllerTests : BaseTest
         var response = await DeleteAsync("/api/Hero/824a7a65-b769-4b70-bccb-91f880b6ddf1");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
     
     [Fact]

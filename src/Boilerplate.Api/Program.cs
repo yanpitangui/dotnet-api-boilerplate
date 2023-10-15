@@ -2,8 +2,10 @@ using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
+using Boilerplate.Api.Endpoints;
 using Boilerplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -88,12 +90,10 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(cfg =>
-{
-    // Map default endpoints for identity
-    cfg.MapGroup("api/identity")
-        .MapIdentityApi<ApplicationUser>();
-});
+app.MapHeroEndpoints();
+app.MapGroup("api/identity")
+    .WithTags("Identity")
+    .MapIdentityApi<ApplicationUser>();
 
 app.MapControllers();
 
