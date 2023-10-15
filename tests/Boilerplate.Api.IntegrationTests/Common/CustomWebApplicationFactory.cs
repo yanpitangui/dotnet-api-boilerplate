@@ -50,6 +50,12 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
                 services.Remove(descriptor);
 
             services.AddScoped(_ => CreateContext());
+            services.AddSingleton(_ => new DbContextOptionsBuilder<ApplicationDbContext>()
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging()
+                .UseExceptionProcessor()
+                .UseSqlServer(_connString)
+                .Options);
         }).ConfigureLogging(o => o.AddFilter(loglevel => loglevel >= LogLevel.Error));
         base.ConfigureWebHost(builder);
     }
