@@ -4,7 +4,7 @@
   <span>Português</span>
 </p>
 
-Um boilerplate de API ``.Net 7.0`` / projeto de template. MediatR, Swagger, ~~AutoMapper~~ Mapster, Serilog, entre outros, implementados.
+Um boilerplate de API ``.Net 8.0`` / projeto de template. MediatR, Swagger, ~~AutoMapper~~ Mapster, Serilog, entre outros, implementados.
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)
@@ -14,44 +14,38 @@ O objetivo deste projeto é ser um ponto de partida para a sua WebApi .Net, impl
 
 # Como executar
 - Utilize esse template (github) ou clone/download em seu repositório local.
-- Realize o download do .Net SDK mais novo e Visual Studio/Code.
+- Realize o download do .Net SDK mais novo e Visual Studio/Code/Rider.
 
 ## Execução Independente
-1. Você vai precisar de uma instância do MsSQL rodando, com as migrations propriamente inicializadas.
-	- Você pode simplesmente rodar o banco de dados no docker. Para isso, você precisa alterar a connection string para "Server=127.0.0.1;Database=master;User=sa;Password=Yourpassword123” e rodar o comandao a seguir: ``docker-compose up -d db-server``. Fazendo isso, a aplicação estará apta para se conectar ao container do servidor de banco de dados.
-	- Caso você prefira, você pode alterar o arquivo DatabaseExtension para utilizar banco de dados em memória (UseInMemoryDatabase), ao invés do Mssql.
-2. Vá para a pasta src/Boilerplate.Api e execute ``dotnet run``, ou no visual studio, defina o projeto api como "startup" e execute como console ou docker (não como IIS).
-3. Visite http://localhost:5000/api-docs ou https://localhost:5001/api-docs para acessar o swagger da aplicação.
+1. Você vai precisar de uma instância do Postgres em execução, com as migrações apropriadas inicializadas.
+- Você pode executar apenas o banco de dados no docker. Para isso, execute o seguinte comando: ``docker-compose up -d db-server``. Fazendo isso, a aplicação poderá chegar ao container do postgres.
+2. Vá para a pasta src/Boilerplate.Api e execute ``dotnet run``, ou, no visual studio, defina o projeto da API como inicialização e execute como console/docker/IIS.
+3. Visite http://localhost:7122/api-docs ou https://localhost:7123/api-docs para acessar o swagger do aplicativo.
 
 ## Docker
 1. Execute ``docker-compose up -d`` no diretório raiz ou, no visual studio, defina o projeto docker-compose project como "startup" e execute. Isso iniciará a aplicação e o banco de dados.
- - 1. Para o docker-compose, você deve executar esse comando na pasta raiz: ``dotnet dev-certs https -ep https/aspnetapp.pfx -p suasenha``
-		Substitua "suasenha" por outra coisa nesse comando e o arquivo docker-compose.override.yml.
+ - 1. Para o docker-compose, você deve executar esse comando na pasta raiz: ``dotnet dev-certs https -ep https/aspnetapp.pfx -p yourpassword``
+		Substitua "yourpassword" por outra coisa nesse comando e o arquivo docker-compose.override.yml.
 Isso criará o certificado https.
-2. Visite http://localhost:5000/api-docs oru https://localhost:5001/api-docs para acessar o swagger da aplicação.
+2. Visite http://localhost:7122/api-docs ou https://localhost:7123/api-docs para acessar o swagger da aplicação.
 
 ## Executando testes
 
-**Importante**: É necessário ter o docker instalado e rodando. Os testes de integração vão criar um container sql server para testar a Api.
+**Importante**: É necessário ter o docker instalado e rodando. Os testes de integração vão criar um container Postgres para testar juntamente com a Api.
 
 Na pasta raiz, execute ``dotnet test``. Este comando tentará encontrar todos os porjetos associados ao arquivo da solução.
 Se você estiver utilizando o Visual Studio, você também pode acessar o menu "Test" e abrir o "Test Explorer", onde é possível executar todos os testes ou algum específico.
 
 ## Autenticação
-Neste projeto, algumas rotas precisam de autenticação/autorização. Para isso, você terá que utilizar a rota ``api/user/authenticate`` para obter o JWT.
-Por padrão, você tem dois usuários disponíveis para login:
-- Usuário normal: 
-	- email: user@boilerplate.com
-	- senha: userpassword
-- Admin:
-	- email: admin@boilerplate.com
-	- senha: adminpassword
-
-Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swagger) ou via o cabeçalho `Authorization` se tiver realizando uma requisição http.
+Neste projeto, algumas rotas requerem autenticação/autorização. Para isso, você terá que usar a rota ``api/identity/register`` para criar uma conta.
+Depois disso, você pode fazer login usando ``/api/identity/login`` sem usar cookies e então usar o accessToken recebido no cadeado (se estiver usando swagger) ou através do cabeçalho Authorization em uma solicitação http.
+Para obter mais informações, dê uma olhada na documentação do swagger.
 
 # Este projeto contém:
 - SwaggerUI
 - EntityFramework
+- Postgres
+- Minimal apis
 - Ids fortemente tipados
 - ~~AutoMapper~~ Mapster
 - MediatR
@@ -65,7 +59,7 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 - Testes Unitários
 - Testes de Integração com testcontainers
 - Suporte a containers com [docker](src/Boilerplate.Api/dockerfile) e [docker-compose](docker-compose.yml)
-- Suporte a OpenTelemetry (com jaeger como o exportador padrão)
+- Suporte a OpenTelemetry (com OLTP como o exportador padrão)
 - Gerenciamento centralizado de pacotes do NuGet
 
 # Estrutura do Projeto
@@ -94,10 +88,11 @@ Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swa
 3. Dê uma estrela a este repositório!
 
 # Migrations
-1. Para executar migrations neste projeto, execute o comando a seguir na pasta raiz: 
-	- ``dotnet ef migrations add InitialCreate --startup-project .\src\Boilerplate.Api\ --project .\src\Boilerplate.Infrastructure\``
-
-2. Este comando definirá o entrypoint dessa migration (o responsável por selecionar o provedor de banco { sqlserver, mysql, etc } e a connection string) e o próprio projeto selecionado será o "Boilerplate.Infrastructure", que é onde fica o dbcontext.
+Para executar migrações neste projeto, você precisa da ferramenta dotnet-ef.
+- Execute ``dotnet tool install --global dotnet-ef``
+- Agora, dependendo do seu sistema operacional, você tem comandos diferentes:
+	1. Para Windows: ``dotnet ef migrações add InitialCreate --startup-project .\src\Boilerplate.Api\ --project .\src\Boilerplate.Infrastructure\``
+	2. Para linux/mac: ``dotnet ef migrações add InitialCreate --startup-project ./src/Boilerplate.Api/ --project ./src/Boilerplate.Infrastructure/``
 
 # Caso tenha gostado deste repositório, dê uma estrela!
 Se este template foi útil para você ou se você aprendeu algo, por favor dê uma estrela! :star:

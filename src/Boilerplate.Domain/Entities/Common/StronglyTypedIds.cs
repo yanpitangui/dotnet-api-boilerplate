@@ -19,6 +19,13 @@ public partial struct HeroId : IGuid
     {
         return new HeroId(guid);
     }
+    
+    public static bool TryParse(string? s, IFormatProvider? provider, out HeroId result)
+    {
+        var parsed = Guid.TryParse(s, provider, out var guid);
+        result = guid;
+        return parsed;
+    }
 }
 
 [StronglyTypedId]

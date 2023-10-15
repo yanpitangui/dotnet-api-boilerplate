@@ -1,6 +1,6 @@
 ﻿using Boilerplate.Application.Auth;
 using Boilerplate.Domain.Auth.Interfaces;
-using Boilerplate.Infrastructure.Context;
+using Boilerplate.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +15,7 @@ public static class PersistanceSetup
         services.AddScoped<ISession, Session>();
         services.AddDbContext<ApplicationDbContext>(o =>
         {
-            o.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            o.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
 
         return services;

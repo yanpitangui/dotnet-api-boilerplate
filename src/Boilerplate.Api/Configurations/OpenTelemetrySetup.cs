@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System;
@@ -16,7 +17,6 @@ public static class OpenTelemetrySetup
     {
         Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 
-        var jaegerConfig = builder.Configuration.GetSection("Jaeger");
 
         builder.Services
             .AddOpenTelemetry()
@@ -33,28 +33,26 @@ public static class OpenTelemetrySetup
                 {
                     o.RecordException = true;
                 })
-                .AddEntityFrameworkCoreInstrumentation(o =>
+                .AddHttpClientInstrumentation(o =>
                 {
-                    o.SetDbStatementForText = true;
-                });
-
-            if (jaegerConfig!= null && !string.IsNullOrWhiteSpace(jaegerConfig.GetValue<string>("AgentHost")))
+                    o.RecordException = true;
+                })
+                .AddOtlpExporter();
+        })
+            .WithMetrics(telemetry =>
             {
-                telemetry.AddJaegerExporter(o =>
-                {
-                    o.AgentHost = jaegerConfig["AgentHost"];
-                    o.AgentPort = Convert.ToInt32(jaegerConfig["AgentPort"]);
-                    o.MaxPayloadSizeInBytes = 4096;
-                    o.ExportProcessorType = ExportProcessorType.Batch;
-                    o.BatchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
-                    {
-                        MaxQueueSize = 2048,
-                        ScheduledDelayMilliseconds = 5000,
-                        ExporterTimeoutMilliseconds = 30000,
-                        MaxExportBatchSize = 512,
-                    };
-                });   
-            }
-        });
+                telemetry
+                    .AddMeter("Microsoft.AspNetCore.Hosting")
+                    .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
+                    .AddView("http-server-request-duration",
+                        new ExplicitBucketHistogramConfiguration
+                        {
+                            Boundaries = new double[] { 0, 0.005, 0.01, 0.025, 0.05,
+                                0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10 }
+                        })
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddOtlpExporter();
+            });
     }
 }

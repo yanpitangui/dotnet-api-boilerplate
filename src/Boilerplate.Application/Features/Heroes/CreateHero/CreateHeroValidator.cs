@@ -13,6 +13,10 @@ public class CreateHeroValidator : AbstractValidator<CreateHeroRequest>
             .NotEmpty()
             .MaximumLength(StringSizes.Max);
 
+        RuleFor(x => x.Individuality)
+            .NotEmpty()
+            .MaximumLength(StringSizes.Max);
+
         RuleFor(x => x.HeroType)
             .IsInEnum();
 

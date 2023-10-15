@@ -2,31 +2,21 @@ using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
+using Boilerplate.Api.Endpoints;
+using Boilerplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
-builder.Services
-    .AddControllers(options =>
-    {
-        options.AllowEmptyInputInBodyModelBinding = true;
-        options.AddResultConvention(resultMap =>
-        {
-            resultMap.AddDefaultMap()
-                .For(ResultStatus.Ok, HttpStatusCode.OK, resultStatusOptions => resultStatusOptions
-                    .For("POST", HttpStatusCode.Created)
-                    .For("DELETE", HttpStatusCode.NoContent));
-        });
-    })
-    .AddValidationSetup();
+builder.AddValidationSetup();
 
-// Authn / Authrz
-builder.Services.AddAuthSetup(builder.Configuration);
+builder.Services.AddAuthorization();
 
 // Swagger
 builder.Services.AddSwaggerSetup();
@@ -36,6 +26,11 @@ builder.Services.AddPersistenceSetup(builder.Configuration);
 
 // Application layer setup
 builder.Services.AddApplicationSetup();
+
+// Add identity stuff
+builder.Services
+    .AddIdentityApiEndpoints<ApplicationUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Request response compression
 builder.Services.AddCompressionSetup();
@@ -55,10 +50,11 @@ builder.Logging.ClearProviders();
 if (builder.Environment.EnvironmentName != "Testing")
 {
     builder.Host.UseLoggingSetup(builder.Configuration);
+    
+    // Add opentelemetry
+    builder.AddOpenTemeletrySetup();
 }
 
-// Add opentelemetry
-builder.AddOpenTemeletrySetup();
 
 var app = builder.Build();
 
@@ -70,9 +66,11 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseRouting();
 app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
 
 app.UseSwaggerSetup();
+app.UseHsts();
 
 app.UseResponseCompression();
 app.UseHttpsRedirection();
@@ -80,8 +78,10 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers()
-   .RequireAuthorization();
+app.MapHeroEndpoints();
+app.MapGroup("api/identity")
+    .WithTags("Identity")
+    .MapIdentityApi<ApplicationUser>();
 
 await app.Migrate();
 
