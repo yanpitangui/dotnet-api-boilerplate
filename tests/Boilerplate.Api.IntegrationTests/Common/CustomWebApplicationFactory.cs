@@ -1,9 +1,5 @@
-﻿using Boilerplate.Api.IntegrationTests.Helpers;
-using Boilerplate.Application.Common;
+﻿using Boilerplate.Application.Common;
 using Boilerplate.Infrastructure;
-using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Configurations;
-using DotNet.Testcontainers.Containers;
 using EntityFramework.Exceptions.SqlServer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -32,7 +28,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
     
     public HttpClient Client { get; private set; } = default!;
 
-    
+    private static readonly string[] SchemasToInclude = new[] {"dbo"};
+
     public CustomWebApplicationFactory()
     {
     }
@@ -88,7 +85,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         _respawner = await Respawner.CreateAsync(_connString, new RespawnerOptions
         {
             DbAdapter = DbAdapter.SqlServer,
-            SchemasToInclude = new[] {"dbo"}
+            SchemasToInclude = SchemasToInclude
         });
     }
 

@@ -22,9 +22,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         optionsBuilder.UseExceptionProcessor();
     }
     
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(HeroConfiguration).Assembly);
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(typeof(HeroConfiguration).Assembly);
     }
 }
