@@ -17,22 +17,21 @@ O objetivo deste projeto é ser um ponto de partida para a sua WebApi .Net, impl
 - Realize o download do .Net SDK mais novo e Visual Studio/Code/Rider.
 
 ## Execução Independente
-1. Você vai precisar de uma instância do MsSQL rodando, com as migrations propriamente inicializadas.
-	- Você pode simplesmente rodar o banco de dados no docker. Para isso, você precisa alterar a connection string para "Server=127.0.0.1;Database=master;User=sa;Password=Yourpassword123” e rodar o comando a seguir: ``docker-compose up -d db-server``. Fazendo isso, a aplicação estará apta para se conectar ao container do servidor de banco de dados.
-	- Caso você prefira, você pode alterar o arquivo DatabaseExtension para utilizar banco de dados em memória (UseInMemoryDatabase), ao invés do Mssql.
-2. Vá para a pasta src/Boilerplate.Api e execute ``dotnet run``, ou no visual studio, defina o projeto api como "startup" e execute como console ou docker (não como IIS).
-3. Visite http://localhost:5000/api-docs ou https://localhost:5001/api-docs para acessar o swagger da aplicação.
+1. Você vai precisar de uma instância do Postgres em execução, com as migrações apropriadas inicializadas.
+- Você pode executar apenas o banco de dados no docker. Para isso, execute o seguinte comando: ``docker-compose up -d db-server``. Fazendo isso, a aplicação poderá chegar ao container do postgres.
+2. Vá para a pasta src/Boilerplate.Api e execute ``dotnet run``, ou, no visual studio, defina o projeto da API como inicialização e execute como console/docker/IIS.
+3. Visite http://localhost:7122/api-docs ou https://localhost:7123/api-docs para acessar o swagger do aplicativo.
 
 ## Docker
 1. Execute ``docker-compose up -d`` no diretório raiz ou, no visual studio, defina o projeto docker-compose project como "startup" e execute. Isso iniciará a aplicação e o banco de dados.
- - 1. Para o docker-compose, você deve executar esse comando na pasta raiz: ``dotnet dev-certs https -ep https/aspnetapp.pfx -p suasenha``
-		Substitua "suasenha" por outra coisa nesse comando e o arquivo docker-compose.override.yml.
+ - 1. Para o docker-compose, você deve executar esse comando na pasta raiz: ``dotnet dev-certs https -ep https/aspnetapp.pfx -p yourpassword``
+		Substitua "yourpassword" por outra coisa nesse comando e o arquivo docker-compose.override.yml.
 Isso criará o certificado https.
-2. Visite http://localhost:5000/api-docs ou https://localhost:5001/api-docs para acessar o swagger da aplicação.
+2. Visite http://localhost:7122/api-docs ou https://localhost:7123/api-docs para acessar o swagger da aplicação.
 
 ## Executando testes
 
-**Importante**: É necessário ter o docker instalado e rodando. Os testes de integração vão criar um container sql server para testar a Api.
+**Importante**: É necessário ter o docker instalado e rodando. Os testes de integração vão criar um container Postgres para testar juntamente com a Api.
 
 Na pasta raiz, execute ``dotnet test``. Este comando tentará encontrar todos os porjetos associados ao arquivo da solução.
 Se você estiver utilizando o Visual Studio, você também pode acessar o menu "Test" e abrir o "Test Explorer", onde é possível executar todos os testes ou algum específico.
@@ -45,6 +44,8 @@ Para obter mais informações, dê uma olhada na documentação do swagger.
 # Este projeto contém:
 - SwaggerUI
 - EntityFramework
+- Postgres
+- Minimal apis
 - Ids fortemente tipados
 - ~~AutoMapper~~ Mapster
 - MediatR
@@ -87,10 +88,11 @@ Para obter mais informações, dê uma olhada na documentação do swagger.
 3. Dê uma estrela a este repositório!
 
 # Migrations
-1. Para executar migrations neste projeto, execute o comando a seguir na pasta raiz: 
-	- ``dotnet ef migrations add InitialCreate --startup-project .\src\Boilerplate.Api\ --project .\src\Boilerplate.Infrastructure\``
-
-2. Este comando definirá o entrypoint dessa migration (o responsável por selecionar o provedor de banco { sqlserver, mysql, etc } e a connection string) e o próprio projeto selecionado será o "Boilerplate.Infrastructure", que é onde fica o dbcontext.
+Para executar migrações neste projeto, você precisa da ferramenta dotnet-ef.
+- Execute ``dotnet tool install --global dotnet-ef``
+- Agora, dependendo do seu sistema operacional, você tem comandos diferentes:
+	1. Para Windows: ``dotnet ef migrações add InitialCreate --startup-project .\src\Boilerplate.Api\ --project .\src\Boilerplate.Infrastructure\``
+	2. Para linux/mac: ``dotnet ef migrações add InitialCreate --startup-project ./src/Boilerplate.Api/ --project ./src/Boilerplate.Infrastructure/``
 
 # Caso tenha gostado deste repositório, dê uma estrela!
 Se este template foi útil para você ou se você aprendeu algo, por favor dê uma estrela! :star:
