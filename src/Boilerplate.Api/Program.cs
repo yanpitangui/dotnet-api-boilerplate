@@ -10,24 +10,11 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
-builder.Services
-    .AddControllers(options =>
-    {
-        options.AllowEmptyInputInBodyModelBinding = true;
-        options.AddResultConvention(resultMap =>
-        {
-            resultMap.AddDefaultMap()
-                .For(ResultStatus.Ok, HttpStatusCode.OK, resultStatusOptions => resultStatusOptions
-                    .For("POST", HttpStatusCode.Created)
-                    .For("DELETE", HttpStatusCode.NoContent));
-        });
-    })
-    .AddValidationSetup();
+builder.AddValidationSetup();
 
 builder.Services.AddAuthorization();
 
@@ -83,6 +70,7 @@ app.UseRouting();
 app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
 
 app.UseSwaggerSetup();
+app.UseHsts();
 
 app.UseResponseCompression();
 app.UseHttpsRedirection();
@@ -94,8 +82,6 @@ app.MapHeroEndpoints();
 app.MapGroup("api/identity")
     .WithTags("Identity")
     .MapIdentityApi<ApplicationUser>();
-
-app.MapControllers();
 
 await app.Migrate();
 

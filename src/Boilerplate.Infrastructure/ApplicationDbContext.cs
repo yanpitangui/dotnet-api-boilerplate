@@ -1,7 +1,7 @@
 ﻿using Boilerplate.Application.Common;
 using Boilerplate.Domain.Entities;
 using Boilerplate.Infrastructure.Configuration;
-using EntityFramework.Exceptions.SqlServer;
+using EntityFramework.Exceptions.PostgreSQL;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -8,14 +8,17 @@ networks:
 
 services:
   db-server:
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    container_name: mssql
+    image: postgres:latest
+    container_name: db-server
+    ports:
+      - "5432:5432"
     networks:
       - localdev
-    volumes:
-      - sqlvolume:/var/opt/mssql      
+    environment:
+      - POSTGRES_USER=app_user # The PostgreSQL user (useful to connect to the database)
+      - POSTGRES_PASSWORD=myHardCoreDevDb123 # The PostgreSQL password (useful to connect to the database)
+      - POSTGRES_DB=HeroDb # The PostgreSQL default database (automatically created at first launch)
   boilerplate-api:
-    entrypoint: ["./wait-for.sh", "mssql:1433", "-t", "120", "--", "dotnet", "Boilerplate.Api.dll"]
     build:
       context: .
       dockerfile: src/Boilerplate.Api/Dockerfile
@@ -25,8 +28,6 @@ services:
       - db-server
     networks:
       - localdev
-    volumes:
-      - ./etc/wait-for.sh:/app/wait-for.sh
 
 volumes:
   sqlvolume:

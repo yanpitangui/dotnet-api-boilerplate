@@ -2,22 +2,16 @@ version: '3.6'
 
 
 services:
-  db-server:
-    ports:
-      - 1433:1433
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Yourpassword123
   boilerplate-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://+:7123;http://+:7122
       - ASPNETCORE_Kestrel__Certificates__Default__Password=yourpassword
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      - ConnectionStrings__DefaultConnection=Server=mssql;Database=Heroes;User=sa;Password=Yourpassword123;TrustServerCertificate=True;Encrypt=false
+      - ConnectionStrings__DefaultConnection=Host=db-server;Port=5432;Database=HeroDb;Username=app_user;Password=myHardCoreDevDb123
     ports:
-      - "5000:80"
-      - "5001:443"
+      - "7123:7123"
+      - "7122:7122"
     volumes:
       - ./https:/https/:ro
     networks:

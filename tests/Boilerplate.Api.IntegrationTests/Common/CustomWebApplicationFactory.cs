@@ -1,17 +1,18 @@
 ﻿using Boilerplate.Application.Common;
 using Boilerplate.Infrastructure;
-using EntityFramework.Exceptions.SqlServer;
+using EntityFramework.Exceptions.PostgreSQL;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using Respawn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using Testcontainers.MsSql;
+using Testcontainers.PostgreSql;
 
 namespace Boilerplate.Api.IntegrationTests.Common;
 
@@ -19,17 +20,18 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
 {
     
     // Db connection
-    private readonly MsSqlContainer _dbContainer = new MsSqlBuilder()
+    private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
+        .WithUsername("app_user")
         .WithPassword("myHardCoreTestDb123")
+        .WithDatabase("HeroDb")
         .WithName($"integration-tests-{Guid.NewGuid()}")
         .Build();
     private string _connString = default!;
+    private NpgsqlConnection _dbConnection = default!;
     private Respawner _respawner = default!;
     
     public HttpClient Client { get; private set; } = default!;
-
-    private static readonly string[] SchemasToInclude = new[] {"dbo"};
-
+    
     public CustomWebApplicationFactory()
     {
     }
@@ -39,22 +41,19 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         builder.UseEnvironment("Testing");
         builder.ConfigureServices(services =>
         {
-            // Replace sql server context for sqlite
             var serviceTypes = new List<Type>
             {
                 typeof(DbContextOptions<ApplicationDbContext>),
-                typeof(IContext),
             };
             var contextsDescriptor = services.Where(d => serviceTypes.Contains(d.ServiceType)).ToList();
             foreach (var descriptor in contextsDescriptor)
                 services.Remove(descriptor);
 
-            services.AddScoped(_ => CreateContext());
             services.AddSingleton(_ => new DbContextOptionsBuilder<ApplicationDbContext>()
                 .EnableDetailedErrors()
                 .EnableSensitiveDataLogging()
                 .UseExceptionProcessor()
-                .UseSqlServer(_connString)
+                .UseNpgsql(_connString)
                 .Options);
         }).ConfigureLogging(o => o.AddFilter(loglevel => loglevel >= LogLevel.Error));
         base.ConfigureWebHost(builder);
@@ -66,7 +65,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging()
             .UseExceptionProcessor()
-            .UseSqlServer(_connString)
+            .UseNpgsql(_connString)
             .Options;
         return new ApplicationDbContext(options);
     }
@@ -74,26 +73,30 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        _connString = $"{_dbContainer.GetConnectionString()};TrustServerCertificate=True";
+        _connString = _dbContainer.GetConnectionString();
+        _dbConnection = new NpgsqlConnection(_connString);
         Client = CreateClient();
         await using var context = CreateContext();
-        //await context.Database.MigrateAsync();
         await SetupRespawnerAsync();
     }
 
     public async Task ResetDatabaseAsync()
     {
-        await _respawner.ResetAsync(_connString);
+        await _respawner.ResetAsync(_dbConnection);
     }
 
     private async Task SetupRespawnerAsync()
     {
-        _respawner = await Respawner.CreateAsync(_connString, new RespawnerOptions
+        await _dbConnection.OpenAsync();
+        _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions
         {
-            DbAdapter = DbAdapter.SqlServer,
-            SchemasToInclude = SchemasToInclude
+            DbAdapter = DbAdapter.Postgres,
         });
     }
 
-    async Task IAsyncLifetime.DisposeAsync() => await _dbContainer.DisposeAsync();
+    async Task IAsyncLifetime.DisposeAsync()
+    {
+        await _dbConnection.DisposeAsync();
+        await _dbContainer.DisposeAsync();
+    }
 }
