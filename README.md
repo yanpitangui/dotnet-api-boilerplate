@@ -38,16 +38,9 @@ In the root folder, run ``dotnet test``. This command will try to find all test 
 If you are using Visual Studio, you can also access the Test Menu and open the Test Explorer, where you can see all tests and run all of them or one specifically. 
 
 ## Authentication
-In this project, some routes requires authentication/authorization. For that, you will have to use the ``api/user/authenticate`` route to obtain the JWT.
-As default, you have two users, Admin and normal user.
-- Normal user: 
-	- email: user@boilerplate.com
-	- password: userpassword
-- Admin:
-	- email: admin@boilerplate.com
-	- password: adminpassword
-
-After that, you can pass the jwt on the lock (if using swagger) or via the Authorization header on a http request.
+In this project, some routes requires authentication/authorization. For that, you will have to use the ``api/identity/register`` route to create an account.
+After that, you can login using the ``/api/identity/login`` without using cookies and then use received accessToken on the lock (if using swagger) or via the Authorization header on a http request.
+For more information, please take a look on swagger documentation.
 
 # This project contains:
 - SwaggerUI

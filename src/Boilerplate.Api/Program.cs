@@ -91,7 +91,7 @@ app.UseAuthorization();
 app.UseEndpoints(cfg =>
 {
     // Map default endpoints for identity
-    cfg.MapGroup("/identity")
+    cfg.MapGroup("api/identity")
         .MapIdentityApi<ApplicationUser>();
 });
 

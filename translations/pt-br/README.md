@@ -38,16 +38,9 @@ Na pasta raiz, execute ``dotnet test``. Este comando tentará encontrar todos os
 Se você estiver utilizando o Visual Studio, você também pode acessar o menu "Test" e abrir o "Test Explorer", onde é possível executar todos os testes ou algum específico.
 
 ## Autenticação
-Neste projeto, algumas rotas precisam de autenticação/autorização. Para isso, você terá que utilizar a rota ``api/user/authenticate`` para obter o JWT.
-Por padrão, você tem dois usuários disponíveis para login:
-- Usuário normal: 
-	- email: user@boilerplate.com
-	- senha: userpassword
-- Admin:
-	- email: admin@boilerplate.com
-	- senha: adminpassword
-
-Depois disso, você pode passar o JWT clicando no cadeado (se estiver usando swagger) ou via o cabeçalho `Authorization` se tiver realizando uma requisição http.
+Neste projeto, algumas rotas requerem autenticação/autorização. Para isso, você terá que usar a rota ``api/identity/register`` para criar uma conta.
+Depois disso, você pode fazer login usando ``/api/identity/login`` sem usar cookies e então usar o accessToken recebido no cadeado (se estiver usando swagger) ou através do cabeçalho Authorization em uma solicitação http.
+Para obter mais informações, dê uma olhada na documentação do swagger.
 
 # Este projeto contém:
 - SwaggerUI
