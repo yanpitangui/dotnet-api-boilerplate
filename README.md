@@ -47,6 +47,7 @@ For more information, please take a look on swagger documentation.
 - Postgres
 - Minimal apis
 - Strongly Typed Ids
+- Test coverage collection
 - ~~AutoMapper~~ Mapster
 - MediatR
 - Feature slicing

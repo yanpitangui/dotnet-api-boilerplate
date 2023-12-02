@@ -34,13 +34,9 @@ jobs:
       - name: Install dotnet-sonarscanner
         run: |
           dotnet tool install --global dotnet-sonarscanner
-      - name: Install dotnet cake
+      - name: Install dotnet-coverage
         run: |
-          dotnet tool install -g Cake.Tool
-
-      - name: Install coverlet
-        run: |
-          dotnet tool install -g coverlet.console
+          dotnet tool install --global dotnet-coverage
           
       - name: Cache NuGet Packages
         uses: actions/cache@v3
@@ -53,8 +49,9 @@ jobs:
           dotnet sonarscanner begin \
           /k:"yanpitangui_dotnet-api-boilerplate" \
           /o:"yanpitangui" \
-          /d:sonar.login="$SONAR_TOKEN" \
+          /d:sonar.token="$SONAR_TOKEN" \
           /d:sonar.host.url="https://sonarcloud.io" \
-          /d:sonar.cs.opencover.reportsPaths="./coverage.opencover.xml"
-          dotnet cake
-          dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+          /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet build --no-incremental          
+          dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
+          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
