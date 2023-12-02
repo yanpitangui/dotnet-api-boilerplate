@@ -1,5 +1,3 @@
-using Ardalis.Result;
-using Ardalis.Result.AspNetCore;
 using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
 using Boilerplate.Api.Endpoints;
@@ -41,8 +39,8 @@ builder.Services.AddHttpContextAccessor();
 // Mediator
 builder.Services.AddMediatRSetup();
 
-// Middleware
-builder.Services.AddScoped<ExceptionHandlerMiddleware>();
+// Exception handler
+builder.Services.AddExceptionHandler<ExceptionHandler>();
 
 builder.Logging.ClearProviders();
 
@@ -67,7 +65,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
 
 app.UseSwaggerSetup();
 app.UseHsts();
