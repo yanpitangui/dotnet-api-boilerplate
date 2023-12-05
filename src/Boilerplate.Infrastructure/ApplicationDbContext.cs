@@ -13,14 +13,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Hero> Heroes { get; set; } = null!;
-
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-
-        optionsBuilder.UseExceptionProcessor();
-    }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {

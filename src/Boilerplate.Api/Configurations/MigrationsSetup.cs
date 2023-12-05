@@ -13,9 +13,11 @@ public static class MigrationsSetup
     {
         await using var scope = app.Services.CreateAsyncScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<IAssemblyMarker>>();
-        var dbContext = scope.ServiceProvider.GetRequiredService<IContext>();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<IContext>();
 
+        var strategy = dbContext.Database.CreateExecutionStrategy();
         logger.LogInformation("Running migrations...");
+        await strategy.ExecuteAsync(async () => await dbContext.Database.MigrateAsync());
         await dbContext.Database.MigrateAsync();
         logger.LogInformation("Migrations applied succesfully");
     }
