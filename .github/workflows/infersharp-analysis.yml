@@ -40,6 +40,6 @@ jobs:
           binary-path: 'src'
       
       - name: Upload SARIF output to GitHub Security Center
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: infer-out/report.sarif
