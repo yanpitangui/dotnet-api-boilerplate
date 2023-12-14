@@ -26,4 +26,5 @@ RUN dotnet publish "Boilerplate.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+USER $APP_UID 
 ENTRYPOINT ["dotnet", "Boilerplate.Api.dll"]
