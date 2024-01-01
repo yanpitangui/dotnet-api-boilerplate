@@ -1,11 +1,7 @@
 ﻿using StronglyTypedIds;
 using System;
 
-[assembly: StronglyTypedIdDefaults(
-    backingType: StronglyTypedIdBackingType.Guid,
-    converters: StronglyTypedIdConverter.SystemTextJson | StronglyTypedIdConverter.EfCoreValueConverter |
-                StronglyTypedIdConverter.Default | StronglyTypedIdConverter.TypeConverter,
-    implementations: StronglyTypedIdImplementations.IEquatable | StronglyTypedIdImplementations.Default)]
+[assembly: StronglyTypedIdDefaults(Template.Guid, "guid-efcore")]
 
 namespace Boilerplate.Domain.Entities.Common;
 
@@ -18,13 +14,6 @@ public partial struct HeroId : IGuid
     public static implicit operator HeroId(Guid guid)
     {
         return new HeroId(guid);
-    }
-    
-    public static bool TryParse(string? s, IFormatProvider? provider, out HeroId result)
-    {
-        var parsed = Guid.TryParse(s, provider, out var guid);
-        result = guid;
-        return parsed;
     }
 }
 
