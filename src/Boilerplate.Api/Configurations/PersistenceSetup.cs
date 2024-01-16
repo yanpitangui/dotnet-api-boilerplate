@@ -14,6 +14,7 @@ public static class PersistenceSetup
     {
 
         services.AddScoped<ISession, Session>();
+        services.AddHostedService<ApplicationDbInitializer>();
         services.AddDbContextPool<ApplicationDbContext>(o =>
         {
             o.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
