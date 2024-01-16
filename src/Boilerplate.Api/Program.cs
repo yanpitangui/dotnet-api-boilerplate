@@ -1,7 +1,6 @@
 using Boilerplate.Api.Common;
 using Boilerplate.Api.Configurations;
 using Boilerplate.Api.Endpoints;
-using Boilerplate.Api.Services;
 using Boilerplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -42,9 +41,6 @@ builder.Services.AddMediatRSetup();
 
 // Exception handler
 builder.Services.AddExceptionHandler<ExceptionHandler>();
-
-// Db Migrations
-builder.Services.AddHostedService<MigrationSetupService>();
 
 builder.Logging.ClearProviders();
 
