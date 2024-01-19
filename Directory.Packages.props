@@ -27,7 +27,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-    <PackageVersion Include="Respawn" Version="6.2.0" />
+    <PackageVersion Include="Respawn" Version="6.2.1" />
     <PackageVersion Include="StronglyTypedId.Templates" Version="1.0.0-beta07" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="3.7.0" />
     <PackageVersion Include="xunit" Version="2.6.6" />
