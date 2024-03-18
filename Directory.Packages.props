@@ -8,7 +8,7 @@
     <PackageVersion Include="Ardalis.Result" Version="7.2.0" />
     <PackageVersion Include="Ardalis.Result.AspNetCore" Version="7.2.0" />
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.2.0" />
-    <PackageVersion Include="EntityFrameworkCore.Exceptions.PostgreSQL" Version="8.0.0" />
+    <PackageVersion Include="EntityFrameworkCore.Exceptions.PostgreSQL" Version="8.1.0" />
     <PackageVersion Include="Mapster.EFCore" Version="5.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
