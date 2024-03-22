@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!--    add your PackageVersion nodes here -->
-    <PackageVersion Include="Ardalis.Result" Version="7.2.0" />
+    <PackageVersion Include="Ardalis.Result" Version="8.0.0" />
     <PackageVersion Include="Ardalis.Result.AspNetCore" Version="7.2.0" />
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.2.0" />
     <PackageVersion Include="EntityFrameworkCore.Exceptions.PostgreSQL" Version="8.1.2" />
