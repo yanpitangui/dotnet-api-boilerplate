@@ -28,7 +28,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="Respawn" Version="6.2.1" />
-    <PackageVersion Include="StronglyTypedId.Templates" Version="1.0.0-beta07" />
+    <PackageVersion Include="StronglyTypedId.Templates" Version="1.0.0-beta08" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="3.8.0" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.0">
