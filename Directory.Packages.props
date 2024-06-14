@@ -51,6 +51,6 @@
     <PackageVersion Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.1" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
   </ItemGroup>
 </Project>
