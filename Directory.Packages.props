@@ -37,7 +37,7 @@
     </PackageVersion>
     <PackageVersion Include="Ben.Demystifier" Version="0.4.1" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
