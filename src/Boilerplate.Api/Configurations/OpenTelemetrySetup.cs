@@ -10,7 +10,7 @@ namespace Boilerplate.Api.Configurations;
 
 public static class OpenTelemetrySetup
 {
-    public static void AddOpenTemeletrySetup(this WebApplicationBuilder builder)
+    public static void AddOpenTelemetrySetup(this WebApplicationBuilder builder)
     {
         Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 
