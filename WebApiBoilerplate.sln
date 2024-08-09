@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Infrastructure", "src\Boilerplate.Infrastructure\Boilerplate.Infrastructure.csproj", "{8ADAF360-AFE1-46E0-BFB9-A8EC87133CB0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Api", "1 - Api", "{C7816907-144D-4EB4-B645-3E7E03BD4835}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{C7816907-144D-4EB4-B645-3E7E03BD4835}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{6965B827-25B1-4990-9654-6061FD7F1DC0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{6965B827-25B1-4990-9654-6061FD7F1DC0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{8FB31CA6-BF37-45DA-B09C-24DE15037E0C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{8FB31CA6-BF37-45DA-B09C-24DE15037E0C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Persistence", "4 - Persistence", "{0EBA756A-3E01-49F4-A192-C8B805685C21}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{0EBA756A-3E01-49F4-A192-C8B805685C21}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Api.UnitTests", "tests\Boilerplate.Api.UnitTests\Boilerplate.Api.UnitTests.csproj", "{B5DE98B8-8DC7-4A0E-B396-654DF67E3BFF}"
 EndProject
