@@ -5,6 +5,7 @@ using Boilerplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -48,11 +49,11 @@ builder.Logging.ClearProviders();
 if (builder.Environment.EnvironmentName != "Testing")
 {
     builder.Host.UseLoggingSetup(builder.Configuration);
-
-    // Add opentelemetry
-    builder.AddOpenTemeletrySetup();
 }
 
+// Add OpenTelemetry
+if (builder.Configuration.GetValue<bool>("UseOpenTelemetry"))
+    builder.AddOpenTemeletrySetup();
 
 WebApplication app = builder.Build();
 
