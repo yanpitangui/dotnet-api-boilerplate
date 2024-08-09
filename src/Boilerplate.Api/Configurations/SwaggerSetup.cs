@@ -25,25 +25,21 @@ public static class SwaggerSetup
                     Title = "Boilerplate.Api",
                     Version = "v1",
                     Description = "API Boilerplate",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Yan Pitangui", Url = new Uri("https://github.com/yanpitangui")
-                    },
+                    Contact = new OpenApiContact { Name = "mooronsi", Url = new Uri("https://github.com/mooronsi") },
                     License = new OpenApiLicense
                     {
                         Name = "MIT",
-                        Url = new Uri("https://github.com/yanpitangui/dotnet-api-boilerplate/blob/main/LICENSE")
+                        Url = new Uri(
+                            "https://github.com/mooronsi/moor-dotnet-api-boilerplate/blob/main/LICENSE")
                     }
                 });
             c.DescribeAllParametersInCamelCase();
             c.OrderActionsBy(x => x.RelativePath);
 
-            string xmlfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlfile);
+            string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             if (File.Exists(xmlPath))
-            {
                 c.IncludeXmlComments(xmlPath);
-            }
 
             c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
             c.OperationFilter<SecurityRequirementsOperationFilter>();
@@ -65,9 +61,7 @@ public static class SwaggerSetup
                 .Where(type => typeof(IGuid).IsAssignableFrom(type) && !type.IsInterface)
                 .ToList();
             foreach (Type guid in allGuids)
-            {
                 c.MapType(guid, () => new OpenApiSchema { Type = "string", Format = "uuid" });
-            }
         });
         return services;
     }
@@ -77,7 +71,7 @@ public static class SwaggerSetup
         app.UseSwagger()
             .UseSwaggerUI(c =>
             {
-                c.RoutePrefix = "api-docs";
+                c.RoutePrefix = "swagger";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.DocExpansion(DocExpansion.List);
                 c.DisplayRequestDuration();

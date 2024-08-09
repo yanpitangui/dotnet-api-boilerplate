@@ -53,7 +53,7 @@ if (builder.Environment.EnvironmentName != "Testing")
 
 // Add OpenTelemetry
 if (builder.Configuration.GetValue<bool>("UseOpenTelemetry"))
-    builder.AddOpenTemeletrySetup();
+    builder.AddOpenTelemetrySetup();
 
 WebApplication app = builder.Build();
 
