@@ -5,4 +5,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Globalization", "CA1307:Especificar StringComparison", Justification = "<Pendente>", Scope = "member", Target = "~M:Boilerplate.Application.Services.HeroAppService.GetAllHeroes(Boilerplate.Application.Filters.GetHeroesFilter)~System.Threading.Tasks.Task{System.Collections.Generic.List{Boilerplate.Application.DTOs.Hero.GetHeroDTO}}")]
+[assembly:
+    SuppressMessage("Globalization", "CA1307:Especificar StringComparison", Justification = "<Pendente>",
+        Scope = "member",
+        Target =
+            "~M:Boilerplate.Application.Services.HeroAppService.GetAllHeroes(Boilerplate.Application.Filters.GetHeroesFilter)~System.Threading.Tasks.Task{System.Collections.Generic.List{Boilerplate.Application.DTOs.Hero.GetHeroDTO}}")]

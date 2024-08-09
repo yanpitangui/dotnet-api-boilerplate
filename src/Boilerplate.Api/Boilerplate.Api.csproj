@@ -1,53 +1,53 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <UserSecretsId>83093e71-d34c-405d-b8eb-442525b137fc</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
-    <Nullable>enable</Nullable>
-    <LangVersion>12</LangVersion>
-    <TieredPGO>true</TieredPGO>
-    <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
-    <Features>InterceptorsPreview</Features>
-    <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <UserSecretsId>83093e71-d34c-405d-b8eb-442525b137fc</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..</DockerfileContext>
+        <Nullable>enable</Nullable>
+        <LangVersion>12</LangVersion>
+        <TieredPGO>true</TieredPGO>
+        <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
+        <Features>InterceptorsPreview</Features>
+        <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
 
-  </PropertyGroup>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn>
-    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
-  </PropertyGroup>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Ardalis.Result.AspNetCore" />
-    <PackageReference Include="Ben.Demystifier" />
-    <PackageReference Include="FluentValidation.AspNetCore" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
-    <PackageReference Include="Serilog" />
-    <PackageReference Include="Serilog.AspNetCore" />
-    <PackageReference Include="Serilog.Exceptions" />
-    <PackageReference Include="Serilog.Sinks.Async" />
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Filters" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Ardalis.Result.AspNetCore"/>
+        <PackageReference Include="Ben.Demystifier"/>
+        <PackageReference Include="FluentValidation.AspNetCore"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets"/>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol"/>
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http"/>
+        <PackageReference Include="Serilog"/>
+        <PackageReference Include="Serilog.AspNetCore"/>
+        <PackageReference Include="Serilog.Exceptions"/>
+        <PackageReference Include="Serilog.Sinks.Async"/>
+        <PackageReference Include="Serilog.Sinks.Console"/>
+        <PackageReference Include="Swashbuckle.AspNetCore"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Filters"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Boilerplate.Application\Boilerplate.Application.csproj" />
-    <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
-    <ProjectReference Include="..\Boilerplate.Infrastructure\Boilerplate.Infrastructure.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Boilerplate.Application\Boilerplate.Application.csproj"/>
+        <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj"/>
+        <ProjectReference Include="..\Boilerplate.Infrastructure\Boilerplate.Infrastructure.csproj"/>
+    </ItemGroup>
 
 
 </Project>

@@ -7,12 +7,11 @@ public static class MediatRSetup
 {
     public static IServiceCollection AddMediatRSetup(this IServiceCollection services)
     {
-        services.AddMediatR((config) =>
+        services.AddMediatR(config =>
         {
-            config.RegisterServicesFromAssemblyContaining(typeof(Boilerplate.Application.IAssemblyMarker));
+            config.RegisterServicesFromAssemblyContaining(typeof(Application.IAssemblyMarker));
             config.AddOpenBehavior(typeof(ValidationResultPipelineBehavior<,>));
         });
-        
 
 
         return services;

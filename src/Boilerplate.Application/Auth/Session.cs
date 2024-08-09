@@ -8,20 +8,19 @@ namespace Boilerplate.Application.Auth;
 
 public class Session : ISession
 {
-    public UserId UserId { get; private init; }
-
-    public DateTime Now => DateTime.Now;
-
     public Session(IHttpContextAccessor httpContextAccessor)
     {
-        var user = httpContextAccessor.HttpContext?.User;
+        ClaimsPrincipal? user = httpContextAccessor.HttpContext?.User;
 
-        var nameIdentifier = user?.FindFirst(ClaimTypes.NameIdentifier);
+        Claim? nameIdentifier = user?.FindFirst(ClaimTypes.NameIdentifier);
 
-        if(nameIdentifier != null)
+        if (nameIdentifier != null)
         {
             UserId = new Guid(nameIdentifier.Value);
         }
     }
 
+    public UserId UserId { get; }
+
+    public DateTime Now => DateTime.Now;
 }

@@ -12,9 +12,7 @@ public static class ApplicationSetup
     {
         services.AddScoped<IContext, ApplicationDbContext>();
         NewId.SetProcessIdProvider(new CurrentProcessIdProvider());
-        
+
         return services;
     }
-    
-    
 }

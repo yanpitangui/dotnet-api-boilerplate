@@ -10,7 +10,7 @@ public record UpdateHeroRequest : IRequest<Result<GetHeroResponse>>
 {
     [JsonIgnore]
     public HeroId Id { get; init; }
-    
+
     public string Name { get; init; } = null!;
 
     public string? Nickname { get; init; }

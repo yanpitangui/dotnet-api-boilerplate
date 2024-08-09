@@ -32,13 +32,13 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build WebApiBoilerplate.sln --no-incremental
-      
+
       - name: Run Infer#
         uses: microsoft/infersharpaction@v1.5
         id: runinfersharp
         with:
           binary-path: 'src'
-      
+
       - name: Upload SARIF output to GitHub Security Center
         uses: github/codeql-action/upload-sarif@v3
         with:

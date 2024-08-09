@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <LangVersion>12</LangVersion>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>12</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
-    <PackageReference Include="NewId" />
-    <PackageReference Include="StronglyTypedId" PrivateAssets="all" ExcludeAssets="runtime" />
-    <PackageReference Include="StronglyTypedId.Templates" PrivateAssets="all" ExcludeAssets="runtime" />
-  </ItemGroup>
-  
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+        <PackageReference Include="NewId"/>
+        <PackageReference Include="StronglyTypedId" PrivateAssets="all" ExcludeAssets="runtime"/>
+        <PackageReference Include="StronglyTypedId.Templates" PrivateAssets="all" ExcludeAssets="runtime"/>
+    </ItemGroup>
+
 
 </Project>

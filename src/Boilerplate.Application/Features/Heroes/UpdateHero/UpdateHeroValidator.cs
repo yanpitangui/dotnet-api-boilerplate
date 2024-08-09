@@ -7,10 +7,9 @@ public class UpdateHeroValidator : AbstractValidator<UpdateHeroRequest>
 {
     public UpdateHeroValidator()
     {
-
         RuleFor(x => x.Id)
             .NotEmpty();
-        
+
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(StringSizes.Max);
@@ -23,7 +22,7 @@ public class UpdateHeroValidator : AbstractValidator<UpdateHeroRequest>
 
         RuleFor(x => x.Age)
             .GreaterThan(0);
-        
+
         RuleFor(x => x.Nickname)
             .MaximumLength(StringSizes.Max);
 

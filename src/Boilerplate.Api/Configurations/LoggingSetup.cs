@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+
 namespace Boilerplate.Api.Configurations;
 
 public static class LoggingSetup
@@ -14,5 +15,4 @@ public static class LoggingSetup
 
         return host;
     }
-
 }

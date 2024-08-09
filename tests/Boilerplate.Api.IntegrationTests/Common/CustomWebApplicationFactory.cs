@@ -18,7 +18,6 @@ namespace Boilerplate.Api.IntegrationTests.Common;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker>, IAsyncLifetime
 {
-    
     // Db connection
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithUsername("app_user")
@@ -26,14 +25,27 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         .WithDatabase("HeroDb")
         .WithName($"integration-tests-{Guid.NewGuid()}")
         .Build();
+
     private string _connString = default!;
     private NpgsqlConnection _dbConnection = default!;
     private Respawner _respawner = default!;
-    
+
     public HttpClient Client { get; private set; } = default!;
-    
-    public CustomWebApplicationFactory()
+
+    public async Task InitializeAsync()
     {
+        await _dbContainer.StartAsync();
+        _connString = _dbContainer.GetConnectionString();
+        _dbConnection = new NpgsqlConnection(_connString);
+        Client = CreateClient();
+        await using IContext context = CreateContext();
+        await SetupRespawnerAsync();
+    }
+
+    async Task IAsyncLifetime.DisposeAsync()
+    {
+        await _dbConnection.DisposeAsync();
+        await _dbContainer.DisposeAsync();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -41,13 +53,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         builder.UseEnvironment("Testing");
         builder.ConfigureServices(services =>
         {
-            var serviceTypes = new List<Type>
+            List<Type> serviceTypes = [typeof(DbContextOptions<ApplicationDbContext>)];
+            List<ServiceDescriptor> contextsDescriptor =
+                services.Where(d => serviceTypes.Contains(d.ServiceType)).ToList();
+            foreach (ServiceDescriptor descriptor in contextsDescriptor)
             {
-                typeof(DbContextOptions<ApplicationDbContext>),
-            };
-            var contextsDescriptor = services.Where(d => serviceTypes.Contains(d.ServiceType)).ToList();
-            foreach (var descriptor in contextsDescriptor)
                 services.Remove(descriptor);
+            }
 
             services.AddSingleton(_ => new DbContextOptionsBuilder<ApplicationDbContext>()
                 .EnableDetailedErrors()
@@ -58,26 +70,16 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
         }).ConfigureLogging(o => o.AddFilter(loglevel => loglevel >= LogLevel.Error));
         base.ConfigureWebHost(builder);
     }
-    
+
     public IContext CreateContext()
     {
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        DbContextOptions<ApplicationDbContext> options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging()
             .UseExceptionProcessor()
             .UseNpgsql(_connString)
             .Options;
         return new ApplicationDbContext(options);
-    }
-
-    public async Task InitializeAsync()
-    {
-        await _dbContainer.StartAsync();
-        _connString = _dbContainer.GetConnectionString();
-        _dbConnection = new NpgsqlConnection(_connString);
-        Client = CreateClient();
-        await using var context = CreateContext();
-        await SetupRespawnerAsync();
     }
 
     public async Task ResetDatabaseAsync()
@@ -88,15 +90,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<IAssemblyMarker
     private async Task SetupRespawnerAsync()
     {
         await _dbConnection.OpenAsync();
-        _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions
-        {
-            DbAdapter = DbAdapter.Postgres,
-        });
-    }
-
-    async Task IAsyncLifetime.DisposeAsync()
-    {
-        await _dbConnection.DisposeAsync();
-        await _dbContainer.DisposeAsync();
+        _respawner =
+            await Respawner.CreateAsync(_dbConnection, new RespawnerOptions { DbAdapter = DbAdapter.Postgres });
     }
 }

@@ -12,7 +12,6 @@ public static class PersistenceSetup
 {
     public static IServiceCollection AddPersistenceSetup(this IServiceCollection services, IConfiguration configuration)
     {
-
         services.AddScoped<ISession, Session>();
         services.AddHostedService<ApplicationDbInitializer>();
         services.AddDbContextPool<ApplicationDbContext>(o =>

@@ -1,4 +1,7 @@
-﻿using Ardalis.Result.AspNetCore;
+﻿using Ardalis.Result;
+using Ardalis.Result.AspNetCore;
+using Boilerplate.Application.Common.Responses;
+using Boilerplate.Application.Features.Heroes;
 using Boilerplate.Application.Features.Heroes.CreateHero;
 using Boilerplate.Application.Features.Heroes.DeleteHero;
 using Boilerplate.Application.Features.Heroes.GetAllHeroes;
@@ -16,36 +19,36 @@ public static class HeroEndpoints
 {
     public static void MapHeroEndpoints(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("api/Hero")
+        RouteGroupBuilder group = builder.MapGroup("api/Hero")
             .WithTags("Hero");
-        
+
         group.MapGet("/", async (IMediator mediator, [AsParameters] GetAllHeroesRequest request) =>
         {
-            var result = await mediator.Send(request);
+            PaginatedList<GetHeroResponse> result = await mediator.Send(request);
             return result;
         });
 
         group.MapGet("{id}", async (IMediator mediator, HeroId id) =>
         {
-            var result = await mediator.Send(new GetHeroByIdRequest(id));
+            Result<GetHeroResponse> result = await mediator.Send(new GetHeroByIdRequest(id));
             return result.ToMinimalApiResult();
         });
 
         group.MapPost("/", async (IMediator mediator, CreateHeroRequest request) =>
         {
-            var result = await mediator.Send(request);
+            Result<GetHeroResponse> result = await mediator.Send(request);
             return result.ToMinimalApiResult();
         });
 
         group.MapPut("{id}", async (IMediator mediator, HeroId id, UpdateHeroRequest request) =>
         {
-            var result = await mediator.Send(request with { Id = id });
+            Result<GetHeroResponse> result = await mediator.Send(request with { Id = id });
             return result.ToMinimalApiResult();
         });
 
         group.MapDelete("{id}", async (IMediator mediator, HeroId id) =>
         {
-            var result = await mediator.Send(new DeleteHeroRequest(id));
+            Result result = await mediator.Send(new DeleteHeroRequest(id));
             return result.ToMinimalApiResult();
         });
     }

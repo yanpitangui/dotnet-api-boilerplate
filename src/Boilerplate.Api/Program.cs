@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.AddValidationSetup();
@@ -48,13 +48,13 @@ builder.Logging.ClearProviders();
 if (builder.Environment.EnvironmentName != "Testing")
 {
     builder.Host.UseLoggingSetup(builder.Configuration);
-    
+
     // Add opentelemetry
     builder.AddOpenTemeletrySetup();
 }
 
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseResponseCompression();

@@ -1,23 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <LangVersion>12</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>12</LangVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Ardalis.Result" />
-    <PackageReference Include="Ardalis.Result.FluentValidation" />
-    <PackageReference Include="FluentValidation" />
-    <PackageReference Include="Mapster.EFCore" />
-    <PackageReference Include="MediatR" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Ardalis.Result"/>
+        <PackageReference Include="Ardalis.Result.FluentValidation"/>
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="Mapster.EFCore"/>
+        <PackageReference Include="MediatR"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
-  </ItemGroup> 
+    <ItemGroup>
+        <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj"/>
+    </ItemGroup>
 
 </Project>

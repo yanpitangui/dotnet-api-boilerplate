@@ -10,21 +10,16 @@ using System.Threading.Tasks;
 
 namespace Boilerplate.Api.Common;
 
-public sealed class ExceptionHandler : IExceptionHandler
+public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<ExceptionHandler> _logger;
-
-    public ExceptionHandler(ILogger<ExceptionHandler> logger)
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
+        CancellationToken cancellationToken)
     {
-        _logger = logger;
-    }
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
-    {
-        var ex = exception.Demystify();
-        _logger.LogError(ex, "An error ocurred: {Message}", ex.Message);
+        Exception ex = exception.Demystify();
+        logger.LogError(ex, "An error ocurred: {Message}", ex.Message);
         httpContext.Response.ContentType = "application/json";
         httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        var result = Result.Error(exception.ToStringDemystified());
+        Result? result = Result.Error(exception.ToStringDemystified());
         await httpContext.Response.WriteAsJsonAsync(result, cancellationToken);
         return true;
     }

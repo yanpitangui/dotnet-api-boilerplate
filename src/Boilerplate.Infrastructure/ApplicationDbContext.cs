@@ -1,7 +1,6 @@
 ﻿using Boilerplate.Application.Common;
 using Boilerplate.Domain.Entities;
 using Boilerplate.Infrastructure.Configuration;
-using EntityFramework.Exceptions.PostgreSQL;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,7 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Hero> Heroes { get; set; } = null!;
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
