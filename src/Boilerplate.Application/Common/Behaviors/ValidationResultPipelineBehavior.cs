@@ -11,6 +11,7 @@ namespace Boilerplate.Application.Common.Behaviors;
 
 public class ValidationResultPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : notnull
+    where TResponse : IResult
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -35,7 +36,7 @@ public class ValidationResultPipelineBehavior<TRequest, TResponse> : IPipelineBe
                  * that wants to validate something also returns a result.
                  * Using implicit casts, we are able to use this same behavior for all of them
                  */
-                return (TResponse)(dynamic)Result.Invalid(result.AsErrors());
+                return (dynamic)Result.Invalid(result.AsErrors());
             }
         }
         
