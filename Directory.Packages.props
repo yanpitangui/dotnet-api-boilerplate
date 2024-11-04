@@ -5,9 +5,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!--    add your PackageVersion nodes here -->
-    <PackageVersion Include="Ardalis.Result" Version="10.0.0" />
+    <PackageVersion Include="Ardalis.Result" Version="10.1.0" />
     <PackageVersion Include="Ardalis.Result.AspNetCore" Version="10.0.0" />
-    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.0.0" />
+    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.1.0" />
     <PackageVersion Include="EntityFrameworkCore.Exceptions.PostgreSQL" Version="8.1.3" />
     <PackageVersion Include="Mapster.EFCore" Version="5.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
