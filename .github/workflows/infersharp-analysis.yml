@@ -26,7 +26,7 @@ jobs:
           path: ~/.nuget/packages
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v4.0.1
+        uses: actions/setup-dotnet@v4.1.0
         with:
           dotnet-version: '8.x'
 
