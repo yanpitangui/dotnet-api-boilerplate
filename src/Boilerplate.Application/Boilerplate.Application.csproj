@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>11</LangVersion>
   </PropertyGroup>
@@ -10,10 +10,10 @@
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="Ardalis.Result.FluentValidation" />
     <PackageReference Include="FluentValidation" />
-    <PackageReference Include="Mapster.EFCore" />
     <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Riok.Mapperly" />
   </ItemGroup>
 
   <ItemGroup>

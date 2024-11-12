@@ -1,6 +1,5 @@
 ﻿using Ardalis.Result;
 using Boilerplate.Application.Common;
-using Mapster;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,9 +18,9 @@ public class CreateHeroHandler : IRequestHandler<CreateHeroRequest, Result<GetHe
 
     public async Task<Result<GetHeroResponse>> Handle(CreateHeroRequest request, CancellationToken cancellationToken)
     {
-        var created = request.Adapt<Domain.Entities.Hero>();
+        var created = Mapper.ToHeroEntity(request);
         _context.Heroes.Add(created);
         await _context.SaveChangesAsync(cancellationToken);
-        return created.Adapt<GetHeroResponse>();
+        return Mapper.ToHeroDto(created);
     }
 }
