@@ -11,7 +11,7 @@ public record GetHeroResponse
 
     public int? Age { get; init; }
 
-    public string Individuality { get; init; } = null!;
+    public string? Individuality { get; init; } = null!;
     public HeroType? HeroType { get; init; }
 
     public string? Team { get; init; }

@@ -1,12 +1,12 @@
 ﻿using Boilerplate.Domain.Entities.Common;
 using Boilerplate.Domain.Entities.Enums;
-using MassTransit;
+using System;
 
 namespace Boilerplate.Domain.Entities;
 
 public class Hero : Entity<HeroId>
 {
-    public override HeroId Id { get; set; } = NewId.NextGuid();
+    public override HeroId Id { get; set; } = Guid.CreateVersion7();
     public string Name { get; set; } = null!;
 
     public string? Nickname { get; set; }

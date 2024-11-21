@@ -4,7 +4,7 @@
   <span>Português</span>
 </p>
 
-Um boilerplate de API ``.Net 8.0`` / projeto de template. MediatR, Swagger, ~~AutoMapper~~ Mapster, Serilog, entre outros, implementados.
+Um boilerplate de API ``.Net 9.0`` / projeto de template. MediatR, Swagger, ~~AutoMapper~~ Mapster, Serilog, entre outros, implementados.
 
 [![Build](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml/badge.svg)](https://github.com/yanpitangui/dotnet-api-boilerplate/actions/workflows/build.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yanpitangui_dotnet-api-boilerplate&metric=coverage)](https://sonarcloud.io/dashboard?id=yanpitangui_dotnet-api-boilerplate)

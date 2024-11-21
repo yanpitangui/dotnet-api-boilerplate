@@ -1,6 +1,5 @@
 ﻿using Ardalis.Result;
 using Boilerplate.Application.Common;
-using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -32,6 +31,6 @@ public class UpdateHeroHandler : IRequestHandler<UpdateHeroRequest, Result<GetHe
         originalHero.HeroType = request.HeroType;
         _context.Heroes.Update(originalHero);
         await _context.SaveChangesAsync(cancellationToken);
-        return originalHero.Adapt<GetHeroResponse>();
+        return Mapper.ToHeroDto(originalHero);
     }
 }

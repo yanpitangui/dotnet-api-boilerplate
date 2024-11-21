@@ -1,6 +1,5 @@
 ﻿using Ardalis.Result;
 using Boilerplate.Application.Common;
-using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -22,6 +21,6 @@ public class GetHeroByIdHandler : IRequestHandler<GetHeroByIdRequest, Result<Get
         var hero = await _context.Heroes.FirstOrDefaultAsync(x => x.Id == request.Id,
             cancellationToken: cancellationToken);
         if (hero is null) return Result.NotFound();
-        return hero.Adapt<GetHeroResponse>();
+        return Mapper.ToHeroDto(hero);
     }
 }

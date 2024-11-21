@@ -1,7 +1,6 @@
 ﻿using Boilerplate.Application.Common;
 using Boilerplate.Application.Common.Responses;
 using Boilerplate.Application.Extensions;
-using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -27,7 +26,7 @@ public class GetAllHeroesHandler : IRequestHandler<GetAllHeroesRequest, Paginate
             .WhereIf(request.HeroType != null, x => x.HeroType == request.HeroType)
             .WhereIf(!string.IsNullOrEmpty(request.Team), x => x.Team == request.Team)
             .WhereIf(!string.IsNullOrEmpty(request.Individuality), x => EF.Functions.Like(x.Individuality!, $"%{request.Individuality}%"));
-        return await heroes.ProjectToType<GetHeroResponse>()
+        return await heroes.ProjectToResponse()
             .OrderBy(x => x.Name)
             .ToPaginatedListAsync(request.CurrentPage, request.PageSize);
     }
